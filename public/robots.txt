@@ -1,0 +1,29 @@
+User-agent: *
+Allow: /
+
+# Disallow sensitive pages that don't need indexing
+Disallow: /payment
+Disallow: /customer-info
+Disallow: /confirmation
+Disallow: /booking-success
+Disallow: /login
+Disallow: /admin/
+Disallow: /driver/
+Disallow: /customer/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Allow important pages for SEO
+Allow: /about
+Allow: /contact
+Allow: /vehicles
+Allow: /booking
+Allow: /terms-of-service
+Allow: /privacy-policy
+
+# Crawl delay (optional - helps with server load)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://dapperlimolax.com/sitemap.xml

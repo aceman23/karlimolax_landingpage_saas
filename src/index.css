@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* Prevent browser autocomplete from overlapping Google Places dropdown */
+input[autocomplete="chrome-off"]::-webkit-autofill,
+input[autocomplete="chrome-off"]::-webkit-contacts-auto-fill-button,
+input[autocomplete="chrome-off"]::-webkit-credentials-auto-fill-button,
+input[autocomplete="off"]::-webkit-autofill,
+input[autocomplete="off"]::-webkit-contacts-auto-fill-button,
+input[autocomplete="off"]::-webkit-credentials-auto-fill-button {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Additional autocomplete prevention */
+input[autocomplete="chrome-off"]::-webkit-autofill,
+input[autocomplete="chrome-off"]::-webkit-autofill:hover,
+input[autocomplete="chrome-off"]::-webkit-autofill:focus,
+input[autocomplete="chrome-off"]::-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: inherit !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Hide any browser autocomplete dropdowns */
+input::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+
+

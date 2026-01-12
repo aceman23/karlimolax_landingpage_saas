@@ -1,0 +1,49 @@
+import express from 'express';
+import cors from 'cors';
+import { MongoClient } from 'mongodb';
+import adminRoutes from './routes/admin.js';
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Middleware
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://dapperlimolax.vercel.app', 'https://dapplimolax.vercel.app']
+    : 'http://localhost:5173',
+  credentials: true
+}));
+app.use(express.json());
+
+// MongoDB connection
+const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+const client = new MongoClient(uri);
+
+// Make db available to routes
+let db;
+app.use(async (req, res, next) => {
+  if (!db) {
+    await client.connect();
+    db = client.db('dapplimolax');
+  }
+  req.db = db;
+  next();
+});
+
+// Routes
+app.use('/api/admin', adminRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
+});
+
+// Start server only if not in a Vercel deployment environment
+if (process.env.VERCEL_ENV !== 'production' && process.env.VERCEL_ENV !== 'preview' && process.env.VERCEL_ENV !== 'development') {
+  app.listen(port, () => {
+    console.log(`Server is running locally on port ${port}`);
+  });
+}
+
+export default app; 

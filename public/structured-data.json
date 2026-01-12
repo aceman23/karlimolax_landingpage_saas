@@ -1,0 +1,76 @@
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Dapper Limo LAX",
+  "image": "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg",
+  "logo": "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg",
+  "@id": "https://dapperlimolax.com",
+  "url": "https://dapperlimolax.com",
+  "telephone": "+12135906085",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "1550 N Batavia",
+    "addressLocality": "Orange",
+    "addressRegion": "CA",
+    "postalCode": "92867",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 34.052235,
+    "longitude": -118.243683
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "opens": "00:00",
+    "closes": "23:59"
+  },
+  "sameAs": [
+    "https://www.facebook.com/dapperlimolax",
+    "https://www.instagram.com/dapperlimolax",
+    "https://twitter.com/dapperlimolax"
+  ],
+  "priceRange": "$$$",
+  "servesCuisine": "Transportation",
+  "description": "Premium limousine service for Los Angeles airports (LAX, SNA, LGB, ONT), Disneyland hotels, and special events. Mercedes Sprinter limos for corporate travel, weddings, and parties.",
+  "areaServed": ["Los Angeles", "Orange County", "Riverside County"],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Transportation Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "LAX Airport Transfers",
+          "description": "Premium transfers to and from LAX airport"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Disneyland Shuttles",
+          "description": "Transportation to and from Disneyland Park and hotels"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Special Events",
+          "description": "Luxury transportation for weddings, proms, parties and corporate events"
+        }
+      }
+    ]
+  }
+}

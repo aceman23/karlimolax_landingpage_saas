@@ -114,7 +114,7 @@ export default function DriverBookings() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
       </div>
     );
   }
@@ -135,7 +135,7 @@ export default function DriverBookings() {
               onClick={() => setFilter('all')}
               className={`px-3 py-2 rounded-full text-sm font-medium ${
                 filter === 'all'
-                  ? 'bg-cyan-100 text-cyan-800'
+                  ? 'bg-purple-100 text-purple-800'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -145,7 +145,7 @@ export default function DriverBookings() {
               onClick={() => setFilter('pending')}
               className={`px-3 py-2 rounded-full text-sm font-medium ${
                 filter === 'pending'
-                  ? 'bg-cyan-100 text-cyan-800'
+                  ? 'bg-purple-100 text-purple-800'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -155,7 +155,7 @@ export default function DriverBookings() {
               onClick={() => setFilter('confirmed')}
               className={`px-3 py-2 rounded-full text-sm font-medium ${
                 filter === 'confirmed'
-                  ? 'bg-cyan-100 text-cyan-800'
+                  ? 'bg-purple-100 text-purple-800'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -165,7 +165,7 @@ export default function DriverBookings() {
               onClick={() => setFilter('in-progress')}
               className={`px-3 py-2 rounded-full text-sm font-medium ${
                 filter === 'in-progress'
-                  ? 'bg-cyan-100 text-cyan-800'
+                  ? 'bg-purple-100 text-purple-800'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -175,7 +175,7 @@ export default function DriverBookings() {
               onClick={() => setFilter('completed')}
               className={`px-3 py-2 rounded-full text-sm font-medium ${
                 filter === 'completed'
-                  ? 'bg-cyan-100 text-cyan-800'
+                  ? 'bg-purple-100 text-purple-800'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -251,7 +251,7 @@ export default function DriverBookings() {
                     <div className="flex flex-col items-end space-y-3">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                         ${booking.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                          booking.status === 'confirmed' ? 'bg-cyan-100 text-cyan-800' :
+                          booking.status === 'confirmed' ? 'bg-purple-100 text-purple-800' :
                           booking.status === 'in-progress' ? 'bg-orange-100 text-orange-800' :
                           booking.status === 'completed' ? 'bg-green-100 text-green-800' :
                           'bg-red-100 text-red-800'}`}>
@@ -285,7 +285,7 @@ export default function DriverBookings() {
                       {/* Stops Information */}
                       {booking.stops && booking.stops.length > 0 && (
                         <div className="text-right">
-                          <div className="text-sm text-cyan-600 font-medium">
+                          <div className="text-sm text-purple-600 font-medium">
                             {booking.stops.length} stop{booking.stops.length !== 1 ? 's' : ''}
                           </div>
                           <div className="text-xs text-gray-600">

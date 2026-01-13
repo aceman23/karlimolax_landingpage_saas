@@ -4,8 +4,8 @@ export default function PrivacyPolicy() {
   return (
     <div className="bg-gray-50 min-h-screen py-12">
       <Helmet>
-        <title>Privacy Policy | Dapper Limo LAX</title>
-        <meta name="description" content="Privacy Policy for Dapper Limo LAX. Learn how we collect, use, and protect your personal information." />
+        <title>Privacy Policy | Kar Limo LAX</title>
+        <meta name="description" content="Privacy Policy for Kar Limo LAX. Learn how we collect, use, and protect your personal information." />
         <link rel="canonical" href="https://dapperlimolax.com/privacy" />
       </Helmet>
       
@@ -17,7 +17,7 @@ export default function PrivacyPolicy() {
           <div className="prose max-w-none">
             <h2 className="text-2xl font-semibold mt-8 mb-4">1. Introduction</h2>
             <p>
-              DapperLimoLax ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy describes how we collect, use, disclose, and safeguard your information when you visit our website dapperlimolax.com or use our transportation services.
+              KarLimoLax ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy describes how we collect, use, disclose, and safeguard your information when you visit our website dapperlimolax.com or use our transportation services.
             </p>
             <p>
               Please read this Privacy Policy carefully. By accessing or using our Services, you acknowledge that you have read, understood, and agree to be bound by all the terms of this Privacy Policy.
@@ -114,7 +114,7 @@ export default function PrivacyPolicy() {
               If you have questions or concerns about this Privacy Policy, please contact us at:
             </p>
             <div className="mt-2 mb-8">
-              <p className="mb-1">DapperLimoLax</p>
+              <p className="mb-1">KarLimoLax</p>
               <p className="mb-1">1550 N Batavia</p>
               <p className="mb-1">Orange, CA 92867</p>
               <p className="mb-1">Email: privacy@dapperlimolax.com</p>

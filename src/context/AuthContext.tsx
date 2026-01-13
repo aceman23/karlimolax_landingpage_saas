@@ -13,7 +13,7 @@ interface AuthContextType {
   token: string | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string, firstName: string, lastName: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, firstName: string, lastName: string, role?: 'customer' | 'admin' | 'driver') => Promise<{ error: any }>;
   logout: () => Promise<void>;
   isAdmin: () => boolean;
   isDriver: () => boolean;
@@ -88,7 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  async function signUp(email: string, password: string, firstName: string, lastName: string) {
+  async function signUp(email: string, password: string, firstName: string, lastName: string, role: 'customer' | 'admin' | 'driver' = 'customer') {
     try {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
@@ -100,7 +100,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           password,
           firstName,
           lastName,
-          role: 'customer'
+          role
         }),
       });
 

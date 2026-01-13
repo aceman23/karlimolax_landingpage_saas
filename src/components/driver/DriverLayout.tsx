@@ -43,7 +43,7 @@ export default function DriverLayout() {
       <div className={`fixed inset-y-0 left-0 z-30 w-64 bg-gray-900 text-white flex flex-col transition-transform duration-200 md:static md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
           <div className="flex items-center space-x-2">
-            <Car className="h-7 w-7 text-cyan-500" />
+            <Car className="h-7 w-7 text-purple-500" />
             <span className="font-bold text-lg">Driver Panel</span>
           </div>
           <button className="md:hidden" onClick={() => setSidebarOpen(false)}>
@@ -51,13 +51,13 @@ export default function DriverLayout() {
           </button>
         </div>
         <nav className="flex-1 px-4 py-6 space-y-2">
-          <NavLink to="/driver" end className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-cyan-600 text-white' : 'hover:bg-gray-800 text-gray-200'}`}>
+          <NavLink to="/driver" end className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-purple-600 text-white' : 'hover:bg-gray-800 text-gray-200'}`}>
             <Car className="mr-3 h-5 w-5" /> Dashboard
           </NavLink>
-          <NavLink to="/driver/rides" className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-cyan-600 text-white' : 'hover:bg-gray-800 text-gray-200'}`}>
+          <NavLink to="/driver/rides" className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-purple-600 text-white' : 'hover:bg-gray-800 text-gray-200'}`}>
             <MapPin className="mr-3 h-5 w-5" /> My Rides
           </NavLink>
-          <NavLink to="/driver/profile" className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-cyan-600 text-white' : 'hover:bg-gray-800 text-gray-200'}`}>
+          <NavLink to="/driver/profile" className={({ isActive }) => `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-purple-600 text-white' : 'hover:bg-gray-800 text-gray-200'}`}>
             <User className="mr-3 h-5 w-5" /> Profile
           </NavLink>
         </nav>
@@ -76,7 +76,7 @@ export default function DriverLayout() {
           </div>
           <Link 
             to="/" 
-            className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+            className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
           >
             ← Back to Main
           </Link>

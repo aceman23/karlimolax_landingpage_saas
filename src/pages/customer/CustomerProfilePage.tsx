@@ -238,7 +238,7 @@ export default function CustomerProfilePage() {
       <div className="container mx-auto px-4 py-8 text-center">
         <h1 className="text-2xl font-bold text-red-600 mb-4">Error</h1>
         <p className="text-gray-700">{error}</p>
-        <Link to="/" className="mt-4 inline-block px-6 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-700">Go to Homepage</Link>
+        <Link to="/" className="mt-4 inline-block px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Go to Homepage</Link>
       </div>
     );
   }
@@ -254,7 +254,7 @@ export default function CustomerProfilePage() {
         <div className="container mx-auto px-4 py-8 text-center">
             <h1 className="text-xl font-semibold text-gray-700 mb-4">Profile Not Available</h1>
             <p className="text-gray-600">Please log in to view your profile.</p>
-            <Link to="/login" className="mt-4 mr-2 inline-block px-6 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-700">Login</Link>
+            <Link to="/login" className="mt-4 mr-2 inline-block px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Login</Link>
         </div>
     );
   }
@@ -328,13 +328,13 @@ export default function CustomerProfilePage() {
   return (
     <>
       <Helmet>
-        <title>My Profile | Dapper Limo LAX</title>
+        <title>My Profile | Kar Limo LAX</title>
       </Helmet>
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
           <Link 
             to="/" 
-            className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+            className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
           >
             ← Back to Home
           </Link>
@@ -384,7 +384,7 @@ export default function CustomerProfilePage() {
               <div className="space-y-4">
                 <Link 
                   to="/edit-profile" 
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                 >
                   Edit Profile
                 </Link>
@@ -399,7 +399,7 @@ export default function CustomerProfilePage() {
                         name="currentPassword" 
                         value={currentPassword} 
                         onChange={(e) => setCurrentPassword(e.target.value)} 
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm" 
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" 
                         placeholder="Enter current password" 
                         required 
                       />
@@ -412,7 +412,7 @@ export default function CustomerProfilePage() {
                         name="newPassword" 
                         value={newPassword} 
                         onChange={(e) => setNewPassword(e.target.value)} 
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm" 
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" 
                         placeholder="Min. 6 chars" 
                         required 
                       />
@@ -425,7 +425,7 @@ export default function CustomerProfilePage() {
                         name="confirmNewPassword" 
                         value={confirmNewPassword} 
                         onChange={(e) => setConfirmNewPassword(e.target.value)} 
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm" 
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" 
                         placeholder="Confirm password" 
                         required 
                       />
@@ -445,7 +445,7 @@ export default function CustomerProfilePage() {
             <h2 className="text-2xl font-bold text-gray-800">My Bookings</h2>
             <Link 
               to="/booking" 
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
             >
               Book New Ride
             </Link>
@@ -453,7 +453,7 @@ export default function CustomerProfilePage() {
 
           {loadingBookings ? (
             <div className="flex items-center justify-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
               <span className="ml-3 text-gray-600">Loading bookings...</span>
             </div>
           ) : bookingsError ? (
@@ -466,7 +466,7 @@ export default function CustomerProfilePage() {
               <p className="text-gray-600 mb-4">You have no bookings yet.</p>
               <Link 
                 to="/booking" 
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
               >
                 Book Your First Ride
               </Link>
@@ -515,7 +515,7 @@ export default function CustomerProfilePage() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                           ${booking.status === 'completed' ? 'bg-green-100 text-green-800' : 
-                            booking.status === 'confirmed' ? 'bg-cyan-100 text-cyan-800' : 
+                            booking.status === 'confirmed' ? 'bg-purple-100 text-purple-800' : 
                             booking.status === 'cancelled' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}
                         `}>
                           {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
@@ -564,7 +564,7 @@ export default function CustomerProfilePage() {
                         <div className="flex flex-col space-y-1">
                           <button 
                             onClick={() => setSelectedBooking(booking)}
-                            className="text-cyan-600 hover:text-cyan-700 font-medium"
+                            className="text-purple-600 hover:text-purple-700 font-medium"
                           >
                             View Details
                           </button>

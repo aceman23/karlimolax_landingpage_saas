@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Star, ThumbsUp, Lock, ChevronLeft, ChevronRight, Car } from 'lucide-react';
+import { Star, ThumbsUp, Lock, ChevronLeft, ChevronRight, Car, ChevronDown, ArrowRight } from 'lucide-react';
 import Button from '../components/common/Button';
 // import ServiceCard from '../components/common/ServiceCard'; // Keep commented for now
 // import TestimonialCard from '../components/common/TestimonialCard'; // Keep commented for now
@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react'; // Removed useRef, useCallback
 import { useBooking } from '../context/BookingContext';
 import Carousel from '../components/common/Carousel'; // Added import for Carousel
 import InstagramEmbed from '../components/common/InstagramEmbed';
-import GoogleReviewsSlider from '../components/common/GoogleReviewsSlider';
 
 // Interface for Vehicle data from API (can be shared or defined locally)
 interface HomePageVehicle {
@@ -30,14 +29,6 @@ export default function HomePage() {
   const [fleetError, setFleetError] = useState<string | null>(null);
   const { setSelectedPackage } = useBooking();
   const [instagramImages, setInstagramImages] = useState<Array<{ src: string; href?: string; alt?: string }>>([]);
-  const limoImagePaths = [
-    '/limoimages/limoimage1.jpeg',
-    '/limoimages/limoimage2.jpeg',
-    '/limoimages/limoimage3.jpeg',
-    '/limoimages/limoimage4.jpeg',
-    '/limoimages/limoimage5.jpeg',
-    '/limoimages/limoimage6.jpeg',
-  ];
 
   useEffect(() => {
     const fetchFleetVehicles = async () => {
@@ -64,7 +55,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchInstagram = async () => {
       try {
-        const res = await fetch('/api/instagram/media?all=true&limit=60&username=dapperlimo');
+        const res = await fetch('/api/instagram/media?all=true&limit=60&username=k.a.r_limousine');
         if (!res.ok) return;
         const data = await res.json();
         if (Array.isArray(data.images)) {
@@ -77,24 +68,6 @@ export default function HomePage() {
     fetchInstagram();
   }, []);
 
-  // Load Elfsight script for Google Reviews widget
-  useEffect(() => {
-    const src = 'https://elfsightcdn.com/platform.js';
-    const existing = document.querySelector(`script[src="${src}"]`);
-    if (!existing) {
-      const script = document.createElement('script');
-      script.src = src;
-      script.async = true;
-      document.body.appendChild(script);
-    } else {
-      // If script already present, try to re-initialize
-      // @ts-ignore
-      if ((window as any).eapps?.initialize) {
-        // @ts-ignore
-        (window as any).eapps.initialize();
-      }
-    }
-  }, []);
 
   // minor 
   
@@ -121,35 +94,90 @@ export default function HomePage() {
   return (
     <div>
       <Helmet>
-        <title>Dapper Limo LAX | Premium Los Angeles Airport Transportation</title>
+        <title>Kar Limo LAX | Premium Los Angeles Airport Transportation</title>
         <meta name="description" content="Premium limousine service for Los Angeles airports (LAX, SNA, LGB, ONT), Disneyland hotels, and special events with luxury Mercedes Sprinter limos." />
         <link rel="canonical" href="https://dapperlimolax.com/" />
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative bg-gray-900 text-white">
-        <div className="absolute inset-0">
-          <img
-            src="/limo-2.png"
-            alt="Luxury Limo"
-            className="w-full h-full object-cover opacity-50"
-          />
+      <section className="relative bg-gray-900 text-white overflow-hidden min-h-[90vh] flex items-center">
+        {/* Video Background */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+            style={{ minHeight: '100%', minWidth: '100%' }}
+          >
+            <source src="/KARLimoLAX_HD.mp4" type="video/mp4" />
+            {/* Fallback image if video doesn't load */}
+            <img
+              src="/limo-2.png"
+              alt="Mercedes Sprinter Limo"
+              className="w-full h-full object-cover opacity-50"
+            />
+          </video>
+          {/* Gradient overlay for better text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80"></div>
+          {/* Grid pattern overlay */}
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+            backgroundSize: '50px 50px'
+          }}></div>
         </div>
-        <div className="relative z-10 container mx-auto px-4 py-16 md:py-32">
-          <h1 className="text-3xl md:text-6xl font-bold mb-4">Welcome to Dapper Limo LAX</h1>
-          <p className="text-lg md:text-xl mb-8">Your premier luxury transportation service in Los Angeles.</p>
-          <Link to="/booking">
-            <button className="w-full md:w-auto bg-cyan-500 text-white px-6 py-3 rounded-md hover:bg-cyan-600 transition">
-              Book Now
-            </button>
-          </Link>
-        </div>
-      </section>
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 py-2 md:py-16">
+          <div className="max-w-4xl mx-auto text-center">
+            {/* Bold Headline with Highlighted Phrases */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+              Premium <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">Luxury Transportation</span> in Los Angeles
+            </h1>
+            
+            <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-2xl mx-auto leading-relaxed">
+              Experience the ultimate in comfort and style with our <span className="font-semibold text-white">Mercedes Sprinter limousines</span>. 
+              Your journey, elevated.
+            </p>
 
-      {/* Elfsight Google Reviews embed */}
-      <section className="py-8 md:py-12 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="elfsight-app-099f02bc-1240-4b92-9934-5dd4ab8fa600" data-elfsight-app-lazy></div>
+            {/* Dual CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+              <Link to="/booking">
+                <button className="group w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center gap-2">
+                  Book Your Ride
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </Link>
+              <Link to="/vehicles">
+                <button className="group w-full sm:w-auto bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center gap-2">
+                  View Our Fleet
+                  <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </Link>
+            </div>
+
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap justify-center gap-6 md:gap-8 text-sm text-gray-300">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span>24/7 Available</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Car className="h-4 w-4" />
+                <span>Premium Fleet</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <ThumbsUp className="h-4 w-4" />
+                <span>5-Star Service</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+          <ChevronDown className="h-6 w-6 text-white/70" />
         </div>
       </section>
 
@@ -283,7 +311,7 @@ export default function HomePage() {
           
           {loadingFleet && (
             <div className="flex justify-center items-center py-8">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-cyan-600"></div>
+              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
               <span className="ml-3 text-lg">Loading our fleet...</span>
             </div>
           )}
@@ -319,7 +347,7 @@ export default function HomePage() {
                     <h3 className="text-lg md:text-xl font-bold mb-2 h-12 md:h-14 overflow-hidden">{vehicle.name}</h3>
                     <p className="text-gray-600 mb-4 h-16 md:h-20 overflow-y-auto text-sm md:text-base">{vehicle.description || 'High-quality vehicle for your comfort and style.'}</p>
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                      <span className="font-bold text-cyan-600 text-sm md:text-base">${vehicle.pricePerHour}/hour</span>
+                      <span className="font-bold text-purple-600 text-sm md:text-base">${vehicle.pricePerHour}/hour</span>
                       <Link to="/booking" className="w-full sm:w-auto">
                         <Button variant="primary" className="w-full sm:w-auto" onClick={() => console.log('Selected vehicle for booking:', vehicle._id)}>
                           Book Now
@@ -347,12 +375,12 @@ export default function HomePage() {
             </div>
             
             <div className="w-full md:w-1/2">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6">Why Choose DapperLimoLax?</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-6">Why Choose KarLimoLax?</h2>
               
               <div className="space-y-4 md:space-y-6">
                 <div className="flex">
                   <div className="flex-shrink-0 mr-4">
-                    <Star className="h-5 w-5 md:h-6 md:w-6 text-cyan-500" />
+                    <Star className="h-5 w-5 md:h-6 md:w-6 text-purple-500" />
                   </div>
                   <div>
                     <h3 className="text-lg md:text-xl font-semibold mb-2">Premium Mercedes Fleet</h3>
@@ -362,7 +390,7 @@ export default function HomePage() {
                 
                 <div className="flex">
                   <div className="flex-shrink-0 mr-4">
-                    <ThumbsUp className="h-5 w-5 md:h-6 md:w-6 text-cyan-500" />
+                    <ThumbsUp className="h-5 w-5 md:h-6 md:w-6 text-purple-500" />
                   </div>
                   <div>
                     <h3 className="text-lg md:text-xl font-semibold mb-2">Professional Chauffeurs</h3>
@@ -372,7 +400,7 @@ export default function HomePage() {
                 
                 <div className="flex">
                   <div className="flex-shrink-0 mr-4">
-                    <Lock className="h-5 w-5 md:h-6 md:w-6 text-cyan-500" />
+                    <Lock className="h-5 w-5 md:h-6 md:w-6 text-purple-500" />
                   </div>
                   <div>
                     <h3 className="text-lg md:text-xl font-semibold mb-2">Safety and Reliability</h3>
@@ -391,48 +419,12 @@ export default function HomePage() {
         </div>
       </section>
        
-      {/* Gallery and Videos */}
-      <section className="py-8 md:py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-6 md:mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold">Gallery</h2>
-            <p className="text-gray-600 max-w-3xl mx-auto text-sm md:text-base">
-              A glimpse of our luxury fleet and service experience.
-            </p>
-          </div>
-          <div className="space-y-8">
-            {/* Photos Section */}
-            <div>
-              <h3 className="text-xl font-semibold mb-4 text-center">Photos</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {limoImagePaths.map((src) => (
-                  <img key={src} src={src} alt="Dapper Limo" className="w-full h-48 object-cover rounded-lg shadow hover:shadow-lg transition-shadow" loading="lazy" />
-                ))}
-              </div>
-            </div>
-            
-            {/* Videos Section */}
-            <div>
-              <h3 className="text-xl font-semibold mb-4 text-center">Videos</h3>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <div className="max-w-xs mx-auto rounded-lg overflow-hidden shadow-md bg-black">
-                  <video controls playsInline preload="metadata" className="w-full h-auto">
-                    <source src="/limovideo2.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Instagram Feed */}
       <section className="py-8 md:py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Follow Us on Instagram</h2>
           <InstagramEmbed
-            profileUrl="https://www.instagram.com/dapperlimo/"
+            profileUrl="https://www.instagram.com/k.a.r_limousine/"
             className="max-w-3xl mx-auto"
             height={520}
             images={instagramImages.length > 0 ? instagramImages : undefined}
@@ -457,77 +449,77 @@ export default function HomePage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ul className="space-y-2 text-sm md:text-base">
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     LAX to Disneyland
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     John Wayne Airport to Disneyland
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Long Beach Airport to Disneyland
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Thousand Oaks to LAX
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Irvine to LAX
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Anaheim to LAX
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Long Beach to LAX
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Newport Beach to LAX
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Huntington Beach to LAX
                   </li>
                 </ul>
                 <ul className="space-y-2 text-sm md:text-base">
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Santa Monica to LAX
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Calabasas to LAX
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Pasadena to LAX
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     LAX to San Pedro Cruise Terminal
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     LAX to Long Beach Cruise Terminal
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Orange County to LAX
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     San Diego to LAX Limo Service
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     LAX to Palm Springs Limo Service
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     LA To Las Vegas Limo Service
                   </li>
                 </ul>
@@ -541,35 +533,35 @@ export default function HomePage() {
                 <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">Airport Transfers</h3>
                 <ul className="space-y-2 text-sm md:text-base">
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     LAX Car Service
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     LAX Limo Service
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     John Wayne Airport Car Service
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Long Beach Airport Car Service
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Town Car Service
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Executive Limo
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Luxury Limo Service
                   </li>
                   <li className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                     Sprinter Limo Service LAX
                   </li>
                 </ul>
@@ -581,15 +573,15 @@ export default function HomePage() {
                   <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4">Car Service</h3>
                   <ul className="space-y-2 text-sm md:text-base">
                     <li className="flex items-center text-gray-700">
-                      <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                      <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                       Car Service Los Angeles
                     </li>
                     <li className="flex items-center text-gray-700">
-                      <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                      <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                       Car Service Orange County
                     </li>
                     <li className="flex items-center text-gray-700">
-                      <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                      <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                       Car Service San Bernardino County
                     </li>
                   </ul>
@@ -599,15 +591,15 @@ export default function HomePage() {
                   <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4">Limo Service</h3>
                   <ul className="space-y-2 text-sm md:text-base">
                     <li className="flex items-center text-gray-700">
-                      <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                      <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                       Limo Service Los Angeles
                     </li>
                     <li className="flex items-center text-gray-700">
-                      <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                      <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                       Limo Service Orange County
                     </li>
                     <li className="flex items-center text-gray-700">
-                      <span className="w-2 h-2 bg-cyan-500 rounded-full mr-3 flex-shrink-0"></span>
+                      <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 flex-shrink-0"></span>
                       Limo Service San Bernardino County
                     </li>
                   </ul>

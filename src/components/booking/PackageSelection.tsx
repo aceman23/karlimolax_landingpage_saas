@@ -90,7 +90,7 @@ export default function PackageSelection({ onContinue }: { onContinue: () => voi
       <div className="max-w-4xl mx-auto">
         <h2 className="text-2xl font-semibold mb-6">Select a Service Package</h2>
         <div className="flex justify-center items-center py-8">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-cyan-600"></div>
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
           <span className="ml-3 text-lg">Loading packages...</span>
         </div>
       </div>
@@ -117,7 +117,7 @@ export default function PackageSelection({ onContinue }: { onContinue: () => voi
             key={pkg._id || pkg.id}
             className={`
               border rounded-lg p-4 cursor-pointer transition
-              ${selectedPackage?._id === pkg._id ? 'border-cyan-600 bg-cyan-50' : 'border-gray-200 hover:border-cyan-300'}
+              ${selectedPackage?._id === pkg._id ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'}
             `}
             onClick={() => handlePackageSelect(pkg._id || pkg.id || '')}
           >
@@ -132,7 +132,7 @@ export default function PackageSelection({ onContinue }: { onContinue: () => voi
             <div>
               <h3 className="font-semibold text-lg mb-2">{pkg.name}</h3>
               <p className="text-gray-500 text-sm mb-2">{pkg.description}</p>
-              <p className="font-medium text-cyan-600">
+              <p className="font-medium text-purple-600">
                 {pkg.is_hourly 
                   ? `$${pkg.base_price}/hr${pkg.minimum_hours ? ` (${pkg.minimum_hours} hour minimum)` : ''}`
                   : `$${pkg.base_price} (Fixed rate)`}
@@ -153,8 +153,8 @@ export default function PackageSelection({ onContinue }: { onContinue: () => voi
                 className={`
                   px-4 py-2 rounded-lg text-sm font-medium transition
                   ${selectedAirport === airport.code 
-                    ? 'bg-cyan-600 text-white' 
-                    : 'bg-white border border-gray-200 hover:border-cyan-300 text-gray-700'}
+                    ? 'bg-purple-600 text-white' 
+                    : 'bg-white border border-gray-200 hover:border-purple-300 text-gray-700'}
                 `}
               >
                 {airport.code}

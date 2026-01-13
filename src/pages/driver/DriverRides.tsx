@@ -93,7 +93,7 @@ export default function DriverRides() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
       </div>
     );
   }
@@ -114,7 +114,7 @@ export default function DriverRides() {
               onClick={() => setFilter('all')}
               className={`px-3 py-2 rounded-full text-sm font-medium ${
                 filter === 'all'
-                  ? 'bg-cyan-100 text-cyan-800'
+                  ? 'bg-purple-100 text-purple-800'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -124,7 +124,7 @@ export default function DriverRides() {
               onClick={() => setFilter('scheduled')}
               className={`px-3 py-2 rounded-full text-sm font-medium ${
                 filter === 'scheduled'
-                  ? 'bg-cyan-100 text-cyan-800'
+                  ? 'bg-purple-100 text-purple-800'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -134,7 +134,7 @@ export default function DriverRides() {
               onClick={() => setFilter('in-progress')}
               className={`px-3 py-2 rounded-full text-sm font-medium ${
                 filter === 'in-progress'
-                  ? 'bg-cyan-100 text-cyan-800'
+                  ? 'bg-purple-100 text-purple-800'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -144,7 +144,7 @@ export default function DriverRides() {
               onClick={() => setFilter('completed')}
               className={`px-3 py-2 rounded-full text-sm font-medium ${
                 filter === 'completed'
-                  ? 'bg-cyan-100 text-cyan-800'
+                  ? 'bg-purple-100 text-purple-800'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -202,7 +202,7 @@ export default function DriverRides() {
                     {/* Status, Pricing, and Actions */}
                     <div className="flex flex-col items-end space-y-3">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                        ${ride.status === 'scheduled' ? 'bg-cyan-100 text-cyan-800' :
+                        ${ride.status === 'scheduled' ? 'bg-purple-100 text-purple-800' :
                           ride.status === 'in-progress' ? 'bg-yellow-100 text-yellow-800' :
                           ride.status === 'completed' ? 'bg-green-100 text-green-800' :
                           'bg-red-100 text-red-800'}`}>

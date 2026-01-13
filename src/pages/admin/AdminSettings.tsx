@@ -117,10 +117,10 @@ export default function AdminSettings() {
                 className={({ selected }) =>
                   classNames(
                     'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
-                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-cyan-400 focus:outline-none focus:ring-2',
+                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-purple-400 focus:outline-none focus:ring-2',
                     selected
-                      ? 'bg-white text-cyan-700 shadow'
-                      : 'text-gray-600 hover:bg-white/[0.12] hover:text-cyan-600'
+                      ? 'bg-white text-purple-700 shadow'
+                      : 'text-gray-600 hover:bg-white/[0.12] hover:text-purple-600'
                   )
                 }
               >
@@ -131,7 +131,7 @@ export default function AdminSettings() {
               <Tab.Panel
                 className={classNames(
                   'rounded-xl bg-white p-3',
-                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-cyan-400 focus:outline-none focus:ring-2'
+                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-purple-400 focus:outline-none focus:ring-2'
                 )}
               >
                 <EmailNotificationSettings />

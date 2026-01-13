@@ -92,7 +92,7 @@ const DropoffAddressInput: React.FC<DropoffAddressInputProps> = ({ value, onChan
         onChange={handleInputChange}
         placeholder="Enter dropoff address"
         required
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
         autoComplete="off"
       />
     </div>

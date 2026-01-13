@@ -101,7 +101,7 @@ export default function DriverRidesPanel({ driverId }: DriverRidesPanelProps) {
       case 'completed':
         return 'bg-green-100 text-green-800';
       case 'in-progress':
-        return 'bg-cyan-100 text-cyan-800';
+        return 'bg-purple-100 text-purple-800';
       case 'confirmed':
         return 'bg-yellow-100 text-yellow-800';
       case 'cancelled':
@@ -256,7 +256,7 @@ export default function DriverRidesPanel({ driverId }: DriverRidesPanelProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
       </div>
     );
   }

@@ -92,7 +92,7 @@ const PickupAddressInput: React.FC<PickupAddressInputProps> = ({ value, onChange
         onChange={handleInputChange}
         placeholder="Enter pickup address"
         required
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
         autoComplete="off"
       />
     </div>

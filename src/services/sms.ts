@@ -82,14 +82,14 @@ export async function sendBookingConfirmation(booking: Booking): Promise<boolean
   const priceInfo = `Total Price: $${booking.totalAmount?.toFixed(2) || booking.price?.toFixed(2) || '0.00'}`;
   
   const message = `
-DapperLimoLax: Your booking #${booking._id} is confirmed!
+KarLimoLax: Your booking #${booking._id} is confirmed!
 ${serviceInfo}
 ${priceInfo}
 Date: ${pickupTime.toLocaleDateString()}
 Time: ${pickupTime.toLocaleTimeString()}
 From: ${booking.pickupLocation}
 To: ${booking.dropoffLocation}${stopsInfo}
-Thank you for choosing DapperLimoLax!
+Thank you for choosing KarLimoLax!
   `.trim();
   
   const result = await sendSMS({
@@ -112,7 +112,7 @@ export async function sendDriverAssignmentNotification(
   }
   
   const message = `
-DapperLimoLax: Your driver for booking #${booking._id} has been assigned. 
+KarLimoLax: Your driver for booking #${booking._id} has been assigned. 
 Driver: ${driverName}
 Contact: ${driverPhone}
 You'll receive a text when your driver is on the way.
@@ -136,7 +136,7 @@ export async function sendReminderSms(booking: Booking): Promise<boolean> {
   const pickupTime = new Date(booking.pickupTime);
   
   const message = `
-DapperLimoLax Reminder: Your limo service is scheduled for tomorrow at ${pickupTime.toLocaleTimeString()}.
+KarLimoLax Reminder: Your limo service is scheduled for tomorrow at ${pickupTime.toLocaleTimeString()}.
 Booking #${booking._id}
 Pickup Location: ${booking.pickupLocation}
 Any questions? Call us at (310) 555-7890.
@@ -209,7 +209,7 @@ export async function notifyDriverAboutAssignment(
   const pickupTime = new Date(booking.pickupTime);
   
   const message = `
-DapperLimoLax: New ride assigned!
+KarLimoLax: New ride assigned!
 Booking #${booking._id}
 Customer: ${booking.customerId?.firstName} ${booking.customerId?.lastName}
 Date: ${pickupTime.toLocaleDateString()}

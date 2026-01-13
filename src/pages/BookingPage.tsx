@@ -495,41 +495,41 @@ export default function BookingPage() {
         {/* Booking Steps */}
         <div className="max-w-4xl mx-auto mb-10">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className={`flex flex-col items-center mb-4 md:mb-0 ${currentStep >= 1 ? 'text-cyan-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${currentStep >= 1 ? 'bg-cyan-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
+            <div className={`flex flex-col items-center mb-4 md:mb-0 ${currentStep >= 1 ? 'text-purple-600' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${currentStep >= 1 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
                 1
               </div>
               <span className="text-sm font-medium">Select Package/Vehicle</span>
             </div>
             
             <div className="hidden md:block w-24 h-0.5 bg-gray-200">
-              {currentStep >= 2 && <div className="h-full bg-cyan-600"></div>}
+              {currentStep >= 2 && <div className="h-full bg-purple-600"></div>}
             </div>
             
-            <div className={`flex flex-col items-center mb-4 md:mb-0 ${currentStep >= 2 ? 'text-cyan-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${currentStep >= 2 ? 'bg-cyan-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
+            <div className={`flex flex-col items-center mb-4 md:mb-0 ${currentStep >= 2 ? 'text-purple-600' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${currentStep >= 2 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
                 2
               </div>
               <span className="text-sm font-medium">Booking Details</span>
             </div>
             
             <div className="hidden md:block w-24 h-0.5 bg-gray-200">
-              {currentStep >= 3 && <div className="h-full bg-cyan-600"></div>}
+              {currentStep >= 3 && <div className="h-full bg-purple-600"></div>}
             </div>
             
-            <div className={`flex flex-col items-center mb-4 md:mb-0 ${currentStep >= 3 ? 'text-cyan-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${currentStep >= 3 ? 'bg-cyan-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
+            <div className={`flex flex-col items-center mb-4 md:mb-0 ${currentStep >= 3 ? 'text-purple-600' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${currentStep >= 3 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
                 3
               </div>
               <span className="text-sm font-medium">Customer Info</span>
             </div>
 
             <div className="hidden md:block w-24 h-0.5 bg-gray-200">
-              {currentStep >= 4 && <div className="h-full bg-cyan-600"></div>}
+              {currentStep >= 4 && <div className="h-full bg-purple-600"></div>}
             </div>
             
-            <div className={`flex flex-col items-center ${currentStep >= 4 ? 'text-cyan-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${currentStep >= 4 ? 'bg-cyan-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
+            <div className={`flex flex-col items-center ${currentStep >= 4 ? 'text-purple-600' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${currentStep >= 4 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
                 4
               </div>
               <span className="text-sm font-medium">Payment</span>
@@ -549,7 +549,7 @@ export default function BookingPage() {
               <h2 className="text-2xl font-semibold mb-4">Book by Vehicle</h2>
               {loadingVehicles ? (
                 <div className="flex items-center justify-center h-40">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-600"></div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
                   <span className="ml-3 text-lg">Loading vehicles...</span>
                 </div>
               ) : vehicleError ? (
@@ -560,7 +560,7 @@ export default function BookingPage() {
                   {vehicles.map(vehicle => (
                     <div
                       key={vehicle._id}
-                        className={`border rounded-lg p-4 flex flex-col transition cursor-pointer ${tempSelectedVehicle?._id === vehicle._id ? 'border-cyan-600 bg-cyan-50' : 'border-gray-200 hover:border-cyan-300'}`}
+                        className={`border rounded-lg p-4 flex flex-col transition cursor-pointer ${tempSelectedVehicle?._id === vehicle._id ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'}`}
                       onClick={() => handleSelectVehicle(vehicle)}
                     >
                       <div className="relative h-48">
@@ -618,7 +618,7 @@ export default function BookingPage() {
                       {selectedPackage.id === 'lax-special' && selectedAirport && (
                         <p className="text-gray-600">Selected Airport: <span className="font-medium">{selectedAirport}</span></p>
                       )}
-                      <p className="text-cyan-600 font-medium">
+                      <p className="text-purple-600 font-medium">
                         ${selectedPackage.base_price}{selectedPackage.is_hourly ? '/hr' : ''}
                         {selectedPackage.minimum_hours ? ` (${selectedPackage.minimum_hours} hour minimum)` : ''}
                       </p>
@@ -658,7 +658,7 @@ export default function BookingPage() {
                     )}
                     <div>
                       <p className="text-gray-600">{selectedVehicle?.capacity} passengers</p>
-                      <p className="text-cyan-600 font-medium">
+                      <p className="text-purple-600 font-medium">
                         {selectedVehicle?.fixedPrice 
                           ? `$${selectedVehicle.fixedPrice} fixed rate` 
                           : `$${selectedVehicle?.pricePerHour}/hour`}
@@ -742,7 +742,7 @@ export default function BookingPage() {
                     <div className="flex flex-col gap-2">
                
                       {distance && distance.value > 0 && (
-                        <div className="text-cyan-600 text-sm w-full">
+                        <div className="text-purple-600 text-sm w-full">
                           {(() => {
                             const distanceInMiles = distance.value / 1609.34;
                             const applicableTier = settings.distanceTiers.find(tier => 
@@ -760,20 +760,20 @@ export default function BookingPage() {
 
                             if (settings.distanceFeeEnabled && settings.distanceTiers.length > 0 && applicableTier) {
                               return (
-                                <div className="space-y-1 break-words bg-white border-2 border-cyan-500 rounded-lg p-4">
-                                  <div className="font-medium text-cyan-700">Distance Information:</div>
+                                <div className="space-y-1 break-words bg-white border-2 border-purple-500 rounded-lg p-4">
+                                  <div className="font-medium text-purple-700">Distance Information:</div>
                                   <div className="ml-2 text-xs sm:text-sm">
                                     <div className="text-gray-600">
                                       Trip Distance: {distanceInMiles.toFixed(1)} miles
                                     </div>
-                                    <div className="text-cyan-600 font-medium">
+                                    <div className="text-purple-600 font-medium">
                                       Distance Fee: ${applicableTier.fee.toFixed(2)}
                                       {applicableTier.maxDistance === Infinity || applicableTier.maxDistance === null
                                         ? ` (${applicableTier.minDistance}+ miles)`
                                         : ` (${applicableTier.minDistance}-${applicableTier.maxDistance} miles)`}
                                     </div>
                                     {settings.perMileFeeEnabled && distanceInMiles > settings.distanceThreshold && (
-                                      <div className="text-cyan-600 text-xs sm:text-sm">
+                                      <div className="text-purple-600 text-xs sm:text-sm">
                                       Additional ${settings.perMileFee}/mile after {settings.distanceThreshold} miles
                                     </div>
                                   )}
@@ -804,7 +804,7 @@ export default function BookingPage() {
                     selected={pickupDate}
                     onChange={handleDateChange}
                     minDate={new Date()}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                     placeholderText="Select date"
                     required
                   />
@@ -822,7 +822,7 @@ export default function BookingPage() {
                     value={bookingDetails.pickupTime || ''}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                 </div>
                 
@@ -843,16 +843,16 @@ export default function BookingPage() {
                       min={selectedPackage?.is_hourly && selectedPackage.minimum_hours ? selectedPackage.minimum_hours : 4}
                       step="1"
                       placeholder={selectedPackage && !selectedPackage.is_hourly ? 'N/A' : 'Enter number of hours'}
-                      className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 disabled:bg-gray-100 ${
+                      className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100 ${
                         isHoursBelowMinimum() ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
                       }`}
                     />
                     {selectedPackage?.is_hourly && selectedPackage.minimum_hours ? (
-                      <p className="text-sm text-cyan-600 mt-1">
+                      <p className="text-sm text-purple-600 mt-1">
                         {selectedPackage.minimum_hours} hour minimum required for {selectedPackage.name}
                       </p>
                     ) : (!selectedPackage || selectedPackage.is_hourly || selectedVehicle) && (
-                      <p className="text-sm text-cyan-600 mt-1">
+                      <p className="text-sm text-purple-600 mt-1">
                         4 hour minimum required
                       </p>
                     )}
@@ -885,7 +885,7 @@ export default function BookingPage() {
                     required
                     min={1}
                     max={selectedVehicle?.capacity || 12}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                   <p className="text-sm text-gray-500 mt-1">Max capacity: {selectedVehicle?.capacity || 12} passengers</p>
                 </div>
@@ -908,7 +908,7 @@ export default function BookingPage() {
                       });
                     }}
                     min={0}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                   <p className="text-sm text-gray-500 mt-1">Additional ${settings.carSeatPrice} per car seat</p>
                 </div>
@@ -931,7 +931,7 @@ export default function BookingPage() {
                       });
                     }}
                     min={0}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                   <p className="text-sm text-gray-500 mt-1">Additional ${settings.boosterSeatPrice} per booster seat</p>
                 </div>
@@ -948,16 +948,16 @@ export default function BookingPage() {
                   value={bookingDetails.specialRequests || ''}
                   onChange={handleInputChange}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="Any special requests or instructions for your booking (e.g., champagne on ice)"
                 ></textarea>
               </div>
               
               {/* Important Policies Section */}
-              <div className="mt-6 p-4 bg-cyan-50 border border-cyan-200 rounded-lg">
-                <h3 className="text-lg font-semibold text-cyan-800 mb-3">Important Policies</h3>
+              <div className="mt-6 p-4 bg-purple-50 border border-purple-200 rounded-lg">
+                <h3 className="text-lg font-semibold text-purple-800 mb-3">Important Policies</h3>
                 
-                <div className="space-y-3 text-sm text-cyan-700">
+                <div className="space-y-3 text-sm text-purple-700">
                   <div className="flex items-start">
                     <span className="font-medium mr-2">•</span>
                     <span><strong>Vomit Cleaning Fee:</strong> $250 will be charged for any vomit incidents in the vehicle</span>
@@ -973,7 +973,7 @@ export default function BookingPage() {
                 </div>
                 
                 {/* Policy Acknowledgments */}
-                <div className="mt-4 pt-3 border-t border-cyan-200">
+                <div className="mt-4 pt-3 border-t border-purple-200">
                   <div className="space-y-3">
                     <div className="flex items-start">
                       <input
@@ -984,9 +984,9 @@ export default function BookingPage() {
                           ...bookingDetails,
                           acknowledgeVomitFee: e.target.checked
                         })}
-                        className="mt-1 mr-3 h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
+                        className="mt-1 mr-3 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                       />
-                      <label htmlFor="acknowledgeVomitFee" className="text-sm text-cyan-800">
+                      <label htmlFor="acknowledgeVomitFee" className="text-sm text-purple-800">
                         I acknowledge the vomit cleaning fee of $250 for any vomit incidents in the vehicle
                       </label>
                     </div>
@@ -999,9 +999,9 @@ export default function BookingPage() {
                           ...bookingDetails,
                           acknowledgeGracePeriod: e.target.checked
                         })}
-                        className="mt-1 mr-3 h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
+                        className="mt-1 mr-3 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                       />
-                      <label htmlFor="acknowledgeGracePeriod" className="text-sm text-cyan-800">
+                      <label htmlFor="acknowledgeGracePeriod" className="text-sm text-purple-800">
                         I acknowledge the airport grace period policy and potential $75 charge for delays
                       </label>
                     </div>
@@ -1014,9 +1014,9 @@ export default function BookingPage() {
                           ...bookingDetails,
                           acknowledgeCancellationPolicy: e.target.checked
                         })}
-                        className="mt-1 mr-3 h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
+                        className="mt-1 mr-3 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                       />
-                      <label htmlFor="acknowledgeCancellationPolicy" className="text-sm text-cyan-800">
+                      <label htmlFor="acknowledgeCancellationPolicy" className="text-sm text-purple-800">
                         I acknowledge the cancellation policy and understand the refund terms based on timing
                       </label>
                     </div>
@@ -1044,14 +1044,14 @@ export default function BookingPage() {
                         if (applicableTier) {
                           return (
                             <>
-                              <div className="flex justify-between text-cyan-600 text-xs sm:text-sm">
+                              <div className="flex justify-between text-purple-600 text-xs sm:text-sm">
                                 <span className="break-words">Distance Fee ({applicableTier.maxDistance === Infinity || applicableTier.maxDistance === null 
                                   ? `${applicableTier.minDistance}+ miles` 
                                   : `${applicableTier.minDistance}-${applicableTier.maxDistance} miles`}):</span>
                                 <span className="ml-2 flex-shrink-0">${applicableTier.fee.toFixed(2)}</span>
                               </div>
                               {settings.perMileFeeEnabled && distanceInMiles > settings.distanceThreshold && (
-                                <div className="flex justify-between text-cyan-600 text-xs sm:text-sm">
+                                <div className="flex justify-between text-purple-600 text-xs sm:text-sm">
                                   <span className="break-words">Per Mile Fee (beyond {settings.distanceThreshold} miles):</span>
                                   <span className="ml-2 flex-shrink-0">${((distanceInMiles - settings.distanceThreshold) * settings.perMileFee).toFixed(2)}</span>
                                 </div>
@@ -1064,31 +1064,31 @@ export default function BookingPage() {
                     </>
                   )}
                   {bookingDetails.stops && bookingDetails.stops.length > 0 && (
-                    <div className="flex justify-between text-cyan-600">
+                    <div className="flex justify-between text-purple-600">
                       <span>Additional Stops ({bookingDetails.stops.length}):</span>
                       <span>${(bookingDetails.stops.reduce((sum, stop) => sum + (stop.price || settings.stopPrice), 0)).toFixed(2)}</span>
                     </div>
                   )}
                   {Number(bookingDetails.carSeats) > 0 && (
-                    <div className="flex justify-between text-cyan-600">
+                    <div className="flex justify-between text-purple-600">
                       <span>Car Seats ({bookingDetails.carSeats}):</span>
                       <span>${(bookingDetails.carSeats * settings.carSeatPrice).toFixed(2)}</span>
                     </div>
                   )}
                   {Number(bookingDetails.boosterSeats) > 0 && (
-                    <div className="flex justify-between text-cyan-600">
+                    <div className="flex justify-between text-purple-600">
                       <span>Booster Seats ({bookingDetails.boosterSeats}):</span>
                       <span>${(bookingDetails.boosterSeats * settings.boosterSeatPrice).toFixed(2)}</span>
                     </div>
                   )}
                   {settings.minFee > 0 && calculateBasePrice() < settings.minFee && (
-                    <div className="flex justify-between text-cyan-600">
+                    <div className="flex justify-between text-purple-600">
                       <span>Minimum Fee Applied:</span>
                       <span>${settings.minFee.toFixed(2)}</span>
                     </div>
                   )}
                   {settings.maxFee > 0 && calculateTotal() > settings.maxFee && (
-                    <div className="flex justify-between text-cyan-600">
+                    <div className="flex justify-between text-purple-600">
                       <span>Maximum Fee Applied:</span>
                       <span>${settings.maxFee.toFixed(2)}</span>
                     </div>
@@ -1116,8 +1116,8 @@ export default function BookingPage() {
                         onClick={() => updateGratuityType('none')}
                         className={`p-3 text-sm rounded-lg border transition-colors ${
                           gratuityType === 'none'
-                            ? 'border-cyan-500 bg-cyan-50 text-cyan-700'
-                            : 'border-gray-300 hover:border-cyan-300'
+                            ? 'border-purple-500 bg-purple-50 text-purple-700'
+                            : 'border-gray-300 hover:border-purple-300'
                         }`}
                       >
                         No Gratuity
@@ -1127,8 +1127,8 @@ export default function BookingPage() {
                         onClick={() => updateGratuityType('percentage')}
                         className={`p-3 text-sm rounded-lg border transition-colors ${
                           gratuityType === 'percentage'
-                            ? 'border-cyan-500 bg-cyan-50 text-cyan-700'
-                            : 'border-gray-300 hover:border-cyan-300'
+                            ? 'border-purple-500 bg-purple-50 text-purple-700'
+                            : 'border-gray-300 hover:border-purple-300'
                         }`}
                       >
                         Percentage
@@ -1138,8 +1138,8 @@ export default function BookingPage() {
                         onClick={() => updateGratuityType('custom')}
                         className={`p-3 text-sm rounded-lg border transition-colors ${
                           gratuityType === 'custom'
-                            ? 'border-cyan-500 bg-cyan-50 text-cyan-700'
-                            : 'border-gray-300 hover:border-cyan-300'
+                            ? 'border-purple-500 bg-purple-50 text-purple-700'
+                            : 'border-gray-300 hover:border-purple-300'
                         }`}
                       >
                         Custom Amount
@@ -1149,8 +1149,8 @@ export default function BookingPage() {
                         onClick={() => updateGratuityType('cash')}
                         className={`p-3 text-sm rounded-lg border transition-colors ${
                           gratuityType === 'cash'
-                            ? 'border-cyan-500 bg-cyan-50 text-cyan-700'
-                            : 'border-gray-300 hover:border-cyan-300'
+                            ? 'border-purple-500 bg-purple-50 text-purple-700'
+                            : 'border-gray-300 hover:border-purple-300'
                         }`}
                       >
                         Cash
@@ -1170,8 +1170,8 @@ export default function BookingPage() {
                             onClick={() => updateGratuityPercentage(percent)}
                             className={`p-3 text-sm rounded-lg border transition-colors ${
                               gratuityPercentage === percent
-                                ? 'border-cyan-500 bg-cyan-50 text-cyan-700'
-                                : 'border-gray-300 hover:border-cyan-300'
+                                ? 'border-purple-500 bg-purple-50 text-purple-700'
+                                : 'border-gray-300 hover:border-purple-300'
                             }`}
                           >
                             {percent}%
@@ -1195,21 +1195,21 @@ export default function BookingPage() {
                         placeholder="0.00"
                         min="0"
                         step="0.01"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                       />
                     </div>
                   )}
 
                   {/* Cash Gratuity Notice */}
                   {gratuityType === 'cash' && (
-                    <div className="p-4 bg-cyan-50 border border-cyan-200 rounded-lg">
+                    <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
                       <div className="flex items-start">
-                        <svg className="h-5 w-5 text-cyan-600 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="h-5 w-5 text-purple-600 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                         </svg>
                         <div>
-                          <p className="text-sm font-medium text-cyan-800">Cash Gratuity</p>
-                          <p className="text-sm text-cyan-700 mt-1">
+                          <p className="text-sm font-medium text-purple-800">Cash Gratuity</p>
+                          <p className="text-sm text-purple-700 mt-1">
                             You can provide cash gratuity directly to your chauffeur. No additional charge will be added to your payment.
                           </p>
                         </div>
@@ -1231,7 +1231,7 @@ export default function BookingPage() {
                 {/* Total with Gratuity */}
                 <div className="mt-4 pt-3 border-t flex justify-between items-center">
                   <span className="font-medium">Final Total:</span>
-                  <span className="text-xl font-bold text-cyan-600">${calculateTotalWithGratuity().toFixed(2)}</span>
+                  <span className="text-xl font-bold text-purple-600">${calculateTotalWithGratuity().toFixed(2)}</span>
                 </div>
               </div>
               

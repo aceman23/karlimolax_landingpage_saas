@@ -82,15 +82,15 @@ export default function EmailVerificationPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <Helmet>
-          <title>Verifying Email | Dapper Limo LAX</title>
-          <meta name="description" content="Verifying your email address for Dapper Limo LAX." />
+          <title>Verifying Email | Kar Limo LAX</title>
+          <meta name="description" content="Verifying your email address for Kar Limo LAX." />
           <meta name="robots" content="noindex, nofollow" />
         </Helmet>
 
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="text-center">
             {verificationStatus === 'loading' && (
-              <Mail className="mx-auto h-12 w-12 text-cyan-600 animate-pulse" />
+              <Mail className="mx-auto h-12 w-12 text-purple-600 animate-pulse" />
             )}
             {verificationStatus === 'success' && (
               <CheckCircle className="mx-auto h-12 w-12 text-green-600" />
@@ -148,14 +148,14 @@ export default function EmailVerificationPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <Helmet>
-        <title>Verify Your Email | Dapper Limo LAX</title>
-        <meta name="description" content="Verify your email address to complete your registration with Dapper Limo LAX." />
+        <title>Verify Your Email | Kar Limo LAX</title>
+        <meta name="description" content="Verify your email address to complete your registration with Kar Limo LAX." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <Mail className="mx-auto h-12 w-12 text-cyan-600" />
+          <Mail className="mx-auto h-12 w-12 text-purple-600" />
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
             Verify Your Email
           </h2>

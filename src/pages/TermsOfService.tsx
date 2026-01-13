@@ -5,8 +5,8 @@ export default function TermsOfService() {
   return (
     <div className="bg-gray-50 min-h-screen py-12">
       <Helmet>
-        <title>Terms of Service | Dapper Limo LAX</title>
-        <meta name="description" content="Terms of Service for Dapper Limo LAX. Read the full legal terms governing the use of our services." />
+        <title>Terms of Service | Kar Limo LAX</title>
+        <meta name="description" content="Terms of Service for Kar Limo LAX. Read the full legal terms governing the use of our services." />
         <link rel="canonical" href="https://dapperlimolax.com/terms" />
       </Helmet>
       
@@ -18,7 +18,7 @@ export default function TermsOfService() {
           <div className="prose max-w-none">
             <h2 className="text-2xl font-semibold mt-8 mb-4">1. Agreement to Terms</h2>
             <p>
-              These Terms of Service ("Terms") constitute a legally binding agreement made between you and DapperLimoLax ("we," "us," or "our") governing your access to and use of our website, mobile application, and transportation services (collectively, the "Services").
+              These Terms of Service ("Terms") constitute a legally binding agreement made between you and KarLimoLax ("we," "us," or "our") governing your access to and use of our website, mobile application, and transportation services (collectively, the "Services").
             </p>
             <p>
               By accessing or using our Services, you agree to be bound by these Terms. If you do not agree to these Terms, you must not access or use our Services.
@@ -46,7 +46,7 @@ export default function TermsOfService() {
               <li>Cancellations made 24-48 hours before the scheduled service: 50% refund</li>
               <li>Cancellations made less than 24 hours before the scheduled service: No refund</li>
             </ul>
-            <h3 className="text-xl font-semibold mt-6 mb-3">3.2 Cancellation by DapperLimoLax</h3>
+            <h3 className="text-xl font-semibold mt-6 mb-3">3.2 Cancellation by KarLimoLax</h3>
             <p>
               In rare circumstances, we may need to cancel a reservation due to unforeseen circumstances such as vehicle breakdown, extreme weather conditions, or other events beyond our control. In such cases, we will provide a full refund or offer to reschedule your service.
             </p>
@@ -70,7 +70,7 @@ export default function TermsOfService() {
             
             <h2 className="text-2xl font-semibold mt-8 mb-4">5. Limitation of Liability</h2>
             <p>
-              To the maximum extent permitted by law, DapperLimoLax shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to, loss of profits, data, use, goodwill, or other intangible losses, resulting from:
+              To the maximum extent permitted by law, KarLimoLax shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to, loss of profits, data, use, goodwill, or other intangible losses, resulting from:
             </p>
             <ul className="list-disc pl-6 mb-4">
               <li>Your access to or use of or inability to access or use the Services</li>
@@ -84,7 +84,7 @@ export default function TermsOfService() {
             
             <h2 className="text-2xl font-semibold mt-8 mb-4">6. Indemnification</h2>
             <p>
-              You agree to defend, indemnify, and hold harmless DapperLimoLax, its officers, directors, employees, and agents, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees) arising from:
+              You agree to defend, indemnify, and hold harmless KarLimoLax, its officers, directors, employees, and agents, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees) arising from:
             </p>
             <ul className="list-disc pl-6 mb-4">
               <li>Your use of and access to the Services</li>
@@ -108,7 +108,7 @@ export default function TermsOfService() {
               If you have any questions about these Terms, please contact us at:
             </p>
             <div className="mt-2 mb-8">
-              <p className="mb-1">DapperLimoLax</p>
+              <p className="mb-1">KarLimoLax</p>
               <p className="mb-1">1550 N Batavia</p>
               <p className="mb-1">Orange, CA 92867</p>
               <p className="mb-1">Email: legal@dapperlimolax.com</p>

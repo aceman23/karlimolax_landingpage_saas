@@ -2662,7 +2662,7 @@ router.get('/instagram/media', async (req: Request, res: Response) => {
       // If you want to persist: process.env.INSTAGRAM_STATE_JSON = JSON.stringify(serialized);
     } catch {}
 
-    const targetUsername = (req.query.username as string) || process.env.INSTAGRAM_TARGET_USERNAME || 'dapperlimo';
+    const targetUsername = (req.query.username as string) || process.env.INSTAGRAM_TARGET_USERNAME || 'k.a.r_limousine';
     const targetId = await ig.user.getIdByUsername(targetUsername);
     const feed = ig.feed.user(targetId);
     let userMediaItems: any[] = [];

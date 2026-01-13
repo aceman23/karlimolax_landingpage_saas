@@ -91,7 +91,7 @@ export default function NotificationSettings() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-32">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
       </div>
     );
   }
@@ -110,9 +110,9 @@ export default function NotificationSettings() {
             type="button"
             className={`${
               settings.smsEnabled
-                ? 'bg-cyan-600'
+                ? 'bg-purple-600'
                 : 'bg-gray-200'
-            } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2`}
             onClick={() => handleToggle('smsEnabled')}
           >
             <span
@@ -132,9 +132,9 @@ export default function NotificationSettings() {
             type="button"
             className={`${
               settings.emailEnabled
-                ? 'bg-cyan-600'
+                ? 'bg-purple-600'
                 : 'bg-gray-200'
-            } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2`}
             onClick={() => handleToggle('emailEnabled')}
           >
             <span
@@ -154,9 +154,9 @@ export default function NotificationSettings() {
             type="button"
             className={`${
               settings.bookingNotifications
-                ? 'bg-cyan-600'
+                ? 'bg-purple-600'
                 : 'bg-gray-200'
-            } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2`}
             onClick={() => handleToggle('bookingNotifications')}
           >
             <span
@@ -176,9 +176,9 @@ export default function NotificationSettings() {
             type="button"
             className={`${
               settings.driverAssignments
-                ? 'bg-cyan-600'
+                ? 'bg-purple-600'
                 : 'bg-gray-200'
-            } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2`}
             onClick={() => handleToggle('driverAssignments')}
           >
             <span
@@ -198,9 +198,9 @@ export default function NotificationSettings() {
             type="button"
             className={`${
               settings.paymentNotifications
-                ? 'bg-cyan-600'
+                ? 'bg-purple-600'
                 : 'bg-gray-200'
-            } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2`}
             onClick={() => handleToggle('paymentNotifications')}
           >
             <span

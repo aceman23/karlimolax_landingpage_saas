@@ -85,7 +85,7 @@ export default function GratuityModal({ booking, onClose, onUpdate }: GratuityMo
                 onClick={() => setGratuityType('none')}
                 className={`p-3 text-sm font-medium rounded-lg border ${
                   gratuityType === 'none'
-                    ? 'bg-cyan-50 border-cyan-500 text-cyan-700'
+                    ? 'bg-purple-50 border-purple-500 text-purple-700'
                     : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                 }`}
               >
@@ -96,7 +96,7 @@ export default function GratuityModal({ booking, onClose, onUpdate }: GratuityMo
                 onClick={() => setGratuityType('percentage')}
                 className={`p-3 text-sm font-medium rounded-lg border ${
                   gratuityType === 'percentage'
-                    ? 'bg-cyan-50 border-cyan-500 text-cyan-700'
+                    ? 'bg-purple-50 border-purple-500 text-purple-700'
                     : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                 }`}
               >
@@ -107,7 +107,7 @@ export default function GratuityModal({ booking, onClose, onUpdate }: GratuityMo
                 onClick={() => setGratuityType('custom')}
                 className={`p-3 text-sm font-medium rounded-lg border ${
                   gratuityType === 'custom'
-                    ? 'bg-cyan-50 border-cyan-500 text-cyan-700'
+                    ? 'bg-purple-50 border-purple-500 text-purple-700'
                     : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                 }`}
               >
@@ -118,7 +118,7 @@ export default function GratuityModal({ booking, onClose, onUpdate }: GratuityMo
                 onClick={() => setGratuityType('cash')}
                 className={`p-3 text-sm font-medium rounded-lg border ${
                   gratuityType === 'cash'
-                    ? 'bg-cyan-50 border-cyan-500 text-cyan-700'
+                    ? 'bg-purple-50 border-purple-500 text-purple-700'
                     : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                 }`}
               >
@@ -141,7 +141,7 @@ export default function GratuityModal({ booking, onClose, onUpdate }: GratuityMo
                     onClick={() => setPercentage(percent)}
                     className={`p-2 text-sm font-medium rounded border ${
                       percentage === percent
-                        ? 'bg-cyan-50 border-cyan-500 text-cyan-700'
+                        ? 'bg-purple-50 border-purple-500 text-purple-700'
                         : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                     }`}
                   >
@@ -166,7 +166,7 @@ export default function GratuityModal({ booking, onClose, onUpdate }: GratuityMo
                   type="number"
                   value={customAmount}
                   onChange={(e) => setCustomAmount(e.target.value)}
-                  className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+                  className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                   placeholder="0.00"
                   min="0"
                   step="0.01"

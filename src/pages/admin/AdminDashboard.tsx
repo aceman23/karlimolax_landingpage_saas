@@ -135,7 +135,7 @@ const AdminDashboard: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
         <span className="ml-2">Loading dashboard data...</span>
       </div>
     );
@@ -148,7 +148,7 @@ const AdminDashboard: React.FC = () => {
         <div className="text-gray-500">{error}</div>
         <button 
           onClick={() => window.location.reload()}
-          className="mt-4 px-4 py-2 bg-cyan-500 text-white rounded hover:bg-cyan-600"
+          className="mt-4 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
         >
           Retry
         </button>
@@ -175,7 +175,7 @@ const AdminDashboard: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <Card>
           <CardContent className="flex items-center">
-            <Calendar className="h-8 w-8 text-cyan-500 mr-4" />
+            <Calendar className="h-8 w-8 text-purple-500 mr-4" />
             <div>
               <p className="text-sm text-gray-500">Total Bookings</p>
               <p className="text-2xl font-bold">{stats?.totalBookings.toLocaleString() || 0}</p>

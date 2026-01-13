@@ -156,21 +156,21 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <Helmet>
-        <title>{isRegistering ? 'Sign Up' : 'Login'} | Dapper Limo LAX</title>
-        <meta name="description" content={`${isRegistering ? 'Create' : 'Log in to'} your Dapper Limo LAX account.`} />
+        <title>{isRegistering ? 'Sign Up' : 'Login'} | Kar Limo LAX</title>
+        <meta name="description" content={`${isRegistering ? 'Create' : 'Log in to'} your Kar Limo LAX account.`} />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h1 className="text-center text-3xl font-bold text-cyan-600">
-          DapperLimoLax.com
+        <h1 className="text-center text-3xl font-bold text-purple-600">
+          KarLimoLax.com
         </h1>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           {isRegistering ? 'Create your account' : 'Sign in to your account'}
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
           {isRegistering 
-            ? 'Join Dapper Limo LAX for premium transportation services'
+            ? 'Join Kar Limo LAX for premium transportation services'
             : 'Access the limo service portal for admins and drivers'}
         </p>
       </div>
@@ -201,7 +201,7 @@ export default function LoginPage() {
                       onChange={(e) => setFirstName(e.target.value)}
                       className={`appearance-none block w-full px-3 py-2 border ${
                         errors.firstName ? 'border-red-300' : 'border-gray-300'
-                      } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm`}
+                      } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
                     />
                     {errors.firstName && (
                       <p className="mt-2 text-sm text-red-600">{errors.firstName}</p>
@@ -224,7 +224,7 @@ export default function LoginPage() {
                       onChange={(e) => setLastName(e.target.value)}
                       className={`appearance-none block w-full px-3 py-2 border ${
                         errors.lastName ? 'border-red-300' : 'border-gray-300'
-                      } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm`}
+                      } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
                     />
                     {errors.lastName && (
                       <p className="mt-2 text-sm text-red-600">{errors.lastName}</p>
@@ -249,7 +249,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   className={`appearance-none block w-full px-3 py-2 border ${
                     errors.email ? 'border-red-300' : 'border-gray-300'
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm`}
+                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
                 />
                 {errors.email && (
                   <p className="mt-2 text-sm text-red-600">{errors.email}</p>
@@ -272,7 +272,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   className={`appearance-none block w-full px-3 py-2 border ${
                     errors.password ? 'border-red-300' : 'border-gray-300'
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm`}
+                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
                 />
                 {errors.password && (
                   <p className="mt-2 text-sm text-red-600">{errors.password}</p>
@@ -296,7 +296,7 @@ export default function LoginPage() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     className={`appearance-none block w-full px-3 py-2 border ${
                       errors.confirmPassword ? 'border-red-300' : 'border-gray-300'
-                    } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm`}
+                    } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
                   />
                   {errors.confirmPassword && (
                     <p className="mt-2 text-sm text-red-600">{errors.confirmPassword}</p>
@@ -311,7 +311,7 @@ export default function LoginPage() {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500"
+                  className="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                   Remember me
@@ -319,7 +319,7 @@ export default function LoginPage() {
               </div>
 
               <div className="text-sm">
-                <Link to="/forgot-password" className="font-medium text-cyan-600 hover:text-cyan-500">
+                <Link to="/forgot-password" className="font-medium text-purple-600 hover:text-purple-500">
                   Forgot your password?
                 </Link>
               </div>
@@ -329,7 +329,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 disabled:opacity-50"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50"
               >
                 {isLoading ? (
                   'Processing...'
@@ -362,7 +362,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setIsRegistering(!isRegistering)}
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
               >
                 {isRegistering ? (
                   <>

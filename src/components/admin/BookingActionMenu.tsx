@@ -82,7 +82,7 @@ export default function BookingActionMenu({ booking, drivers, vehicles, onBookin
       
       const result = await sendSMS({
         to: customerPhoneNumber,
-        message: `DapperLimoLax: ${smsMessage}`,
+        message: `KarLimoLax: ${smsMessage}`,
         type: 'booking_update'
       });
       
@@ -171,7 +171,7 @@ export default function BookingActionMenu({ booking, drivers, vehicles, onBookin
             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
             onClick={() => handleStatusChange('in_progress')}
           >
-            <Clock className="h-4 w-4 mr-2 text-cyan-500" />
+            <Clock className="h-4 w-4 mr-2 text-purple-500" />
             Mark In Progress
           </button>
           
@@ -179,7 +179,7 @@ export default function BookingActionMenu({ booking, drivers, vehicles, onBookin
             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
             onClick={() => handleStatusChange('completed')}
           >
-            <CheckCircle className="h-4 w-4 mr-2 text-cyan-500" />
+            <CheckCircle className="h-4 w-4 mr-2 text-purple-500" />
             Mark Completed
           </button>
           
@@ -243,7 +243,7 @@ export default function BookingActionMenu({ booking, drivers, vehicles, onBookin
               Cancel
             </button>
             <button
-              className="px-3 py-1 text-sm bg-cyan-600 text-white rounded hover:bg-cyan-700 disabled:opacity-50"
+              className="px-3 py-1 text-sm bg-purple-600 text-white rounded hover:bg-purple-700 disabled:opacity-50"
               onClick={handleUpdateAssignments}
               disabled={processing || (!selectedDriverId && !selectedVehicleId)}
             >
@@ -271,7 +271,7 @@ export default function BookingActionMenu({ booking, drivers, vehicles, onBookin
               Cancel
             </button>
             <button
-              className="px-3 py-1 text-sm bg-cyan-600 text-white rounded hover:bg-cyan-700 disabled:opacity-50"
+              className="px-3 py-1 text-sm bg-purple-600 text-white rounded hover:bg-purple-700 disabled:opacity-50"
               onClick={handleSendSms}
               disabled={processing || !smsMessage.trim()}
             >

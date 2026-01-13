@@ -147,7 +147,7 @@ export default function EditProfilePage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
       </div>
     );
   }
@@ -178,8 +178,8 @@ export default function EditProfilePage() {
             </div>
 
             {error && (
-              <div className="p-4 bg-cyan-50 border-b border-cyan-200">
-                <p className="text-cyan-800">{error}</p>
+              <div className="p-4 bg-purple-50 border-b border-purple-200">
+                <p className="text-purple-800">{error}</p>
               </div>
             )}
 
@@ -219,7 +219,7 @@ const InfoItem: React.FC<InfoItemProps> = ({ icon, label, value, editMode, field
               value={value as string}
               onChange={onChange}
               placeholder="First Name"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
             />
             <input
               type={type}
@@ -228,7 +228,7 @@ const InfoItem: React.FC<InfoItemProps> = ({ icon, label, value, editMode, field
               value={value2 || ''}
               onChange={onChange}
               placeholder="Last Name"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
             />
           </div>
         ) : fieldName === 'email' ? (
@@ -249,7 +249,7 @@ const InfoItem: React.FC<InfoItemProps> = ({ icon, label, value, editMode, field
             value={value as string}
             onChange={onChange}
             placeholder={placeholder}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
           />
         )}
       </div>

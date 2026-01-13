@@ -115,7 +115,7 @@ export default function DriverDetails() {
   return (
     <div className="container mx-auto px-4 py-8">
       <Helmet>
-        <title>Driver Details | Dapper Limo LAX Admin</title>
+        <title>Driver Details | Kar Limo LAX Admin</title>
       </Helmet>
 
       <div className="mb-6">
@@ -137,7 +137,7 @@ export default function DriverDetails() {
                 <select
                   value={driver.driverStatus || 'offline'}
                   onChange={(e) => handleUpdateStatus(e.target.value as Driver['driverStatus'])}
-                  className="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 rounded-md"
+                  className="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 rounded-md"
                 >
                   <option value="available">Available</option>
                   <option value="busy">On Ride</option>
@@ -197,9 +197,9 @@ export default function DriverDetails() {
             </div>
 
             {driver.currentRide && (
-              <div className="mt-8 bg-cyan-50 p-4 rounded-lg">
-                <h2 className="text-lg font-medium text-cyan-900 mb-2">Current Ride</h2>
-                <p className="text-cyan-700">{driver.currentRide}</p>
+              <div className="mt-8 bg-purple-50 p-4 rounded-lg">
+                <h2 className="text-lg font-medium text-purple-900 mb-2">Current Ride</h2>
+                <p className="text-purple-700">{driver.currentRide}</p>
               </div>
             )}
           </div>

@@ -36,16 +36,16 @@ export default function AdminLayout() {
         {/* Title for desktop */}
         <h2 className="text-2xl font-bold mb-8 hidden md:block">Admin Panel</h2>
         <nav className="flex flex-col space-y-2">
-          <Link to="/admin" className="hover:text-cyan-400 flex items-center gap-2" onClick={handleSidebarClose}><LayoutDashboard className="w-5 h-5" /> Dashboard</Link>
-          <Link to="/admin/bookings" className="hover:text-cyan-400 flex items-center gap-2" onClick={handleSidebarClose}><Calendar className="w-5 h-5" /> Bookings</Link>
-          <Link to="/admin/drivers" className="hover:text-cyan-400 flex items-center gap-2" onClick={handleSidebarClose}><UserCog className="w-5 h-5" /> Drivers</Link>
-          <Link to="/admin/vehicles" className="hover:text-cyan-400 flex items-center gap-2" onClick={handleSidebarClose}><Car className="w-5 h-5" /> Vehicles</Link>
-          <Link to="/admin/services" className="hover:text-cyan-400 flex items-center gap-2" onClick={handleSidebarClose}><Package className="w-5 h-5" /> Services</Link>
-          <Link to="/admin/users" className="hover:text-cyan-400 flex items-center gap-2" onClick={handleSidebarClose}><Users className="w-5 h-5" /> Users</Link>
-          <Link to="/admin/pricing" className="hover:text-cyan-400 flex items-center gap-2" onClick={handleSidebarClose}><DollarSign className="w-5 h-5" /> Pricing</Link>
-          <Link to="/admin/settings" className="hover:text-cyan-400 flex items-center gap-2" onClick={handleSidebarClose}><Settings className="w-5 h-5" /> Settings</Link>
-          <Link to="/admin/profile" className="hover:text-cyan-400 flex items-center gap-2" onClick={handleSidebarClose}><User className="w-5 h-5" /> My Profile</Link>
-          <Link to="/" className="hover:text-cyan-400 flex items-center gap-2" onClick={handleSidebarClose}><Home className="w-5 h-5" /> Main Website</Link>
+          <Link to="/admin" className="hover:text-purple-400 flex items-center gap-2" onClick={handleSidebarClose}><LayoutDashboard className="w-5 h-5" /> Dashboard</Link>
+          <Link to="/admin/bookings" className="hover:text-purple-400 flex items-center gap-2" onClick={handleSidebarClose}><Calendar className="w-5 h-5" /> Bookings</Link>
+          <Link to="/admin/drivers" className="hover:text-purple-400 flex items-center gap-2" onClick={handleSidebarClose}><UserCog className="w-5 h-5" /> Drivers</Link>
+          <Link to="/admin/vehicles" className="hover:text-purple-400 flex items-center gap-2" onClick={handleSidebarClose}><Car className="w-5 h-5" /> Vehicles</Link>
+          <Link to="/admin/services" className="hover:text-purple-400 flex items-center gap-2" onClick={handleSidebarClose}><Package className="w-5 h-5" /> Services</Link>
+          <Link to="/admin/users" className="hover:text-purple-400 flex items-center gap-2" onClick={handleSidebarClose}><Users className="w-5 h-5" /> Users</Link>
+          <Link to="/admin/pricing" className="hover:text-purple-400 flex items-center gap-2" onClick={handleSidebarClose}><DollarSign className="w-5 h-5" /> Pricing</Link>
+          <Link to="/admin/settings" className="hover:text-purple-400 flex items-center gap-2" onClick={handleSidebarClose}><Settings className="w-5 h-5" /> Settings</Link>
+          <Link to="/admin/profile" className="hover:text-purple-400 flex items-center gap-2" onClick={handleSidebarClose}><User className="w-5 h-5" /> My Profile</Link>
+          <Link to="/" className="hover:text-purple-400 flex items-center gap-2" onClick={handleSidebarClose}><Home className="w-5 h-5" /> Main Website</Link>
         </nav>
       </aside>
       {/* Overlay for mobile when sidebar is open */}

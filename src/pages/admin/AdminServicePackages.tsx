@@ -4,7 +4,6 @@ import toast from 'react-hot-toast';
 import { getServicePackages, updateServicePackage, createServicePackage, getVehicles, deleteServicePackage } from '../../services/database';
 import { Plus, Edit, Save, X, Trash2, Upload, Image as ImageIcon } from 'lucide-react';
 import { ServicePackage, Vehicle } from '../../types';
-import DatabaseUtils from '../../components/admin/DatabaseUtils';
 import Button from '../../components/common/Button';
 
 export default function AdminServicePackages() {
@@ -226,13 +225,6 @@ export default function AdminServicePackages() {
         </Button>
       </div>
 
-      {/* Database Utils - Show if no packages or loading failed */}
-      {(!loading && packages.length === 0) && (
-        <div className="mb-6">
-          <DatabaseUtils onSuccess={loadData} />
-        </div>
-      )}
-
       {/* Service Packages Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="overflow-x-auto">
@@ -280,7 +272,7 @@ export default function AdminServicePackages() {
                           type="text"
                           value={editForm.name || ''}
                           onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                           placeholder="Package name"
                         />
                       ) : (
@@ -293,7 +285,7 @@ export default function AdminServicePackages() {
                         <textarea
                           value={editForm.description || ''}
                           onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                           rows={2}
                           placeholder="Package description"
                         />
@@ -318,7 +310,7 @@ export default function AdminServicePackages() {
                             />
                             <label
                               htmlFor={`image-upload-edit-${pkg._id || pkg.id}`}
-                              className="cursor-pointer flex items-center gap-1 px-2 py-1 text-xs bg-cyan-100 text-cyan-700 rounded hover:bg-cyan-200"
+                              className="cursor-pointer flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200"
                             >
                               <Upload size={12} />
                               Upload
@@ -365,7 +357,7 @@ export default function AdminServicePackages() {
                         <select
                           value={editForm.vehicle_id || ''}
                           onChange={(e) => setEditForm({ ...editForm, vehicle_id: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                         >
                           <option value="">Any Vehicle</option>
                           {vehicles.map((vehicle) => (
@@ -388,7 +380,7 @@ export default function AdminServicePackages() {
                             type="checkbox"
                             checked={editForm.is_hourly || false}
                             onChange={(e) => setEditForm({ ...editForm, is_hourly: e.target.checked })}
-                            className="h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
+                            className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                           />
                           <span className="ml-2 text-sm text-gray-700">Hourly Rate</span>
                         </label>
@@ -407,7 +399,7 @@ export default function AdminServicePackages() {
                             min="1"
                             value={editForm.minimum_hours || ''}
                             onChange={(e) => setEditForm({ ...editForm, minimum_hours: parseInt(e.target.value) || undefined })}
-                            className="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                            className="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                             placeholder="Min"
                             disabled={!editForm.is_hourly}
                           />
@@ -429,7 +421,7 @@ export default function AdminServicePackages() {
                             step="0.01"
                             value={editPriceInput}
                             onChange={(e) => setEditPriceInput(e.target.value)}
-                            className="w-24 pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                            className="w-24 pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                             placeholder="0.00"
                           />
                         </div>
@@ -447,7 +439,7 @@ export default function AdminServicePackages() {
                             type="checkbox"
                             checked={editForm.is_active || false}
                             onChange={(e) => setEditForm({ ...editForm, is_active: e.target.checked })}
-                            className="h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
+                            className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                           />
                           <span className="ml-2 text-sm text-gray-700">Active</span>
                         </label>
@@ -537,7 +529,7 @@ export default function AdminServicePackages() {
                     type="text"
                     value={newPackageForm.name || ''}
                     onChange={(e) => setNewPackageForm({ ...newPackageForm, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                     placeholder="Enter package name"
                     required
                   />
@@ -550,7 +542,7 @@ export default function AdminServicePackages() {
                   <textarea
                     value={newPackageForm.description || ''}
                     onChange={(e) => setNewPackageForm({ ...newPackageForm, description: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                     rows={3}
                     placeholder="Enter package description"
                     required
@@ -564,7 +556,7 @@ export default function AdminServicePackages() {
                   <select
                     value={newPackageForm.vehicle_id || ''}
                     onChange={(e) => setNewPackageForm({ ...newPackageForm, vehicle_id: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
                     <option value="">Any Vehicle</option>
                     {vehicles.map((vehicle) => (
@@ -587,7 +579,7 @@ export default function AdminServicePackages() {
                       step="0.01"
                       value={newPriceInput}
                       onChange={(e) => setNewPriceInput(e.target.value)}
-                      className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                       placeholder="0.00"
                       required
                     />
@@ -600,7 +592,7 @@ export default function AdminServicePackages() {
                       type="checkbox"
                       checked={newPackageForm.is_hourly || false}
                       onChange={(e) => setNewPackageForm({ ...newPackageForm, is_hourly: e.target.checked })}
-                      className="h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                     />
                     <span className="ml-2 text-sm text-gray-700">Hourly Rate Package</span>
                   </label>
@@ -616,7 +608,7 @@ export default function AdminServicePackages() {
                       min="1"
                       value={newPackageForm.minimum_hours || ''}
                       onChange={(e) => setNewPackageForm({ ...newPackageForm, minimum_hours: parseInt(e.target.value) || undefined })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                       placeholder="Minimum hours required"
                     />
                   </div>
@@ -628,7 +620,7 @@ export default function AdminServicePackages() {
                       type="checkbox"
                       checked={newPackageForm.is_active || false}
                       onChange={(e) => setNewPackageForm({ ...newPackageForm, is_active: e.target.checked })}
-                      className="h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                     />
                     <span className="ml-2 text-sm text-gray-700">Package is active</span>
                   </label>
@@ -673,13 +665,13 @@ export default function AdminServicePackages() {
                     image_url: ''
                   });
                 }}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500"
               >
                 Cancel
               </button>
               <button
                 onClick={createPackage}
-                className="px-4 py-2 text-sm font-medium text-white bg-cyan-600 border border-transparent rounded-md hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="px-4 py-2 text-sm font-medium text-white bg-purple-600 border border-transparent rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
               >
                 Create Package
               </button>

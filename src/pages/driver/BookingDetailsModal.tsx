@@ -40,7 +40,7 @@ export default function BookingDetailsModal({ booking, onClose }: BookingDetails
             <span className="font-semibold w-32">Status:</span>
             <span className={`px-2 py-1 rounded-full text-sm font-medium
               ${booking.status === 'completed' ? 'bg-green-100 text-green-800' : 
-                booking.status === 'confirmed' ? 'bg-cyan-100 text-cyan-800' : 
+                booking.status === 'confirmed' ? 'bg-purple-100 text-purple-800' : 
                 booking.status === 'cancelled' ? 'bg-red-100 text-red-800' : 
                 booking.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
                 'bg-gray-100 text-gray-800'}`}

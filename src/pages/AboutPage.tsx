@@ -10,8 +10,8 @@ export default function AboutPage() {
   return (
     <div className="bg-gray-50 min-h-screen">
       <Helmet>
-        <title>About Us | Dapper Limo LAX</title>
-        <meta name="description" content="Learn about DapperLimoLax and our premium transportation services in Los Angeles. We offer luxury Mercedes Sprinter limos for airport transfers and special events." />
+        <title>About Us | Kar Limo LAX</title>
+        <meta name="description" content="Learn about KarLimoLax and our premium transportation services in Los Angeles. We offer luxury Mercedes Sprinter limos for airport transfers and special events." />
         <link rel="canonical" href="https://dapperlimolax.com/about" />
       </Helmet>
       
@@ -38,7 +38,7 @@ export default function AboutPage() {
             </div>
             
             <div className="p-8">
-              <h2 className="text-3xl font-bold mb-6">Welcome to DapperLimoLax</h2>
+              <h2 className="text-3xl font-bold mb-6">Welcome to KarLimoLax</h2>
               
               <div className="prose max-w-none">
                 <p className="mb-4">
@@ -72,8 +72,8 @@ export default function AboutPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <div className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg">
-                <div className="w-12 h-12 bg-cyan-100 rounded-full flex items-center justify-center mb-4">
-                  <MapPin className="h-6 w-6 text-cyan-600" />
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                  <MapPin className="h-6 w-6 text-purple-600" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Airport Transportation</h3>
                 <p className="text-gray-600 mb-4">
@@ -81,23 +81,23 @@ export default function AboutPage() {
                 </p>
                 <ul className="text-gray-600 space-y-1 mb-4">
                   <li className="flex items-start">
-                    <span className="text-cyan-600 mr-2">•</span>
+                    <span className="text-purple-600 mr-2">•</span>
                     Flight monitoring
                   </li>
                   <li className="flex items-start">
-                    <span className="text-cyan-600 mr-2">•</span>
+                    <span className="text-purple-600 mr-2">•</span>
                     Meet & greet service
                   </li>
                   <li className="flex items-start">
-                    <span className="text-cyan-600 mr-2">•</span>
+                    <span className="text-purple-600 mr-2">•</span>
                     Luggage assistance
                   </li>
                 </ul>
               </div>
               
               <div className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg">
-                <div className="w-12 h-12 bg-cyan-100 rounded-full flex items-center justify-center mb-4">
-                  <Calendar className="h-6 w-6 text-cyan-600" />
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                  <Calendar className="h-6 w-6 text-purple-600" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Special Events</h3>
                 <p className="text-gray-600 mb-4">
@@ -105,23 +105,23 @@ export default function AboutPage() {
                 </p>
                 <ul className="text-gray-600 space-y-1 mb-4">
                   <li className="flex items-start">
-                    <span className="text-cyan-600 mr-2">•</span>
+                    <span className="text-purple-600 mr-2">•</span>
                     Weddings & proms
                   </li>
                   <li className="flex items-start">
-                    <span className="text-cyan-600 mr-2">•</span>
+                    <span className="text-purple-600 mr-2">•</span>
                     Corporate events
                   </li>
                   <li className="flex items-start">
-                    <span className="text-cyan-600 mr-2">•</span>
+                    <span className="text-purple-600 mr-2">•</span>
                     Birthday celebrations
                   </li>
                 </ul>
               </div>
               
               <div className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg">
-                <div className="w-12 h-12 bg-cyan-100 rounded-full flex items-center justify-center mb-4">
-                  <Car className="h-6 w-6 text-cyan-600" />
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                  <Car className="h-6 w-6 text-purple-600" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Destination Transportation</h3>
                 <p className="text-gray-600 mb-4">
@@ -129,15 +129,15 @@ export default function AboutPage() {
                 </p>
                 <ul className="text-gray-600 space-y-1 mb-4">
                   <li className="flex items-start">
-                    <span className="text-cyan-600 mr-2">•</span>
+                    <span className="text-purple-600 mr-2">•</span>
                     Disneyland & theme parks
                   </li>
                   <li className="flex items-start">
-                    <span className="text-cyan-600 mr-2">•</span>
+                    <span className="text-purple-600 mr-2">•</span>
                     Sporting events
                   </li>
                   <li className="flex items-start">
-                    <span className="text-cyan-600 mr-2">•</span>
+                    <span className="text-purple-600 mr-2">•</span>
                     Wine tasting tours
                   </li>
                 </ul>
@@ -147,12 +147,12 @@ export default function AboutPage() {
           
           {/* Why Choose Us */}
           <div className="mt-12">
-            <h2 className="text-3xl font-bold mb-8 text-center">Why Choose DapperLimoLax</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center">Why Choose KarLimoLax</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex items-start">
-                <div className="w-12 h-12 bg-cyan-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                  <Award className="h-6 w-6 text-cyan-600" />
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                  <Award className="h-6 w-6 text-purple-600" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Premium Fleet</h3>
@@ -163,8 +163,8 @@ export default function AboutPage() {
               </div>
               
               <div className="flex items-start">
-                <div className="w-12 h-12 bg-cyan-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                  <Clock className="h-6 w-6 text-cyan-600" />
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                  <Clock className="h-6 w-6 text-purple-600" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Punctuality</h3>
@@ -175,8 +175,8 @@ export default function AboutPage() {
               </div>
               
               <div className="flex items-start">
-                <div className="w-12 h-12 bg-cyan-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                  <Users className="h-6 w-6 text-cyan-600" />
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                  <Users className="h-6 w-6 text-purple-600" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Professional Chauffeurs</h3>
@@ -187,8 +187,8 @@ export default function AboutPage() {
               </div>
               
               <div className="flex items-start">
-                <div className="w-12 h-12 bg-cyan-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                  <MapPin className="h-6 w-6 text-cyan-600" />
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                  <MapPin className="h-6 w-6 text-purple-600" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Service Area</h3>
@@ -229,15 +229,15 @@ export default function AboutPage() {
               </p>
               <ul className="mb-4 space-y-2">
                 <li className="flex items-start">
-                  <span className="text-cyan-600 mr-2 font-bold">•</span>
+                  <span className="text-purple-600 mr-2 font-bold">•</span>
                   <span><strong>Cancellations made more than 48 hours before the scheduled service:</strong> Full refund minus a $25 processing fee</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-cyan-600 mr-2 font-bold">•</span>
+                  <span className="text-purple-600 mr-2 font-bold">•</span>
                   <span><strong>Cancellations made 24-48 hours before the scheduled service:</strong> 50% refund</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-cyan-600 mr-2 font-bold">•</span>
+                  <span className="text-purple-600 mr-2 font-bold">•</span>
                   <span><strong>Cancellations made less than 24 hours before the scheduled service:</strong> No refund</span>
                 </li>
               </ul>

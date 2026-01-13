@@ -410,35 +410,35 @@ export default function PaymentPage() {
         {/* Booking Steps */}
         <div className="max-w-4xl mx-auto mb-10">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex flex-col items-center mb-4 md:mb-0 text-cyan-600">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-cyan-600 text-white">
+            <div className="flex flex-col items-center mb-4 md:mb-0 text-purple-600">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-purple-600 text-white">
                 1
               </div>
               <span className="text-sm font-medium">Select Package/Vehicle</span>
             </div>
             
-            <div className="hidden md:block w-24 h-0.5 bg-cyan-600"></div>
+            <div className="hidden md:block w-24 h-0.5 bg-purple-600"></div>
             
-            <div className="flex flex-col items-center mb-4 md:mb-0 text-cyan-600">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-cyan-600 text-white">
+            <div className="flex flex-col items-center mb-4 md:mb-0 text-purple-600">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-purple-600 text-white">
                 2
               </div>
               <span className="text-sm font-medium">Booking Details</span>
             </div>
             
-            <div className="hidden md:block w-24 h-0.5 bg-cyan-600"></div>
+            <div className="hidden md:block w-24 h-0.5 bg-purple-600"></div>
             
-            <div className="flex flex-col items-center mb-4 md:mb-0 text-cyan-600">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-cyan-600 text-white">
+            <div className="flex flex-col items-center mb-4 md:mb-0 text-purple-600">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-purple-600 text-white">
                 3
               </div>
               <span className="text-sm font-medium">Customer Info</span>
             </div>
             
-            <div className="hidden md:block w-24 h-0.5 bg-cyan-600"></div>
+            <div className="hidden md:block w-24 h-0.5 bg-purple-600"></div>
             
-            <div className="flex flex-col items-center text-cyan-600">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-cyan-600 text-white">
+            <div className="flex flex-col items-center text-purple-600">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-purple-600 text-white">
                 4
               </div>
               <span className="text-sm font-medium">Payment</span>
@@ -482,21 +482,21 @@ export default function PaymentPage() {
             </div>
             <div className="mt-2 flex justify-between items-center">
               <span className="font-medium">Total with Gratuity:</span>
-              <span className="text-xl font-bold text-cyan-600">${calculateTotalWithGratuity().toFixed(2)}</span>
+              <span className="text-xl font-bold text-purple-600">${calculateTotalWithGratuity().toFixed(2)}</span>
             </div>
           </div>
           
           {/* Cancellation Policy Notice */}
-          <div className="mb-6 p-4 bg-cyan-50 border border-cyan-200 rounded-lg">
+          <div className="mb-6 p-4 bg-purple-50 border border-purple-200 rounded-lg">
             <div className="flex items-start">
               <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-cyan-400" viewBox="0 0 20 20" fill="currentColor">
+                <svg className="h-5 w-5 text-purple-400" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                 </svg>
               </div>
               <div className="ml-3">
-                <h3 className="text-sm font-medium text-cyan-800">Cancellation Policy</h3>
-                <div className="mt-2 text-sm text-cyan-700">
+                <h3 className="text-sm font-medium text-purple-800">Cancellation Policy</h3>
+                <div className="mt-2 text-sm text-purple-700">
                   <p className="mb-2">Please note our cancellation policy:</p>
                   <ul className="space-y-1 text-xs">
                     <li>• <strong>More than 48 hours:</strong> Full refund minus $25 processing fee</li>
@@ -522,8 +522,8 @@ export default function PaymentPage() {
                     onClick={() => setSelectedPaymentMethod('stripe')}
                     className={`flex-1 py-3 px-4 rounded-lg border-2 transition-colors ${
                       selectedPaymentMethod === 'stripe'
-                        ? 'border-cyan-500 bg-cyan-50'
-                        : 'border-gray-200 hover:border-cyan-300'
+                        ? 'border-purple-500 bg-purple-50'
+                        : 'border-gray-200 hover:border-purple-300'
                     }`}
                   >
                     <div className="flex items-center justify-center">

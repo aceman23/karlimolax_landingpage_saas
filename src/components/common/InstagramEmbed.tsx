@@ -58,7 +58,7 @@ export default function InstagramEmbed({ profileUrl, height = 520, className = '
               href={profileUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-4 py-2 rounded-md bg-cyan-600 text-white hover:bg-cyan-700 transition"
+              className="inline-block px-4 py-2 rounded-md bg-purple-600 text-white hover:bg-purple-700 transition"
             >
               View on Instagram
             </a>
@@ -119,7 +119,7 @@ export default function InstagramEmbed({ profileUrl, height = 520, className = '
             <button
               key={i}
               onClick={() => setIndex(i)}
-              className={`w-2 h-2 rounded-full ${i === index ? 'bg-cyan-600' : 'bg-gray-300'}`}
+              className={`w-2 h-2 rounded-full ${i === index ? 'bg-purple-600' : 'bg-gray-300'}`}
               aria-label={`Go to slide ${i + 1}`}
             />
           ))}
@@ -130,7 +130,7 @@ export default function InstagramEmbed({ profileUrl, height = 520, className = '
             href={profileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-4 py-2 rounded-md bg-cyan-600 text-white hover:bg-cyan-700 transition"
+            className="inline-block px-4 py-2 rounded-md bg-purple-600 text-white hover:bg-purple-700 transition"
           >
             View on Instagram
           </a>
@@ -164,7 +164,7 @@ export default function InstagramEmbed({ profileUrl, height = 520, className = '
           href={profileUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block px-4 py-2 rounded-md bg-cyan-600 text-white hover:bg-cyan-700 transition"
+          className="inline-block px-4 py-2 rounded-md bg-purple-600 text-white hover:bg-purple-700 transition"
         >
           View on Instagram
         </a>

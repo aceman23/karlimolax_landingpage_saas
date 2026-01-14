@@ -22,7 +22,11 @@ export default function Header() {
       <div className="max-w-[100vw] mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center min-w-0">
-            <span className="text-2xl font-bold tracking-tight truncate">KarLimoLax.com</span>
+            <img 
+              src="/KarLimoLAX_Logo.jpeg" 
+              alt="Kar Limo LAX" 
+              className="h-10 md:h-12 w-auto object-contain"
+            />
           </Link>
           
           {/* Mobile Menu Button */}

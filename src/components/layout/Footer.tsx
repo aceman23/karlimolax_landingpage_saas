@@ -10,7 +10,11 @@ export default function Footer() {
           {/* Company Info */}
           <div>
             <div className="mb-4">
-              <span className="text-xl font-bold">KarLimoLax.com</span>
+              <img 
+                src="/KarLimoLAX_Logo.jpeg" 
+                alt="Kar Limo LAX" 
+                className="h-10 w-auto object-contain"
+              />
             </div>
             <p className="text-gray-400 mb-4">
               Providing premium limousine services for all your special occasions and business needs.
@@ -88,7 +92,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start space-x-3">
                 <MapPin size={20} className="text-brand-500 mt-1 flex-shrink-0" />
-                <span className="text-gray-400">1550 N Batavia<br />Orange, CA 92867</span>
+                <span className="text-gray-400">Carson, CA</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Phone size={20} className="text-brand-500 flex-shrink-0" />

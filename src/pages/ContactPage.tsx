@@ -153,8 +153,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold">Address</h3>
                     <p className="text-gray-600">
-                      1550 N Batavia<br />
-                      Orange, CA 92867
+                      Carson, CA
                     </p>
                   </div>
                 </div>

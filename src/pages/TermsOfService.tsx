@@ -109,8 +109,7 @@ export default function TermsOfService() {
             </p>
             <div className="mt-2 mb-8">
               <p className="mb-1">KarLimoLax</p>
-              <p className="mb-1">1550 N Batavia</p>
-              <p className="mb-1">Orange, CA 92867</p>
+              <p className="mb-1">Carson, CA</p>
               <p className="mb-1">Email: Knockoutautorentals@gmai.com</p>
               <p>Phone: (424) 526-0457</p>
             </div>

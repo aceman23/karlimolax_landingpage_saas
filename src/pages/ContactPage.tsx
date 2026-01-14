@@ -47,9 +47,9 @@ export default function ContactPage() {
   return (
     <div className="bg-gray-50 min-h-screen">
       <Helmet>
-        <title>Contact Us | Kar Limo LAX</title>
-        <meta name="description" content="Contact Kar Limo LAX for premium transportation services in Los Angeles. We're here to help with your booking inquiries and special requests." />
-        <link rel="canonical" href="https://dapperlimolax.com/contact" />
+        <title>Contact Us | KAR Limo LAX</title>
+        <meta name="description" content="Contact KAR Limo LAX for premium transportation services in Los Angeles. We're here to help with your booking inquiries and special requests." />
+        <link rel="canonical" href="https://karlimolax.com/contact" />
       </Helmet>
 
       {/* Page Header */}
@@ -170,7 +170,7 @@ export default function ContactPage() {
                   <Mail className="h-6 w-6 text-brand-500 mr-3 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold">Email</h3>
-                    <p className="text-gray-600">Knockoutautorentals@gmai.com</p>
+                    <p className="text-gray-600">Knockoutautorentals@gmail.com</p>
                   </div>
                 </div>
 

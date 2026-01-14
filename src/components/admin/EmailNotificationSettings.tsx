@@ -171,7 +171,7 @@ export default function EmailNotificationSettings() {
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
             placeholder="Enter admin email"
-            className="w-full sm:flex-1 rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-base sm:text-sm px-3 py-2"
+            className="w-full sm:flex-1 rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 text-base sm:text-sm px-3 py-2"
           />
           <Button onClick={handleAddEmail} variant="secondary" className="w-full sm:w-auto">
             Add

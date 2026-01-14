@@ -47,7 +47,7 @@ export default function PayPalPaymentForm({
       {isProcessing && (
         <div className="absolute inset-0 bg-white bg-opacity-75 z-10 flex items-center justify-center rounded-lg">
           <div className="text-center">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mb-2"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500 mb-2"></div>
             <p className="text-gray-700 font-medium">Processing payment...</p>
             <p className="text-sm text-gray-500 mt-1">Please do not close this window</p>
           </div>

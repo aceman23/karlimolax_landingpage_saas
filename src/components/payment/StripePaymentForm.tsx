@@ -143,7 +143,7 @@ export default function StripePaymentForm({
       {isProcessing && (
         <div className="absolute inset-0 bg-white bg-opacity-75 z-10 flex items-center justify-center rounded-lg">
           <div className="text-center">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mb-2"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500 mb-2"></div>
             <p className="text-gray-700 font-medium">Processing payment...</p>
             <p className="text-sm text-gray-500 mt-1">Please do not close this window</p>
           </div>
@@ -161,7 +161,7 @@ export default function StripePaymentForm({
             id="cardholderName"
             value={cardholderName}
             onChange={(e) => setCardholderName(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
             placeholder="Name as it appears on card"
             required
             disabled={isProcessing}
@@ -173,7 +173,7 @@ export default function StripePaymentForm({
           <label className="block text-gray-700 font-medium mb-2">
             Card Number *
           </label>
-          <div className={`w-full px-4 py-3 border border-gray-300 rounded-md focus-within:ring-2 focus-within:ring-purple-500 ${isProcessing ? 'opacity-50' : ''}`}>
+          <div className={`w-full px-4 py-3 border border-gray-300 rounded-md focus-within:ring-2 focus-within:ring-brand-500 ${isProcessing ? 'opacity-50' : ''}`}>
             <CardNumberElement
               options={{
                 ...elementOptions,
@@ -190,7 +190,7 @@ export default function StripePaymentForm({
             <label className="block text-gray-700 font-medium mb-2">
               Expiration Date *
             </label>
-            <div className={`w-full px-4 py-3 border border-gray-300 rounded-md focus-within:ring-2 focus-within:ring-purple-500 ${isProcessing ? 'opacity-50' : ''}`}>
+            <div className={`w-full px-4 py-3 border border-gray-300 rounded-md focus-within:ring-2 focus-within:ring-brand-500 ${isProcessing ? 'opacity-50' : ''}`}>
               <CardExpiryElement
                 options={{
                   ...elementOptions,
@@ -204,7 +204,7 @@ export default function StripePaymentForm({
             <label className="block text-gray-700 font-medium mb-2">
               CVC *
             </label>
-            <div className={`w-full px-4 py-3 border border-gray-300 rounded-md focus-within:ring-2 focus-within:ring-purple-500 ${isProcessing ? 'opacity-50' : ''}`}>
+            <div className={`w-full px-4 py-3 border border-gray-300 rounded-md focus-within:ring-2 focus-within:ring-brand-500 ${isProcessing ? 'opacity-50' : ''}`}>
               <CardCvcElement
                 options={{
                   ...elementOptions,

@@ -507,7 +507,7 @@ export default function AuthorizeNetPaymentForm({
       {(isProcessing || paymentSubmitted) && (
         <div className="absolute inset-0 bg-white bg-opacity-75 z-10 flex items-center justify-center rounded-lg">
           <div className="text-center">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mb-2"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500 mb-2"></div>
             <p className="text-gray-700 font-medium">
               {paymentSubmitted ? 'Completing your booking...' : 'Processing payment...'}
             </p>
@@ -526,7 +526,7 @@ export default function AuthorizeNetPaymentForm({
             type="text"
             value={cardholderName}
             onChange={(e) => setCardholderName(e.target.value)}
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
+            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
               validationErrors.cardholderName ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder="John Doe"
@@ -545,7 +545,7 @@ export default function AuthorizeNetPaymentForm({
             autoComplete="cc-number"
             value={cardNumber}
             onChange={(e) => setCardNumber(e.target.value)}
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
+            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
               validationErrors.cardNumber ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder="4111111111111111"
@@ -564,7 +564,7 @@ export default function AuthorizeNetPaymentForm({
               inputMode="numeric"
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
                 validationErrors.month ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="MM"
@@ -582,7 +582,7 @@ export default function AuthorizeNetPaymentForm({
               inputMode="numeric"
               value={year}
               onChange={(e) => setYear(e.target.value)}
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
                 validationErrors.year ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="YYYY"
@@ -601,7 +601,7 @@ export default function AuthorizeNetPaymentForm({
             inputMode="numeric"
             value={cvv}
             onChange={(e) => setCvv(e.target.value)}
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
+            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
               validationErrors.cvv ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder="123"
@@ -616,18 +616,18 @@ export default function AuthorizeNetPaymentForm({
         {cardError && <p className="text-sm text-red-600">{cardError}</p>}
 
         {/* Payment status message */}
-        <div className="bg-purple-50 border border-purple-200 rounded-md p-4 mb-6">
+        <div className="bg-brand-50 border border-brand-200 rounded-md p-4 mb-6">
           <div className="flex">
             <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-purple-400" viewBox="0 0 20 20" fill="currentColor">
+              <svg className="h-5 w-5 text-brand-400" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
             </div>
             <div className="ml-3">
-              <h3 className="text-sm font-medium text-purple-800">Secure Payment Processing</h3>
-              <div className="mt-2 text-sm text-purple-700">
+              <h3 className="text-sm font-medium text-brand-700">Secure Payment Processing</h3>
+              <div className="mt-2 text-sm text-brand-600">
                 <p>Your payment will be processed securely through Authorize.Net. All card information is encrypted and never stored on our servers.</p>
-                <p className="mt-1 text-xs text-purple-600">If payment processing is unavailable, your booking will be completed and we'll contact you to arrange payment.</p>
+                <p className="mt-1 text-xs text-brand-500">If payment processing is unavailable, your booking will be completed and we'll contact you to arrange payment.</p>
               </div>
             </div>
           </div>
@@ -639,7 +639,7 @@ export default function AuthorizeNetPaymentForm({
             {showRetry && (
               <button 
                 type="button" 
-                className="text-purple-600 hover:underline" 
+                className="text-brand-500 hover:underline" 
                 onClick={handleRetry}
               >
                 Retry

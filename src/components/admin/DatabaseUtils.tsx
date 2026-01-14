@@ -150,7 +150,7 @@ export default function DatabaseUtils({ onSuccess }: DatabaseUtilsProps) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <div className="flex items-center gap-3 mb-4">
-        <Database className="h-6 w-6 text-purple-600" />
+        <Database className="h-6 w-6 text-brand-500" />
         <h2 className="text-xl font-semibold text-gray-900">Database Utilities</h2>
       </div>
       
@@ -214,7 +214,7 @@ export default function DatabaseUtils({ onSuccess }: DatabaseUtilsProps) {
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 bootstrapLoading
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-purple-600 text-white hover:bg-purple-700'
+                  : 'bg-brand-500 text-white hover:bg-brand-600'
               }`}
             >
               <Zap className={`h-4 w-4 ${bootstrapLoading ? 'animate-spin' : ''}`} />
@@ -238,7 +238,7 @@ export default function DatabaseUtils({ onSuccess }: DatabaseUtilsProps) {
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 loading
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-purple-600 text-white hover:bg-purple-700'
+                  : 'bg-brand-500 text-white hover:bg-brand-600'
               }`}
             >
               <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />

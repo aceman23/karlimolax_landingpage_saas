@@ -139,7 +139,7 @@ export default function VehiclesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand"></div>
         <span className="ml-3 text-lg">Loading our fleet...</span>
       </div>
     );
@@ -201,15 +201,15 @@ export default function VehiclesPage() {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div className="flex items-center">
-                      <Users className="h-5 w-5 text-purple-500 mr-2" />
+                      <Users className="h-5 w-5 text-brand-500 mr-2" />
                       <span>{vehicle.capacity} Passengers</span>
                     </div>
                     <div className="flex items-center">
-                      <Clock className="h-5 w-5 text-purple-500 mr-2" />
+                      <Clock className="h-5 w-5 text-brand-500 mr-2" />
                       <span>Hourly Service</span>
                     </div>
                     <div className="flex items-center">
-                      <DollarSign className="h-5 w-5 text-purple-500 mr-2" />
+                      <DollarSign className="h-5 w-5 text-brand-500 mr-2" />
                       <span>${vehicle.pricePerHour}/hour</span>
                     </div>
                   </div>
@@ -220,7 +220,7 @@ export default function VehiclesPage() {
                       <ul className="space-y-2 h-24 overflow-y-auto">
                     {vehicle.features.map((feature, index) => (
                       <li key={index} className="flex items-start">
-                        <Check className="h-5 w-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <Check className="h-5 w-5 text-brand-500 mr-2 flex-shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
                     ))}

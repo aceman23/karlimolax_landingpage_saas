@@ -165,7 +165,7 @@ export default function DriverDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-500"></div>
       </div>
     );
   }
@@ -187,7 +187,7 @@ export default function DriverDashboard() {
                 <p className="text-sm text-gray-600">Total Rides</p>
                 <p className="text-2xl font-bold">{stats.totalRides}</p>
               </div>
-              <Car className="h-8 w-8 text-purple-500" />
+              <Car className="h-8 w-8 text-brand-500" />
             </div>
           </div>
           
@@ -197,7 +197,7 @@ export default function DriverDashboard() {
                 <p className="text-sm text-gray-600">Completed Rides</p>
                 <p className="text-2xl font-bold">{stats.completedRides}</p>
               </div>
-              <Clock className="h-8 w-8 text-purple-500" />
+              <Clock className="h-8 w-8 text-brand-500" />
             </div>
           </div>
 
@@ -207,7 +207,7 @@ export default function DriverDashboard() {
                 <p className="text-sm text-gray-600">Upcoming Rides</p>
                 <p className="text-2xl font-bold">{stats.upcomingRides}</p>
               </div>
-              <Calendar className="h-8 w-8 text-purple-500" />
+              <Calendar className="h-8 w-8 text-brand-500" />
             </div>
           </div>
           
@@ -222,7 +222,7 @@ export default function DriverDashboard() {
                   </p>
                 )}
               </div>
-              <DollarSign className="h-8 w-8 text-purple-500" />
+              <DollarSign className="h-8 w-8 text-brand-500" />
             </div>
           </div>
         </div>
@@ -243,7 +243,7 @@ export default function DriverDashboard() {
                 </div>
                 <p className="text-xl font-bold text-green-700">${stats.gratuityEarnings.toFixed(2)}</p>
               </div>
-              <div className="text-center p-4 bg-purple-50 rounded-lg">
+              <div className="text-center p-4 bg-brand-50 rounded-lg">
                 <p className="text-sm text-gray-600">Total</p>
                 <p className="text-xl font-bold">${stats.totalEarnings.toFixed(2)}</p>
               </div>
@@ -290,8 +290,8 @@ export default function DriverDashboard() {
                     <div className="flex flex-col items-end space-y-2">
                       <p className="text-sm text-gray-600">{ride.scheduledTime}</p>
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                        ${ride.status === 'scheduled' ? 'bg-purple-100 text-purple-800' :
-                          ride.status === 'in-progress' ? 'bg-purple-100 text-purple-800' :
+                        ${ride.status === 'scheduled' ? 'bg-brand-100 text-brand-700' :
+                          ride.status === 'in-progress' ? 'bg-brand-100 text-brand-700' :
                           ride.status === 'completed' ? 'bg-green-100 text-green-800' :
                           'bg-red-100 text-red-800'}`}>
                         {ride.status.charAt(0).toUpperCase() + ride.status.slice(1)}

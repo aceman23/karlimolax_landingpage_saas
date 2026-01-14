@@ -90,7 +90,7 @@ export default function EmailVerificationPage() {
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="text-center">
             {verificationStatus === 'loading' && (
-              <Mail className="mx-auto h-12 w-12 text-purple-600 animate-pulse" />
+              <Mail className="mx-auto h-12 w-12 text-brand-500 animate-pulse" />
             )}
             {verificationStatus === 'success' && (
               <CheckCircle className="mx-auto h-12 w-12 text-green-600" />
@@ -155,7 +155,7 @@ export default function EmailVerificationPage() {
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <Mail className="mx-auto h-12 w-12 text-purple-600" />
+          <Mail className="mx-auto h-12 w-12 text-brand-500" />
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
             Verify Your Email
           </h2>

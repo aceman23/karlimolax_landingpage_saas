@@ -102,7 +102,7 @@ export default function PricingSettings() {
                 name="distanceFeeEnabled"
                 checked={settings.distanceFeeEnabled}
                 onChange={handleChange}
-                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                className="h-4 w-4 text-brand-500 focus:ring-brand-500 border-gray-300 rounded"
               />
               <label htmlFor="distanceFeeEnabled" className="ml-2 block text-sm text-gray-900">
                 Enable Distance Fee
@@ -119,7 +119,7 @@ export default function PricingSettings() {
                 value={settings.distanceThreshold}
                 onChange={handleChange}
                 min="0"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
               />
             </div>
 
@@ -134,7 +134,7 @@ export default function PricingSettings() {
                 onChange={handleChange}
                 min="0"
                 step="0.01"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
               />
             </div>
           </div>
@@ -151,7 +151,7 @@ export default function PricingSettings() {
                 name="perMileFeeEnabled"
                 checked={settings.perMileFeeEnabled}
                 onChange={handleChange}
-                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                className="h-4 w-4 text-brand-500 focus:ring-brand-500 border-gray-300 rounded"
               />
               <label htmlFor="perMileFeeEnabled" className="ml-2 block text-sm text-gray-900">
                 Enable Per Mile Fee
@@ -169,7 +169,7 @@ export default function PricingSettings() {
                 onChange={handleChange}
                 min="0"
                 step="0.01"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
               />
             </div>
           </div>
@@ -190,7 +190,7 @@ export default function PricingSettings() {
                 onChange={handleChange}
                 min="0"
                 step="0.01"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
               />
               <p className="mt-1 text-sm text-gray-500">
                 This amount will be added to the total price for each additional stop in a booking.
@@ -214,7 +214,7 @@ export default function PricingSettings() {
                 onChange={handleChange}
                 min="0"
                 step="0.01"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
               />
             </div>
             <div>
@@ -228,7 +228,7 @@ export default function PricingSettings() {
                 onChange={handleChange}
                 min="0"
                 step="0.01"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
               />
             </div>
           </div>
@@ -249,7 +249,7 @@ export default function PricingSettings() {
                 onChange={handleChange}
                 min="0"
                 step="0.01"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
               />
             </div>
 
@@ -264,7 +264,7 @@ export default function PricingSettings() {
                 onChange={handleChange}
                 min="0"
                 step="0.01"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
               />
             </div>
           </div>

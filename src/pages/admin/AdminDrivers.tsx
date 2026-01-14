@@ -275,8 +275,8 @@ export default function AdminDrivers() {
         );
       case 'busy':
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-            <span className="h-2 w-2 mr-1 bg-purple-400 rounded-full"></span>
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-100 text-brand-700">
+            <span className="h-2 w-2 mr-1 bg-brand-400 rounded-full"></span>
             On Ride
           </span>
         );
@@ -328,7 +328,7 @@ export default function AdminDrivers() {
           <input
             type="text"
             placeholder="Search drivers by name, email, phone..."
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -341,7 +341,7 @@ export default function AdminDrivers() {
           <div key={driver._id} className="bg-white overflow-hidden shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
               <div className="flex items-center">
-                <div className="flex-shrink-0 h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center text-xl font-semibold text-purple-700">
+                <div className="flex-shrink-0 h-12 w-12 rounded-full bg-brand-100 flex items-center justify-center text-xl font-semibold text-brand-600">
                   {driver.firstName[0]}{driver.lastName[0]}
                 </div>
                 <div className="ml-4 flex-1">
@@ -349,7 +349,7 @@ export default function AdminDrivers() {
                     {driver.firstName} {driver.lastName}
                   </h3>
                   <div className="mt-1 flex items-center">
-                    <Star className="h-4 w-4 text-purple-500" />
+                    <Star className="h-4 w-4 text-brand-500" />
                     <span className="ml-1 text-sm text-gray-500">
                       {(driver.rating || 0).toFixed(1)} Rating ({driver.ridesCompleted || 0} rides)
                     </span>
@@ -384,8 +384,8 @@ export default function AdminDrivers() {
               </div>
 
               {driver.currentRide && (
-                <div className="mt-4 bg-purple-50 p-3 rounded-md">
-                  <div className="text-sm font-medium text-purple-800">Currently on ride: {driver.currentRide}</div>
+                <div className="mt-4 bg-brand-50 p-3 rounded-md">
+                  <div className="text-sm font-medium text-brand-700">Currently on ride: {driver.currentRide}</div>
                 </div>
               )}
 
@@ -393,7 +393,7 @@ export default function AdminDrivers() {
                 <select
                   value={driver.driverStatus || 'offline'}
                   onChange={(e) => handleUpdateStatus(driver._id, e.target.value as Driver['driverStatus'])}
-                  className="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 rounded-md"
+                  className="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-brand-500 focus:border-brand-500 rounded-md"
                 >
                   <option value="available">Available</option>
                   <option value="busy">On Ride</option>
@@ -404,7 +404,7 @@ export default function AdminDrivers() {
               <div className="mt-4 flex justify-end space-x-3">
                 <button 
                   onClick={() => handleEditDriver(driver)}
-                  className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                  className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-brand-600 bg-brand-100 hover:bg-brand-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
                 >
                   <Edit className="h-4 w-4 mr-1" />
                   Edit
@@ -435,8 +435,8 @@ export default function AdminDrivers() {
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
-                  <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-purple-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <Edit className="h-6 w-6 text-purple-600" />
+                  <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-brand-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <Edit className="h-6 w-6 text-brand-500" />
                   </div>
                   <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -459,7 +459,7 @@ export default function AdminDrivers() {
                             id="editFirstName"
                             value={editingDriver.firstName}
                             onChange={(e) => setEditingDriver({...editingDriver, firstName: e.target.value})}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                           />
                         </div>
                         <div>
@@ -471,7 +471,7 @@ export default function AdminDrivers() {
                             id="editLastName"
                             value={editingDriver.lastName}
                             onChange={(e) => setEditingDriver({...editingDriver, lastName: e.target.value})}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                           />
                         </div>
                       </div>
@@ -485,7 +485,7 @@ export default function AdminDrivers() {
                           id="editEmail"
                           value={editingDriver.email}
                           onChange={(e) => setEditingDriver({...editingDriver, email: e.target.value})}
-                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                         />
                       </div>
 
@@ -498,7 +498,7 @@ export default function AdminDrivers() {
                           id="editPhone"
                           value={editingDriver.phone || ''}
                           onChange={(e) => setEditingDriver({...editingDriver, phone: e.target.value})}
-                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                         />
                       </div>
 
@@ -511,7 +511,7 @@ export default function AdminDrivers() {
                           id="editLicense"
                           value={editingDriver.licenseNumber || ''}
                           onChange={(e) => setEditingDriver({...editingDriver, licenseNumber: e.target.value})}
-                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                         />
                       </div>
 
@@ -524,7 +524,7 @@ export default function AdminDrivers() {
                           id="editAddress"
                           value={editingDriver.address || ''}
                           onChange={(e) => setEditingDriver({...editingDriver, address: e.target.value})}
-                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                         />
                       </div>
 
@@ -538,7 +538,7 @@ export default function AdminDrivers() {
                             id="editCity"
                             value={editingDriver.city || ''}
                             onChange={(e) => setEditingDriver({...editingDriver, city: e.target.value})}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                           />
                         </div>
                         <div>
@@ -550,7 +550,7 @@ export default function AdminDrivers() {
                             id="editState"
                             value={editingDriver.state || ''}
                             onChange={(e) => setEditingDriver({...editingDriver, state: e.target.value})}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                           />
                         </div>
                         <div>
@@ -562,7 +562,7 @@ export default function AdminDrivers() {
                             id="editZipCode"
                             value={editingDriver.zipCode || ''}
                             onChange={(e) => setEditingDriver({...editingDriver, zipCode: e.target.value})}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                           />
                         </div>
                       </div>
@@ -574,14 +574,14 @@ export default function AdminDrivers() {
               <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-500 text-base font-medium text-white hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={handleUpdateDriver}
                 >
                   Save Changes
                 </button>
                 <button
                   type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={() => setShowEditDriverModal(false)}
                 >
                   Cancel
@@ -605,8 +605,8 @@ export default function AdminDrivers() {
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all opacity-100 scale-100 sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
-                  <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-purple-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <UserPlus className="h-6 w-6 text-purple-600" />
+                  <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-brand-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <UserPlus className="h-6 w-6 text-brand-500" />
                   </div>
                   <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -630,7 +630,7 @@ export default function AdminDrivers() {
                             name="firstName"
                             value={newDriver.firstName}
                             onChange={(e) => setNewDriver({...newDriver, firstName: e.target.value})}
-                            className={`mt-1 block w-full border ${errors.firstName ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
+                            className={`mt-1 block w-full border ${errors.firstName ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
                           />
                           {errors.firstName && (
                             <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>
@@ -646,7 +646,7 @@ export default function AdminDrivers() {
                             name="lastName"
                             value={newDriver.lastName}
                             onChange={(e) => setNewDriver({...newDriver, lastName: e.target.value})}
-                            className={`mt-1 block w-full border ${errors.lastName ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
+                            className={`mt-1 block w-full border ${errors.lastName ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
                           />
                           {errors.lastName && (
                             <p className="mt-1 text-sm text-red-600">{errors.lastName}</p>
@@ -664,7 +664,7 @@ export default function AdminDrivers() {
                           name="email"
                           value={newDriver.email}
                           onChange={(e) => setNewDriver({...newDriver, email: e.target.value})}
-                          className={`mt-1 block w-full border ${errors.email ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
+                          className={`mt-1 block w-full border ${errors.email ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
                         />
                         {errors.email && (
                           <p className="mt-1 text-sm text-red-600">{errors.email}</p>
@@ -681,7 +681,7 @@ export default function AdminDrivers() {
                           name="phone"
                           value={newDriver.phone}
                           onChange={(e) => setNewDriver({...newDriver, phone: e.target.value})}
-                          className={`mt-1 block w-full border ${errors.phone ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
+                          className={`mt-1 block w-full border ${errors.phone ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
                           placeholder="(XXX) XXX-XXXX"
                         />
                         {errors.phone && (
@@ -699,7 +699,7 @@ export default function AdminDrivers() {
                           name="license"
                           value={newDriver.license}
                           onChange={(e) => setNewDriver({...newDriver, license: e.target.value})}
-                          className={`mt-1 block w-full border ${errors.license ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
+                          className={`mt-1 block w-full border ${errors.license ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
                         />
                         {errors.license && (
                           <p className="mt-1 text-sm text-red-600">{errors.license}</p>
@@ -715,7 +715,7 @@ export default function AdminDrivers() {
                           name="status"
                           value={newDriver.status}
                           onChange={(e) => setNewDriver({...newDriver, status: e.target.value})}
-                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                         >
                           <option value="available">Available</option>
                           <option value="offline">Offline</option>
@@ -730,7 +730,7 @@ export default function AdminDrivers() {
                           name="address"
                           value={newDriver.address}
                           onChange={(e) => setNewDriver({...newDriver, address: e.target.value})}
-                          className={`mt-1 block w-full border ${errors.address ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
+                          className={`mt-1 block w-full border ${errors.address ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
                         />
                         {errors.address && <p className="mt-1 text-sm text-red-600">{errors.address}</p>}
                       </div>
@@ -744,7 +744,7 @@ export default function AdminDrivers() {
                             name="city"
                             value={newDriver.city}
                             onChange={(e) => setNewDriver({...newDriver, city: e.target.value})}
-                            className={`mt-1 block w-full border ${errors.city ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
+                            className={`mt-1 block w-full border ${errors.city ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
                           />
                           {errors.city && <p className="mt-1 text-sm text-red-600">{errors.city}</p>}
                         </div>
@@ -756,7 +756,7 @@ export default function AdminDrivers() {
                             name="state"
                             value={newDriver.state}
                             onChange={(e) => setNewDriver({...newDriver, state: e.target.value})}
-                            className={`mt-1 block w-full border ${errors.state ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
+                            className={`mt-1 block w-full border ${errors.state ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
                           />
                           {errors.state && <p className="mt-1 text-sm text-red-600">{errors.state}</p>}
                         </div>
@@ -768,7 +768,7 @@ export default function AdminDrivers() {
                             name="zipCode"
                             value={newDriver.zipCode}
                             onChange={(e) => setNewDriver({...newDriver, zipCode: e.target.value})}
-                            className={`mt-1 block w-full border ${errors.zipCode ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
+                            className={`mt-1 block w-full border ${errors.zipCode ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
                           />
                           {errors.zipCode && <p className="mt-1 text-sm text-red-600">{errors.zipCode}</p>}
                         </div>
@@ -782,7 +782,7 @@ export default function AdminDrivers() {
                           name="password"
                           value={newDriver.password}
                           onChange={(e) => setNewDriver({...newDriver, password: e.target.value})}
-                          className={`mt-1 block w-full border ${errors.password ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
+                          className={`mt-1 block w-full border ${errors.password ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
                         />
                         {errors.password && (
                           <p className="mt-1 text-sm text-red-600">{errors.password}</p>
@@ -799,7 +799,7 @@ export default function AdminDrivers() {
                           name="confirmPassword"
                           value={newDriver.confirmPassword}
                           onChange={(e) => setNewDriver({...newDriver, confirmPassword: e.target.value})}
-                          className={`mt-1 block w-full border ${errors.confirmPassword ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm`}
+                          className={`mt-1 block w-full border ${errors.confirmPassword ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
                         />
                         {errors.confirmPassword && (
                           <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
@@ -813,7 +813,7 @@ export default function AdminDrivers() {
               <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-500 text-base font-medium text-white hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={handleSubmitDriver}
                 >
                   <Plus className="h-5 w-5 mr-2" />
@@ -821,7 +821,7 @@ export default function AdminDrivers() {
                 </button>
                 <button
                   type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={() => setShowAddDriverModal(false)}
                 >
                   Cancel

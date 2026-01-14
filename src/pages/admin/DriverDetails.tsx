@@ -137,7 +137,7 @@ export default function DriverDetails() {
                 <select
                   value={driver.driverStatus || 'offline'}
                   onChange={(e) => handleUpdateStatus(e.target.value as Driver['driverStatus'])}
-                  className="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 rounded-md"
+                  className="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-brand-500 focus:border-brand-500 rounded-md"
                 >
                   <option value="available">Available</option>
                   <option value="busy">On Ride</option>
@@ -197,9 +197,9 @@ export default function DriverDetails() {
             </div>
 
             {driver.currentRide && (
-              <div className="mt-8 bg-purple-50 p-4 rounded-lg">
-                <h2 className="text-lg font-medium text-purple-900 mb-2">Current Ride</h2>
-                <p className="text-purple-700">{driver.currentRide}</p>
+              <div className="mt-8 bg-brand-50 p-4 rounded-lg">
+                <h2 className="text-lg font-medium text-brand-900 mb-2">Current Ride</h2>
+                <p className="text-brand-600">{driver.currentRide}</p>
               </div>
             )}
           </div>

@@ -110,7 +110,7 @@ export default function HomePage() {
           <div className="max-w-4xl mx-auto text-center">
             {/* Bold Headline with Highlighted Phrases */}
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              Premium <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">Luxury Transportation</span> in Los Angeles
+              Premium <span className="bg-gradient-to-r from-brand-300 to-brand-500 bg-clip-text text-transparent">Luxury Transportation</span> in Los Angeles
             </h1>
             
             <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-2xl mx-auto leading-relaxed">
@@ -121,7 +121,7 @@ export default function HomePage() {
             {/* Dual CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <Link to="/booking">
-                <button className="group w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center gap-2">
+                <button className="group w-full sm:w-auto bg-brand hover:bg-brand-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center gap-2">
                   Book Your Ride
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -175,7 +175,7 @@ export default function HomePage() {
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
               Why Choose{' '}
-              <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-brand-300 to-brand-500 bg-clip-text text-transparent">
                 Kar Limo LAX
               </span>
             </h2>
@@ -187,7 +187,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {/* Feature 1 */}
             <div className="text-center p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600/90 text-white mb-4 ring-1 ring-white/15">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/90 text-white mb-4 ring-1 ring-white/15">
                 <Shield className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-white">Safe & Secure</h3>
@@ -198,7 +198,7 @@ export default function HomePage() {
 
             {/* Feature 2 */}
             <div className="text-center p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600/90 text-white mb-4 ring-1 ring-white/15">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/90 text-white mb-4 ring-1 ring-white/15">
                 <Clock className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-white">24/7 Availability</h3>
@@ -209,7 +209,7 @@ export default function HomePage() {
 
             {/* Feature 3 */}
             <div className="text-center p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600/90 text-white mb-4 ring-1 ring-white/15">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/90 text-white mb-4 ring-1 ring-white/15">
                 <Users className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-white">Premium Fleet</h3>
@@ -220,7 +220,7 @@ export default function HomePage() {
 
             {/* Feature 4 */}
             <div className="text-center p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600/90 text-white mb-4 ring-1 ring-white/15">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/90 text-white mb-4 ring-1 ring-white/15">
                 <Award className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-white">5-Star Service</h3>
@@ -249,7 +249,7 @@ export default function HomePage() {
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
               Our{' '}
-              <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-brand-300 to-brand-500 bg-clip-text text-transparent">
                 Premium Fleet
               </span>
             </h2>
@@ -260,7 +260,7 @@ export default function HomePage() {
           
           {loadingFleet && (
             <div className="flex justify-center items-center py-8">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-400"></div>
+              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-brand-300"></div>
               <span className="ml-3 text-lg text-gray-200">Loading our fleet...</span>
             </div>
           )}
@@ -303,7 +303,7 @@ export default function HomePage() {
                       {vehicle.description || 'High-quality vehicle for your comfort and style.'}
                     </p>
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                      <span className="font-bold text-purple-300 text-sm md:text-base">${vehicle.pricePerHour}/hour</span>
+                      <span className="font-bold text-brand-200 text-sm md:text-base">${vehicle.pricePerHour}/hour</span>
                       <Link to="/booking" className="w-full sm:w-auto">
                         <Button variant="primary" className="w-full sm:w-auto" onClick={() => console.log('Selected vehicle for booking:', vehicle._id)}>
                           Book Now
@@ -335,7 +335,7 @@ export default function HomePage() {
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
               Our{' '}
-              <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-brand-300 to-brand-500 bg-clip-text text-transparent">
                 Services
               </span>
             </h2>
@@ -347,84 +347,84 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {/* Airport Transfers */}
             <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 md:p-8 border border-white/20 hover:bg-white/15 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600/90 text-white mb-4 ring-1 ring-white/15">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/90 text-white mb-4 ring-1 ring-white/15">
                 <Plane className="h-8 w-8" />
               </div>
               <h3 className="text-xl md:text-2xl font-bold mb-3 text-white">Airport Transfers</h3>
               <p className="text-gray-200 text-sm md:text-base mb-4">
                 Reliable transfers to and from all major airports including LAX, SNA, LGB, ONT, and SAN. Professional service with flight tracking.
               </p>
-              <Link to="/booking" className="text-purple-300 hover:text-purple-200 font-semibold text-sm md:text-base inline-flex items-center">
+              <Link to="/booking" className="text-brand-200 hover:text-brand-100 font-semibold text-sm md:text-base inline-flex items-center">
                 Book Now <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </div>
 
             {/* Special Events */}
             <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 md:p-8 border border-white/20 hover:bg-white/15 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600/90 text-white mb-4 ring-1 ring-white/15">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/90 text-white mb-4 ring-1 ring-white/15">
                 <Sparkles className="h-8 w-8" />
               </div>
               <h3 className="text-xl md:text-2xl font-bold mb-3 text-white">Special Events</h3>
               <p className="text-gray-200 text-sm md:text-base mb-4">
                 Make your weddings, proms, corporate events, and celebrations unforgettable with our luxury transportation service.
               </p>
-              <Link to="/booking" className="text-purple-300 hover:text-purple-200 font-semibold text-sm md:text-base inline-flex items-center">
+              <Link to="/booking" className="text-brand-200 hover:text-brand-100 font-semibold text-sm md:text-base inline-flex items-center">
                 Book Now <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </div>
 
             {/* Corporate Services */}
             <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 md:p-8 border border-white/20 hover:bg-white/15 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600/90 text-white mb-4 ring-1 ring-white/15">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/90 text-white mb-4 ring-1 ring-white/15">
                 <Briefcase className="h-8 w-8" />
               </div>
               <h3 className="text-xl md:text-2xl font-bold mb-3 text-white">Corporate Services</h3>
               <p className="text-gray-200 text-sm md:text-base mb-4">
                 Professional transportation for business meetings, conferences, and corporate events. Impress your clients with style.
               </p>
-              <Link to="/booking" className="text-purple-300 hover:text-purple-200 font-semibold text-sm md:text-base inline-flex items-center">
+              <Link to="/booking" className="text-brand-200 hover:text-brand-100 font-semibold text-sm md:text-base inline-flex items-center">
                 Book Now <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </div>
 
             {/* Disneyland Transfers */}
             <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 md:p-8 border border-white/20 hover:bg-white/15 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600/90 text-white mb-4 ring-1 ring-white/15">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/90 text-white mb-4 ring-1 ring-white/15">
                 <Star className="h-8 w-8" />
               </div>
               <h3 className="text-xl md:text-2xl font-bold mb-3 text-white">Disneyland Transfers</h3>
               <p className="text-gray-200 text-sm md:text-base mb-4">
                 Convenient transportation to Disneyland Park and hotels. Family-friendly service with spacious vehicles for groups.
               </p>
-              <Link to="/booking" className="text-purple-300 hover:text-purple-200 font-semibold text-sm md:text-base inline-flex items-center">
+              <Link to="/booking" className="text-brand-200 hover:text-brand-100 font-semibold text-sm md:text-base inline-flex items-center">
                 Book Now <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </div>
 
             {/* Hourly Service */}
             <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 md:p-8 border border-white/20 hover:bg-white/15 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600/90 text-white mb-4 ring-1 ring-white/15">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/90 text-white mb-4 ring-1 ring-white/15">
                 <Clock className="h-8 w-8" />
               </div>
               <h3 className="text-xl md:text-2xl font-bold mb-3 text-white">Hourly Service</h3>
               <p className="text-gray-200 text-sm md:text-base mb-4">
                 Flexible hourly rentals for city tours, shopping trips, or any occasion where you need a dedicated vehicle and driver.
               </p>
-              <Link to="/booking" className="text-purple-300 hover:text-purple-200 font-semibold text-sm md:text-base inline-flex items-center">
+              <Link to="/booking" className="text-brand-200 hover:text-brand-100 font-semibold text-sm md:text-base inline-flex items-center">
                 Book Now <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </div>
 
             {/* Long Distance */}
             <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 md:p-8 border border-white/20 hover:bg-white/15 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600/90 text-white mb-4 ring-1 ring-white/15">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/90 text-white mb-4 ring-1 ring-white/15">
                 <MapPin className="h-8 w-8" />
               </div>
               <h3 className="text-xl md:text-2xl font-bold mb-3 text-white">Long Distance</h3>
               <p className="text-gray-200 text-sm md:text-base mb-4">
                 Comfortable long-distance transfers to destinations like Las Vegas, Palm Springs, and throughout Southern California.
               </p>
-              <Link to="/booking" className="text-purple-300 hover:text-purple-200 font-semibold text-sm md:text-base inline-flex items-center">
+              <Link to="/booking" className="text-brand-200 hover:text-brand-100 font-semibold text-sm md:text-base inline-flex items-center">
                 Book Now <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </div>
@@ -449,7 +449,7 @@ export default function HomePage() {
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
               Follow Us on{' '}
-              <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-brand-300 to-brand-500 bg-clip-text text-transparent">
                 Instagram
               </span>
             </h2>
@@ -486,7 +486,7 @@ export default function HomePage() {
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
               Routes &{' '}
-              <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-brand-300 to-brand-500 bg-clip-text text-transparent">
                 Services
               </span>{' '}
               We Cover
@@ -503,77 +503,77 @@ export default function HomePage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ul className="space-y-2 text-sm md:text-base">
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     LAX to Disneyland
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     John Wayne Airport to Disneyland
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Long Beach Airport to Disneyland
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Thousand Oaks to LAX
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Irvine to LAX
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Anaheim to LAX
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Long Beach to LAX
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Newport Beach to LAX
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Huntington Beach to LAX
                   </li>
                 </ul>
                 <ul className="space-y-2 text-sm md:text-base">
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Santa Monica to LAX
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Calabasas to LAX
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Pasadena to LAX
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     LAX to San Pedro Cruise Terminal
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     LAX to Long Beach Cruise Terminal
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Orange County to LAX
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     San Diego to LAX Limo Service
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     LAX to Palm Springs Limo Service
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     LA To Las Vegas Limo Service
                   </li>
                 </ul>
@@ -587,35 +587,35 @@ export default function HomePage() {
                 <h3 className="text-xl md:text-2xl font-bold text-white mb-4">Airport Transfers</h3>
                 <ul className="space-y-2 text-sm md:text-base">
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     LAX Car Service
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     LAX Limo Service
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     John Wayne Airport Car Service
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Long Beach Airport Car Service
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Town Car Service
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Executive Limo
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Luxury Limo Service
                   </li>
                   <li className="flex items-center text-gray-200">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                     Sprinter Limo Service LAX
                   </li>
                 </ul>
@@ -627,15 +627,15 @@ export default function HomePage() {
                   <h3 className="text-lg md:text-xl font-bold text-white mb-4">Car Service</h3>
                   <ul className="space-y-2 text-sm md:text-base">
                     <li className="flex items-center text-gray-200">
-                      <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                      <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                       Car Service Los Angeles
                     </li>
                     <li className="flex items-center text-gray-200">
-                      <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                      <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                       Car Service Orange County
                     </li>
                     <li className="flex items-center text-gray-200">
-                      <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                      <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                       Car Service San Bernardino County
                     </li>
                   </ul>
@@ -645,15 +645,15 @@ export default function HomePage() {
                   <h3 className="text-lg md:text-xl font-bold text-white mb-4">Limo Service</h3>
                   <ul className="space-y-2 text-sm md:text-base">
                     <li className="flex items-center text-gray-200">
-                      <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                      <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                       Limo Service Los Angeles
                     </li>
                     <li className="flex items-center text-gray-200">
-                      <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                      <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                       Limo Service Orange County
                     </li>
                     <li className="flex items-center text-gray-200">
-                      <span className="w-2 h-2 bg-purple-400 rounded-full mr-3 flex-shrink-0"></span>
+                      <span className="w-2 h-2 bg-brand-300 rounded-full mr-3 flex-shrink-0"></span>
                       Limo Service San Bernardino County
                     </li>
                   </ul>
@@ -680,7 +680,7 @@ export default function HomePage() {
         <div className="relative z-10 container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
             Ready to Experience{' '}
-            <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-brand-300 to-brand-500 bg-clip-text text-transparent">
               Premium Transportation
             </span>
             ?
@@ -691,7 +691,7 @@ export default function HomePage() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link to="/booking" className="w-full sm:w-auto">
-              <button className="group w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02] flex items-center justify-center gap-2">
+              <button className="group w-full sm:w-auto bg-brand hover:bg-brand-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02] flex items-center justify-center gap-2">
                 Book Your Ride Now
                 <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </button>

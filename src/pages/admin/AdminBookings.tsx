@@ -198,7 +198,7 @@ export default function AdminBookings() {
       case 'cancelled':
         return 'bg-red-100 text-red-800';
       case 'in_progress':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-brand-100 text-brand-700';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -292,7 +292,7 @@ export default function AdminBookings() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
         <span className="ml-2">Loading bookings...</span>
       </div>
     );
@@ -320,7 +320,7 @@ export default function AdminBookings() {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                   placeholder="Search bookings..."
                 />
               </div>
@@ -331,7 +331,7 @@ export default function AdminBookings() {
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md"
+                  className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm rounded-md"
                 >
                   <option value="all">All Status</option>
                   <option value="pending">Pending</option>
@@ -347,7 +347,7 @@ export default function AdminBookings() {
                   type="date"
                   value={dateFilter}
                   onChange={(e) => setDateFilter(e.target.value)}
-                  className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md"
+                  className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm rounded-md"
                 />
               </div>
             </div>
@@ -452,7 +452,7 @@ export default function AdminBookings() {
                       <div>
                         <div>{booking.hours} hour{booking.hours !== 1 ? 's' : ''}</div>
                         {booking.status === 'in_progress' && remainingTimes[booking._id] && (
-                          <div className="text-sm text-purple-600 font-medium">
+                          <div className="text-sm text-brand font-medium">
                             {remainingTimes[booking._id]}
                           </div>
                         )}
@@ -486,7 +486,7 @@ export default function AdminBookings() {
                           setSelectedBooking(booking);
                           setShowAssignDriverModal(true);
                         }}
-                        className="text-purple-600 hover:text-purple-900 text-sm font-medium"
+                        className="text-brand hover:text-brand-900 text-sm font-medium"
                       >
                         Assign Driver
                       </button>
@@ -540,7 +540,7 @@ export default function AdminBookings() {
                       onBookingUpdated={fetchBookings}
                     />
                     <button
-                      className="ml-2 text-purple-600 hover:text-purple-900 text-sm font-medium"
+                      className="ml-2 text-brand hover:text-brand-900 text-sm font-medium"
                       onClick={() => {
                         setSelectedBooking(booking);
                         setShowBookingDetailsModal(true);
@@ -570,7 +570,7 @@ export default function AdminBookings() {
               <select
                 value={selectedDriver}
                 onChange={(e) => setSelectedDriver(e.target.value)}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm rounded-md"
               >
                 <option value="">Choose a driver</option>
                 {drivers.map((driver) => (
@@ -583,13 +583,13 @@ export default function AdminBookings() {
             <div className="mt-6 flex justify-end space-x-3">
               <button
                 onClick={() => setShowAssignDriverModal(false)}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAssignDriver}
-                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
               >
                 Assign Driver
               </button>

@@ -59,7 +59,7 @@ export default function BookingDetailsPage() {
         </div>
         <Link 
           to="/profile" 
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-brand-500 hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
         >
           Back to Profile
         </Link>
@@ -74,7 +74,7 @@ export default function BookingDetailsPage() {
           <h1 className="text-3xl font-bold text-gray-800">Booking Details</h1>
           <Link 
             to="/profile" 
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-brand-500 hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
           >
             Back to Profile
           </Link>
@@ -85,7 +85,7 @@ export default function BookingDetailsPage() {
           <div className="mb-6">
             <span className={`px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full 
               ${booking.status === 'completed' ? 'bg-green-100 text-green-800' : 
-                booking.status === 'confirmed' ? 'bg-purple-100 text-purple-800' : 
+                booking.status === 'confirmed' ? 'bg-brand-100 text-brand-700' : 
                 booking.status === 'cancelled' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}
             `}>
               {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}

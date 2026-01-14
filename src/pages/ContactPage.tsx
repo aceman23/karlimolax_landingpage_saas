@@ -80,7 +80,7 @@ export default function ContactPage() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
                   placeholder="Your name"
                 />
               </div>
@@ -96,7 +96,7 @@ export default function ContactPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
                   placeholder="your.email@example.com"
                 />
               </div>
@@ -111,7 +111,7 @@ export default function ContactPage() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
                   placeholder="(123) 456-7890"
                 />
               </div>
@@ -127,7 +127,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   required
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
                   placeholder="How can we help you?"
                 />
               </div>
@@ -149,7 +149,7 @@ export default function ContactPage() {
               <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
               <div className="space-y-4">
                 <div className="flex items-start">
-                  <MapPin className="h-6 w-6 text-purple-500 mr-3 flex-shrink-0 mt-1" />
+                  <MapPin className="h-6 w-6 text-brand-500 mr-3 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold">Address</h3>
                     <p className="text-gray-600">
@@ -160,7 +160,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start">
-                  <Phone className="h-6 w-6 text-purple-500 mr-3 flex-shrink-0 mt-1" />
+                  <Phone className="h-6 w-6 text-brand-500 mr-3 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold">Phone</h3>
                     <p className="text-gray-600">(424) 526-0457</p>
@@ -168,7 +168,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start">
-                  <Mail className="h-6 w-6 text-purple-500 mr-3 flex-shrink-0 mt-1" />
+                  <Mail className="h-6 w-6 text-brand-500 mr-3 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold">Email</h3>
                     <p className="text-gray-600">Knockoutautorentals@gmai.com</p>
@@ -176,7 +176,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start">
-                  <Clock className="h-6 w-6 text-purple-500 mr-3 flex-shrink-0 mt-1" />
+                  <Clock className="h-6 w-6 text-brand-500 mr-3 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold">Business Hours</h3>
                     <p className="text-gray-600">
@@ -196,7 +196,7 @@ export default function ContactPage() {
                   href="https://www.instagram.com/k.a.r_limousine"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-purple-500 transition"
+                  className="text-gray-600 hover:text-brand-500 transition"
                 >
                   <Instagram className="h-8 w-8" />
                 </a>

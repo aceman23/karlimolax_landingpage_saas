@@ -128,14 +128,14 @@ const GooglePlacesAutocomplete: React.FC<GooglePlacesAutocompleteProps> = ({
           onFocus={handleFocus}
           placeholder={placeholder}
           required={required}
-          className={`w-full px-4 py-2 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${className}`}
+          className={`w-full px-4 py-2 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 ${className}`}
           autoComplete="off"
           aria-invalid={!!error}
           aria-describedby={error ? `${id}-error` : undefined}
         />
         {isLoading && (
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-purple-500"></div>
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-brand-500"></div>
           </div>
         )}
       </div>

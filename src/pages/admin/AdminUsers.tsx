@@ -68,9 +68,9 @@ export default function AdminUsers() {
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
       case 'admin':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-brand-100 text-brand-700';
       case 'driver':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-brand-100 text-brand-700';
       case 'customer':
         return 'bg-green-100 text-green-800';
       default:
@@ -128,7 +128,7 @@ export default function AdminUsers() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen min-h-[calc(100vh-200px)]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-500"></div>
         <span className="ml-3 text-lg">Loading users...</span>
       </div>
     );
@@ -159,7 +159,7 @@ export default function AdminUsers() {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
               placeholder="Search by name, email, or role..."
             />
           </div>
@@ -209,7 +209,7 @@ export default function AdminUsers() {
                           handleUpdateRole(user._id, newRole);
                         }
                       }}
-                      className={`block w-full pl-3 pr-10 py-2 text-xs border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 rounded-md ${getRoleBadgeColor(user.role || '')}`}
+                      className={`block w-full pl-3 pr-10 py-2 text-xs border-gray-300 focus:outline-none focus:ring-brand-500 focus:border-brand-500 rounded-md ${getRoleBadgeColor(user.role || '')}`}
                     >
                       <option value="customer">Customer</option>
                       <option value="driver">Driver</option>

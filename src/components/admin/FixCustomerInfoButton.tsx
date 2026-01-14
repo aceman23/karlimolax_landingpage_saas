@@ -51,7 +51,7 @@ const FixCustomerInfoButton: React.FC = () => {
           <button
             onClick={fixCustomerInfo}
             disabled={loading}
-            className={`px-4 py-2 rounded-md text-white ${loading ? 'bg-gray-400' : 'bg-purple-600 hover:bg-purple-700'}`}
+            className={`px-4 py-2 rounded-md text-white ${loading ? 'bg-gray-400' : 'bg-brand-500 hover:bg-brand-600'}`}
           >
             {loading ? 'Processing...' : 'Fix Customer Information'}
           </button>

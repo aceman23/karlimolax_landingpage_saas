@@ -25,7 +25,7 @@ export default function FormTermsCheckbox({
             type="checkbox"
             checked={checked}
             onChange={onChange}
-            className={`h-4 w-4 border-gray-300 rounded text-purple-600 focus:ring-purple-500 ${
+            className={`h-4 w-4 border-gray-300 rounded text-brand-500 focus:ring-brand-500 ${
               error ? 'border-red-500' : ''
             }`}
             aria-describedby={`${id}-description`}
@@ -35,11 +35,11 @@ export default function FormTermsCheckbox({
         <div className="ml-3 text-sm">
           <label htmlFor={id} className="font-medium text-gray-700">
             I agree to the{' '}
-            <Link to="/terms" className="text-purple-600 hover:text-purple-700 underline">
+            <Link to="/terms" className="text-brand-500 hover:text-brand-600 underline">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link to="/privacy" className="text-purple-600 hover:text-purple-700 underline">
+            <Link to="/privacy" className="text-brand-500 hover:text-brand-600 underline">
               Privacy Policy
             </Link>
           </label>

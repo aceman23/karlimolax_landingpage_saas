@@ -464,7 +464,7 @@ const AdminVehicles = () => {
               value={formData.name}
               onChange={handleInputChange}
               onClick={(e) => e.stopPropagation()}
-              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm ${
+              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm ${
                 formErrors.name ? 'border-red-500' : ''
               }`}
               placeholder="e.g., Luxury Sedan"
@@ -485,7 +485,7 @@ const AdminVehicles = () => {
               value={formData.make}
               onChange={handleInputChange}
               onClick={(e) => e.stopPropagation()}
-              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm ${
+              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm ${
                 formErrors.make ? 'border-red-500' : ''
               }`}
               placeholder="e.g., Mercedes-Benz"
@@ -506,7 +506,7 @@ const AdminVehicles = () => {
               value={formData.model}
               onChange={handleInputChange}
               onClick={(e) => e.stopPropagation()}
-              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm ${
+              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm ${
                 formErrors.model ? 'border-red-500' : ''
               }`}
               placeholder="e.g., S-Class"
@@ -527,7 +527,7 @@ const AdminVehicles = () => {
               value={formData.year}
               onChange={handleInputChange}
               onClick={(e) => e.stopPropagation()}
-              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm ${
+              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm ${
                 formErrors.year ? 'border-red-500' : ''
               }`}
               placeholder="e.g., 2024"
@@ -548,7 +548,7 @@ const AdminVehicles = () => {
               value={formData.capacity}
               onChange={handleInputChange}
               onClick={(e) => e.stopPropagation()}
-              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm ${
+              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm ${
                 formErrors.capacity ? 'border-red-500' : ''
               }`}
               placeholder="e.g., 4"
@@ -570,7 +570,7 @@ const AdminVehicles = () => {
               value={formData.pricePerHour}
               onChange={handleInputChange}
               onClick={(e) => e.stopPropagation()}
-              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm ${
+              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm ${
                 formErrors.pricePerHour ? 'border-red-500' : ''
               }`}
               placeholder="e.g., 50"
@@ -598,7 +598,7 @@ const AdminVehicles = () => {
               onChange={handleInputChange}
               rows={3}
               onClick={(e) => e.stopPropagation()}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
               placeholder="e.g., Leather Seats, WiFi, Premium Sound"
             />
           </div>
@@ -614,7 +614,7 @@ const AdminVehicles = () => {
               onChange={handleInputChange}
               rows={3}
               onClick={(e) => e.stopPropagation()}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
               placeholder="Enter vehicle description"
             />
           </div>
@@ -636,7 +636,7 @@ const AdminVehicles = () => {
             />
             <label
               htmlFor={`image-upload-${isEdit ? 'edit' : 'new'}`}
-              className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 rounded-md hover:bg-purple-200 transition-colors"
+              className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-brand-100 text-brand-600 rounded-md hover:bg-brand-200 transition-colors"
             >
               <Upload size={16} />
               Upload Image
@@ -664,7 +664,7 @@ const AdminVehicles = () => {
               value={imageUrl}
               onChange={handleImageUrlChange}
               onClick={(e) => e.stopPropagation()}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
               placeholder="Or enter image URL directly"
             />
           </div>
@@ -697,14 +697,14 @@ const AdminVehicles = () => {
             }
             resetForm();
           }}
-          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isLoading}
-          className="px-4 py-2 text-sm font-medium text-white bg-purple-600 border border-transparent rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 text-sm font-medium text-white bg-brand-500 border border-transparent rounded-md shadow-sm hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (isEdit ? 'Updating...' : 'Adding...') : (isEdit ? 'Update Vehicle' : 'Add Vehicle')}
         </button>
@@ -715,7 +715,7 @@ const AdminVehicles = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen min-h-[calc(100vh-200px)]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-500"></div>
         <span className="ml-3 text-lg">Loading vehicles...</span>
       </div>
     );
@@ -731,7 +731,7 @@ const AdminVehicles = () => {
       <div className="sm:flex sm:items-center sm:justify-between mb-6">
         <div>
           <div className="flex items-center">
-            <Car className="h-8 w-8 mr-2 text-purple-600" />
+            <Car className="h-8 w-8 mr-2 text-brand-500" />
             <h1 className="text-2xl font-bold text-gray-900">Manage Vehicles</h1>
           </div>
           <p className="mt-1 text-sm text-gray-600">
@@ -760,7 +760,7 @@ const AdminVehicles = () => {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
               placeholder="Search by name, make, model, or year..."
             />
           </div>
@@ -803,7 +803,7 @@ const AdminVehicles = () => {
                         handleEditVehicle(vehicle);
                       }} 
                       title="Edit Vehicle" 
-                      className="text-purple-600 hover:text-purple-800"
+                      className="text-brand-500 hover:text-brand-700"
                     >
                       <Edit className="h-4 w-4" />
                     </Button>

@@ -154,7 +154,7 @@ export default function PricingSettings() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-32">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
       </div>
     );
   }
@@ -178,9 +178,9 @@ export default function PricingSettings() {
             type="button"
             className={`${
               settings.distanceFeeEnabled
-                ? 'bg-purple-600'
+                ? 'bg-brand'
                 : 'bg-gray-200'
-            } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2`}
+            } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2`}
             onClick={() => setSettings(prev => ({
               ...prev,
               distanceFeeEnabled: !prev.distanceFeeEnabled
@@ -230,7 +230,7 @@ export default function PricingSettings() {
                     const value = parseInt(e.target.value) || 0;
                     updateDistanceTier(index, 'minDistance', value);
                   }}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
                   min="0"
                 />
               </div>
@@ -245,7 +245,7 @@ export default function PricingSettings() {
                         const value = e.target.value === '' ? Infinity : (parseInt(e.target.value) || 0);
                         updateDistanceTier(index, 'maxDistance', value);
                       }}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
                       min="0"
                       disabled={tier.maxDistance === Infinity}
                       placeholder={tier.maxDistance === Infinity ? "Unlimited" : "Enter max distance"}
@@ -260,7 +260,7 @@ export default function PricingSettings() {
                         const newMaxDistance = e.target.checked ? Infinity : (tier.minDistance + 20);
                         updateDistanceTier(index, 'maxDistance', newMaxDistance);
                       }}
-                      className="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                      className="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand-500"
                     />
                     <label htmlFor={`unlimited-${index}`} className="ml-2 text-sm text-gray-600">
                       Greater than min distance
@@ -277,7 +277,7 @@ export default function PricingSettings() {
                     const value = parseInt(e.target.value) || 0;
                     updateDistanceTier(index, 'fee', value);
                   }}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
                   min="0"
                 />
               </div>
@@ -312,9 +312,9 @@ export default function PricingSettings() {
               type="button"
               className={`${
                 settings.perMileFeeEnabled
-                  ? 'bg-purple-600'
+                  ? 'bg-brand'
                   : 'bg-gray-200'
-              } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2`}
+              } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2`}
               onClick={() => setSettings(prev => ({
                 ...prev,
                 perMileFeeEnabled: !prev.perMileFeeEnabled
@@ -341,7 +341,7 @@ export default function PricingSettings() {
                   ...prev,
                   distanceThreshold: parseInt(e.target.value)
                 }))}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
                 min="0"
                 placeholder="Enter threshold in miles"
               />
@@ -362,7 +362,7 @@ export default function PricingSettings() {
                   ...prev,
                   perMileFee: parseInt(e.target.value)
                 }))}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
                 min="0"
               />
               <p className="mt-1 text-sm text-gray-500">
@@ -392,7 +392,7 @@ export default function PricingSettings() {
                 ...prev,
                 minFee: parseInt(e.target.value)
               }))}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
               min="0"
             />
           </div>
@@ -409,7 +409,7 @@ export default function PricingSettings() {
                 ...prev,
                 maxFee: parseInt(e.target.value)
               }))}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
               min="0"
             />
           </div>
@@ -438,7 +438,7 @@ export default function PricingSettings() {
               }))}
               min="0"
               step="0.01"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
             />
             <p className="mt-1 text-sm text-gray-500">
               This amount will be added to the total price for each additional stop in a booking.
@@ -469,7 +469,7 @@ export default function PricingSettings() {
               }))}
               min="0"
               step="0.01"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
             />
             <p className="mt-1 text-sm text-gray-500">
               This amount will be added to the total price for each car seat requested.
@@ -488,7 +488,7 @@ export default function PricingSettings() {
               }))}
               min="0"
               step="0.01"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
             />
             <p className="mt-1 text-sm text-gray-500">
               This amount will be added to the total price for each booster seat requested.

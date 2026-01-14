@@ -106,9 +106,9 @@ export default function BookingSuccess() {
             )}
 
             <div className="mt-8 border-t border-gray-200 pt-6">
-              <div className="bg-purple-50 p-4 rounded-lg">
-                <h3 className="text-lg font-semibold text-purple-900 mb-2">What's Next?</h3>
-                <ul className="space-y-2 text-purple-800">
+              <div className="bg-brand-50 p-4 rounded-lg">
+                <h3 className="text-lg font-semibold text-brand-900 mb-2">What's Next?</h3>
+                <ul className="space-y-2 text-brand-700">
                   <li>• You will receive a confirmation email with all booking details</li>
                   <li>• A driver will be assigned to your booking</li>
                   <li>• You can track your booking status in your account</li>

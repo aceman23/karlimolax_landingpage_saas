@@ -252,7 +252,7 @@ const AddVehicleForm: React.FC<AddVehicleFormProps> = ({ onSuccess, onCancel, ve
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className={`mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm ${
+                    className={`mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm ${
                       formErrors.name ? 'border-red-500' : ''
                     }`}
                     placeholder="e.g., Luxury Sedan"
@@ -272,7 +272,7 @@ const AddVehicleForm: React.FC<AddVehicleFormProps> = ({ onSuccess, onCancel, ve
                     name="make"
                     value={formData.make}
                     onChange={handleInputChange}
-                    className={`mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm ${
+                    className={`mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm ${
                       formErrors.make ? 'border-red-500' : ''
                     }`}
                     placeholder="e.g., Toyota"
@@ -292,7 +292,7 @@ const AddVehicleForm: React.FC<AddVehicleFormProps> = ({ onSuccess, onCancel, ve
                     name="model"
                     value={formData.model}
                     onChange={handleInputChange}
-                    className={`mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm ${
+                    className={`mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm ${
                       formErrors.model ? 'border-red-500' : ''
                     }`}
                     placeholder="e.g., Camry"
@@ -312,7 +312,7 @@ const AddVehicleForm: React.FC<AddVehicleFormProps> = ({ onSuccess, onCancel, ve
                     name="capacity"
                     value={formData.capacity}
                     onChange={handleInputChange}
-                    className={`mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm ${
+                    className={`mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm ${
                       formErrors.capacity ? 'border-red-500' : ''
                     }`}
                     placeholder="e.g., 4"
@@ -333,7 +333,7 @@ const AddVehicleForm: React.FC<AddVehicleFormProps> = ({ onSuccess, onCancel, ve
                     name="pricePerHour"
                     value={formData.pricePerHour}
                     onChange={handleInputChange}
-                    className={`mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm ${
+                    className={`mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm ${
                       formErrors.pricePerHour ? 'border-red-500' : ''
                     }`}
                     placeholder="e.g., 50"
@@ -360,7 +360,7 @@ const AddVehicleForm: React.FC<AddVehicleFormProps> = ({ onSuccess, onCancel, ve
                   name="features"
                   value={formData.features}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
                   placeholder="e.g., GPS, WiFi, Leather seats"
                 />
               </div>
@@ -375,7 +375,7 @@ const AddVehicleForm: React.FC<AddVehicleFormProps> = ({ onSuccess, onCancel, ve
                   value={formData.description}
                   onChange={handleInputChange}
                   rows={3}
-                  className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
                   placeholder="Additional details about the vehicle..."
                 />
             </div>

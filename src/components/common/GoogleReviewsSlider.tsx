@@ -58,7 +58,7 @@ const GoogleReviewsSlider = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
       </div>
     );
   }
@@ -78,7 +78,7 @@ const GoogleReviewsSlider = () => {
           <h2 className="text-3xl font-bold mb-4">What Our Customers Say</h2>
           <div className="flex justify-center items-center gap-1">
             {[...Array(5)].map((_, i) => (
-              <Star key={i} className={`h-5 w-5 ${i < Math.round(averageRating) ? 'text-purple-500 fill-current' : 'text-gray-300'}`} />
+              <Star key={i} className={`h-5 w-5 ${i < Math.round(averageRating) ? 'text-brand-500 fill-current' : 'text-gray-300'}`} />
             ))}
             <span className="ml-2 text-gray-600">{averageRating.toFixed(1)} out of 5</span>
             {totalRatings > 0 && (
@@ -107,7 +107,7 @@ const GoogleReviewsSlider = () => {
                               <Star
                                 key={i}
                                 className={`h-4 w-4 ${
-                                  i < review.rating ? 'text-purple-500 fill-current' : 'text-gray-300'
+                                  i < review.rating ? 'text-brand-500 fill-current' : 'text-gray-300'
                                 }`}
                               />
                             ))}
@@ -145,7 +145,7 @@ const GoogleReviewsSlider = () => {
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`w-2 h-2 rounded-full transition ${
-                  index === currentIndex ? 'bg-purple-500' : 'bg-gray-300'
+                  index === currentIndex ? 'bg-brand-500' : 'bg-gray-300'
                 }`}
               />
             ))}

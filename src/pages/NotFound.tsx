@@ -16,7 +16,7 @@ const NotFound = () => {
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-2xl mx-auto text-center">
           <div className="flex justify-center mb-6">
-            <Car size={80} className="text-purple-500" />
+            <Car size={80} className="text-brand-500" />
           </div>
           
           <h1 className="text-4xl md:text-5xl font-bold mb-4">404 - Wrong Destination</h1>
@@ -43,19 +43,19 @@ const NotFound = () => {
             <h2 className="text-xl font-semibold mb-4">Popular Destinations</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Link to="/" className="flex items-center p-3 rounded-lg hover:bg-gray-50 transition">
-                <MapPin size={18} className="text-purple-500 mr-2" />
+                <MapPin size={18} className="text-brand-500 mr-2" />
                 <span>Home</span>
               </Link>
               <Link to="/vehicles" className="flex items-center p-3 rounded-lg hover:bg-gray-50 transition">
-                <MapPin size={18} className="text-purple-500 mr-2" />
+                <MapPin size={18} className="text-brand-500 mr-2" />
                 <span>Our Fleet</span>
               </Link>
               <Link to="/booking" className="flex items-center p-3 rounded-lg hover:bg-gray-50 transition">
-                <MapPin size={18} className="text-purple-500 mr-2" />
+                <MapPin size={18} className="text-brand-500 mr-2" />
                 <span>Book Now</span>
               </Link>
               <Link to="/about" className="flex items-center p-3 rounded-lg hover:bg-gray-50 transition">
-                <MapPin size={18} className="text-purple-500 mr-2" />
+                <MapPin size={18} className="text-brand-500 mr-2" />
                 <span>About Us</span>
               </Link>
             </div>

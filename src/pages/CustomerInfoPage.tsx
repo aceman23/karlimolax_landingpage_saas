@@ -156,26 +156,26 @@ export default function CustomerInfoPage() {
         {/* Booking Steps */}
         <div className="max-w-4xl mx-auto mb-10">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex flex-col items-center mb-4 md:mb-0 text-purple-600">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-purple-600 text-white">
+            <div className="flex flex-col items-center mb-4 md:mb-0 text-brand-500">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-brand-500 text-white">
                 1
               </div>
               <span className="text-sm font-medium">Select Package/Vehicle</span>
             </div>
             
-            <div className="hidden md:block w-24 h-0.5 bg-purple-600"></div>
+            <div className="hidden md:block w-24 h-0.5 bg-brand-500"></div>
             
-            <div className="flex flex-col items-center mb-4 md:mb-0 text-purple-600">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-purple-600 text-white">
+            <div className="flex flex-col items-center mb-4 md:mb-0 text-brand-500">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-brand-500 text-white">
                 2
               </div>
               <span className="text-sm font-medium">Booking Details</span>
             </div>
             
-            <div className="hidden md:block w-24 h-0.5 bg-purple-600"></div>
+            <div className="hidden md:block w-24 h-0.5 bg-brand-500"></div>
             
-            <div className="flex flex-col items-center mb-4 md:mb-0 text-purple-600">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-purple-600 text-white">
+            <div className="flex flex-col items-center mb-4 md:mb-0 text-brand-500">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2 bg-brand-500 text-white">
                 3
               </div>
               <span className="text-sm font-medium">Customer Info</span>
@@ -224,7 +224,7 @@ export default function CustomerInfoPage() {
             </div>
             <div className="mt-4 pt-3 border-t flex justify-between items-center">
               <span className="font-medium">Total Estimate:</span>
-              <span className="text-xl font-bold text-purple-600">${calculateTotalWithGratuity().toFixed(2)}</span>
+              <span className="text-xl font-bold text-brand-500">${calculateTotalWithGratuity().toFixed(2)}</span>
             </div>
           </div>
           
@@ -244,7 +244,7 @@ export default function CustomerInfoPage() {
                   name="firstName"
                   value={customerInfo.firstName || ''}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 ${
                     formErrors.firstName ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="Enter your first name"
@@ -268,7 +268,7 @@ export default function CustomerInfoPage() {
                   name="lastName"
                   value={customerInfo.lastName || ''}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 ${
                     formErrors.lastName ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="Enter your last name"
@@ -293,7 +293,7 @@ export default function CustomerInfoPage() {
                     name="email"
                     value={customerInfo.email || ''}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                    className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 ${
                       formErrors.email ? 'border-red-500' : 'border-gray-300'
                     }`}
                     placeholder="Enter your email address"
@@ -334,7 +334,7 @@ export default function CustomerInfoPage() {
                   name="phone"
                   value={customerInfo.phone || ''}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 ${
                     formErrors.phone ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="Enter your phone number"

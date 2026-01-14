@@ -45,7 +45,7 @@ export default function CookieConsent() {
           <p className="text-gray-600 text-sm md:text-base">
             We use cookies to enhance your experience, analyze site traffic, and for marketing purposes. 
             By continuing to browse, you consent to our use of cookies. 
-            Learn more in our <Link to="/privacy" className="text-purple-600 hover:underline">Privacy Policy</Link>.
+            Learn more in our <Link to="/privacy" className="text-brand-500 hover:underline">Privacy Policy</Link>.
           </p>
         </div>
         

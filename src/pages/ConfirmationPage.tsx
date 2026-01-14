@@ -127,16 +127,16 @@ export default function ConfirmationPage() {
             <p className="text-gray-600 mb-4">
               Thank you for choosing our service. Your booking has been successfully confirmed.
             </p>
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 inline-block">
+            <div className="bg-brand-50 border border-brand-200 rounded-lg p-4 inline-block">
               <p className="text-sm text-gray-600 mb-1">Booking Reference</p>
               <div className="flex items-center gap-2">
-                <p className="font-mono text-lg font-semibold text-purple-700">{bookingId}</p>
+                <p className="font-mono text-lg font-semibold text-brand-600">{bookingId}</p>
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(bookingId);
                     toast.success('Booking ID copied to clipboard');
                   }}
-                  className="text-purple-600 hover:text-purple-700"
+                  className="text-brand-500 hover:text-brand-600"
                   title="Copy to clipboard"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -159,7 +159,7 @@ export default function ConfirmationPage() {
               </div>
               
               <div className="flex items-start">
-                <Calendar className="h-5 w-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5" />
+                <Calendar className="h-5 w-5 text-brand-500 mr-2 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Date & Time</p>
                   <p className="font-medium">
@@ -170,7 +170,7 @@ export default function ConfirmationPage() {
               
               {currentBooking.hours && (
                 <div className="flex items-start">
-                  <Clock className="h-5 w-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5" />
+                  <Clock className="h-5 w-5 text-brand-500 mr-2 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm text-gray-500 mb-1">Duration</p>
                     <p className="font-medium">{currentBooking.hours} hour(s)</p>
@@ -180,7 +180,7 @@ export default function ConfirmationPage() {
               
               {currentBooking.packageId === 'lax-special' && currentBooking.airportCode && (
                 <div className="flex items-start">
-                  <MapPin className="h-5 w-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5" />
+                  <MapPin className="h-5 w-5 text-brand-500 mr-2 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm text-gray-500 mb-1">Selected Airport</p>
                     <p className="font-medium">{currentBooking.airportCode}</p>
@@ -191,7 +191,7 @@ export default function ConfirmationPage() {
               { (currentBooking.vehicleName || currentBooking.vehicleId?.name) && (
                 <div className="flex items-start">
                   <div className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5">
-                    <svg className="w-5 h-5 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-brand-500" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
                       <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1V8a1 1 0 00-1-1h-3z" />
                     </svg>
@@ -204,7 +204,7 @@ export default function ConfirmationPage() {
               )}
               
               <div className="flex items-start">
-                <MapPin className="h-5 w-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5" />
+                <MapPin className="h-5 w-5 text-brand-500 mr-2 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Pickup Address</p>
                   <p className="font-medium">{currentBooking.pickupLocation}</p>
@@ -212,7 +212,7 @@ export default function ConfirmationPage() {
               </div>
               
               <div className="flex items-start">
-                <MapPin className="h-5 w-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5" />
+                <MapPin className="h-5 w-5 text-brand-500 mr-2 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Dropoff Address</p>
                   <p className="font-medium">{currentBooking.dropoffLocation}</p>
@@ -225,7 +225,7 @@ export default function ConfirmationPage() {
                   <div className="space-y-2">
                     {currentBooking.stops.map((stop: any, index: number) => (
                       <div key={index} className="flex items-start">
-                        <MapPin className="h-5 w-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <MapPin className="h-5 w-5 text-brand-500 mr-2 flex-shrink-0 mt-0.5" />
                         <div>
                           <p className="font-medium">Stop {index + 1}: {stop.location}</p>
                         </div>

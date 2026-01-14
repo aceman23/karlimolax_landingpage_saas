@@ -745,10 +745,24 @@ export default function BookingPage() {
                         <div className="text-purple-600 text-sm w-full">
                           {(() => {
                             const distanceInMiles = distance.value / 1609.34;
-                            const applicableTier = settings.distanceTiers.find(tier => 
-                              (tier.maxDistance === Infinity && distanceInMiles >= tier.minDistance) ||
+                            
+                            // Find applicable distance tier - handle distances beyond the highest tier
+                            let applicableTier = settings.distanceTiers.find(tier => 
+                              (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
                               (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
                             );
+                            
+                            // If no tier found and distance exceeds all tiers, use the highest tier
+                            if (!applicableTier && settings.distanceTiers.length > 0) {
+                              const sortedTiers = [...settings.distanceTiers].sort((a, b) => 
+                                (a.maxDistance === Infinity || a.maxDistance === null ? Infinity : a.maxDistance) - 
+                                (b.maxDistance === Infinity || b.maxDistance === null ? Infinity : b.maxDistance)
+                              );
+                              const highestTier = sortedTiers[sortedTiers.length - 1];
+                              if (distanceInMiles >= highestTier.minDistance) {
+                                applicableTier = highestTier;
+                              }
+                            }
 
                             console.log('[DEBUG] Distance tiers check:', {
                               distanceFeeEnabled: settings.distanceFeeEnabled,
@@ -758,7 +772,8 @@ export default function BookingPage() {
                               applicableTier
                             });
 
-                            if (settings.distanceFeeEnabled && settings.distanceTiers.length > 0 && applicableTier) {
+                            // Always show distance information if distance is calculated
+                            if (distanceInMiles > 0) {
                               return (
                                 <div className="space-y-1 break-words bg-white border-2 border-purple-500 rounded-lg p-4">
                                   <div className="font-medium text-purple-700">Distance Information:</div>
@@ -766,26 +781,22 @@ export default function BookingPage() {
                                     <div className="text-gray-600">
                                       Trip Distance: {distanceInMiles.toFixed(1)} miles
                                     </div>
-                                    <div className="text-purple-600 font-medium">
-                                      Distance Fee: ${applicableTier.fee.toFixed(2)}
-                                      {applicableTier.maxDistance === Infinity || applicableTier.maxDistance === null
-                                        ? ` (${applicableTier.minDistance}+ miles)`
-                                        : ` (${applicableTier.minDistance}-${applicableTier.maxDistance} miles)`}
-                                    </div>
+                                    {settings.distanceFeeEnabled && settings.distanceTiers.length > 0 && applicableTier && (
+                                      <div className="text-purple-600 font-medium">
+                                        Distance Fee: ${applicableTier.fee.toFixed(2)}
+                                        {applicableTier.maxDistance === Infinity || applicableTier.maxDistance === null
+                                          ? ` (${applicableTier.minDistance}+ miles)`
+                                          : ` (${applicableTier.minDistance}-${applicableTier.maxDistance} miles)`}
+                                      </div>
+                                    )}
                                     {settings.perMileFeeEnabled && distanceInMiles > settings.distanceThreshold && (
                                       <div className="text-purple-600 text-xs sm:text-sm">
-                                      Additional ${settings.perMileFee}/mile after {settings.distanceThreshold} miles
-                                    </div>
-                                  )}
+                                        Additional ${settings.perMileFee}/mile after {settings.distanceThreshold} miles
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               );
-                            } else {
-                              console.log('[DEBUG] Distance tiers not showing because:', {
-                                distanceFeeEnabled: settings.distanceFeeEnabled,
-                                distanceTiersLength: settings.distanceTiers.length,
-                                applicableTier: applicableTier
-                              });
                             }
                             return null;
                           })()}

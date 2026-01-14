@@ -7,7 +7,7 @@ import { Plus, Trash2 } from 'lucide-react';
 
 interface DistanceTier {
   minDistance: number;
-  maxDistance: number;
+  maxDistance: number | null | typeof Infinity;
   fee: number;
 }
 
@@ -59,15 +59,19 @@ export default function PricingSettings() {
       }
       const data = await response.json();
 
-      // Convert null maxDistance to Infinity for the UI
+      // Convert null maxDistance to Infinity for the UI and ensure all tiers are valid
       const formattedData = {
         ...data,
-        distanceTiers: data.distanceTiers?.map((tier: DistanceTier) => ({
-          ...tier,
-          maxDistance: tier.maxDistance === null ? Infinity : tier.maxDistance
-        })) || []
+        distanceTiers: (data.distanceTiers || [])
+          .filter((tier: any) => tier && (tier.minDistance !== undefined || tier.maxDistance !== undefined || tier.fee !== undefined))
+          .map((tier: DistanceTier, index: number) => ({
+            minDistance: typeof tier.minDistance === 'number' ? tier.minDistance : 0,
+            maxDistance: tier.maxDistance === null || tier.maxDistance === undefined ? Infinity : (typeof tier.maxDistance === 'number' ? tier.maxDistance : Infinity),
+            fee: typeof tier.fee === 'number' ? tier.fee : 0
+          }))
       };
 
+      console.log('[PricingSettings] Loaded distance tiers:', formattedData.distanceTiers.length, formattedData.distanceTiers);
       setSettings(formattedData);
     } catch (error) {
       console.error('Error fetching pricing settings:', error);
@@ -89,12 +93,15 @@ export default function PricingSettings() {
       const formattedSettings = {
         ...settings,
         distanceTiers: settings.distanceTiers.map(tier => ({
-          ...tier,
-          maxDistance: tier.maxDistance === Infinity ? null : tier.maxDistance
+          minDistance: Number(tier.minDistance) || 0,
+          maxDistance: tier.maxDistance === Infinity || tier.maxDistance === null ? null : Number(tier.maxDistance),
+          fee: Number(tier.fee) || 0
         })),
         carSeatPrice: Number(settings.carSeatPrice) || 0,
         boosterSeatPrice: Number(settings.boosterSeatPrice) || 0
       };
+
+      console.log('[PricingSettings] Saving distance tiers:', formattedSettings.distanceTiers);
 
       const response = await fetch(`${API_BASE_URL}/admin/settings/pricing`, {
         method: 'PUT',
@@ -135,7 +142,7 @@ export default function PricingSettings() {
     }));
   };
 
-  const updateDistanceTier = (index: number, field: keyof DistanceTier, value: number | null) => {
+  const updateDistanceTier = (index: number, field: keyof DistanceTier, value: number | null | typeof Infinity) => {
     setSettings(prev => ({
       ...prev,
       distanceTiers: prev.distanceTiers.map((tier, i) => 
@@ -190,7 +197,12 @@ export default function PricingSettings() {
         {/* Distance Tiers */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium text-gray-900">Distance Tiers</h4>
+            <div>
+              <h4 className="text-sm font-medium text-gray-900">Distance Tiers</h4>
+              <p className="text-xs text-gray-500 mt-1">
+                {settings.distanceTiers.length} tier{settings.distanceTiers.length !== 1 ? 's' : ''} configured
+              </p>
+            </div>
             <Button
               variant="outline"
               size="sm"
@@ -202,14 +214,22 @@ export default function PricingSettings() {
             </Button>
           </div>
 
+          {settings.distanceTiers.length === 0 && (
+            <div className="text-center py-4 text-gray-500 text-sm">
+              No distance tiers configured. Click "Add Tier" to create one.
+            </div>
+          )}
           {settings.distanceTiers.map((tier, index) => (
-            <div key={index} className="grid grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
+            <div key={`tier-${index}-${tier.minDistance}-${tier.maxDistance}`} className="grid grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Min Distance (miles)</label>
-                <input
+                  <input
                   type="number"
                   value={tier.minDistance}
-                  onChange={(e) => updateDistanceTier(index, 'minDistance', parseInt(e.target.value))}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || 0;
+                    updateDistanceTier(index, 'minDistance', value);
+                  }}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
                   min="0"
                 />
@@ -221,7 +241,10 @@ export default function PricingSettings() {
                     <input
                       type="number"
                       value={tier.maxDistance === Infinity ? '' : tier.maxDistance}
-                      onChange={(e) => updateDistanceTier(index, 'maxDistance', e.target.value === '' ? Infinity : parseInt(e.target.value))}
+                      onChange={(e) => {
+                        const value = e.target.value === '' ? Infinity : (parseInt(e.target.value) || 0);
+                        updateDistanceTier(index, 'maxDistance', value);
+                      }}
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
                       min="0"
                       disabled={tier.maxDistance === Infinity}
@@ -247,10 +270,13 @@ export default function PricingSettings() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Fee ($)</label>
-                <input
+                  <input
                   type="number"
                   value={tier.fee}
-                  onChange={(e) => updateDistanceTier(index, 'fee', parseInt(e.target.value))}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || 0;
+                    updateDistanceTier(index, 'fee', value);
+                  }}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
                   min="0"
                 />

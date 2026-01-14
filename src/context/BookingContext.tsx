@@ -236,11 +236,23 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (settings.distanceFeeEnabled && bookingDetails.distance?.value) {
       const distanceInMiles = bookingDetails.distance.value / 1609.34;
       
-      // Find applicable distance tier
-      const applicableTier = settings.distanceTiers.find(tier => 
+      // Find applicable distance tier - handle distances beyond the highest tier
+      let applicableTier = settings.distanceTiers.find(tier => 
         (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
         (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
       );
+      
+      // If no tier found and distance exceeds all tiers, use the highest tier
+      if (!applicableTier && settings.distanceTiers.length > 0) {
+        const sortedTiers = [...settings.distanceTiers].sort((a, b) => 
+          (a.maxDistance === Infinity || a.maxDistance === null ? Infinity : a.maxDistance) - 
+          (b.maxDistance === Infinity || b.maxDistance === null ? Infinity : b.maxDistance)
+        );
+        const highestTier = sortedTiers[sortedTiers.length - 1];
+        if (distanceInMiles >= highestTier.minDistance) {
+          applicableTier = highestTier;
+        }
+      }
 
       if (applicableTier) {
         total += applicableTier.fee;

@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Star, ThumbsUp, Lock, ChevronLeft, ChevronRight, Car, ChevronDown, ArrowRight } from 'lucide-react';
+import { Star, ThumbsUp, Lock, ChevronLeft, ChevronRight, Car, ChevronDown, ArrowRight, Shield, Clock, Users, Award } from 'lucide-react';
 import Button from '../components/common/Button';
 // import ServiceCard from '../components/common/ServiceCard'; // Keep commented for now
 // import TestimonialCard from '../components/common/TestimonialCard'; // Keep commented for now
 // import BookingForm from '../components/booking/BookingForm'; // Keep commented for now
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react'; // Removed useRef, useCallback
-import { useBooking } from '../context/BookingContext';
 import Carousel from '../components/common/Carousel'; // Added import for Carousel
 import InstagramEmbed from '../components/common/InstagramEmbed';
 
@@ -27,7 +26,6 @@ export default function HomePage() {
   const [fleetVehicles, setFleetVehicles] = useState<HomePageVehicle[]>([]);
   const [loadingFleet, setLoadingFleet] = useState(true);
   const [fleetError, setFleetError] = useState<string | null>(null);
-  const { setSelectedPackage } = useBooking();
   const [instagramImages, setInstagramImages] = useState<Array<{ src: string; href?: string; alt?: string }>>([]);
 
   useEffect(() => {
@@ -69,27 +67,6 @@ export default function HomePage() {
   }, []);
 
 
-  // minor 
-  
-  const handlePackageSelect = (packageName: string) => {
-    // Create a temporary package object to pass to the booking page
-    const packageData = {
-      id: packageName === 'Airport Pick Up / Drop Off' ? 'lax-special' :
-          packageName === 'Disneyland Park & Hotel' ? 'disneyland' :
-          packageName === 'Special Events' ? 'special-events' :
-          'party-bus',
-      name: packageName,
-      description: '',
-      base_price: 0,
-      duration: 60,
-      is_hourly: false,
-      is_active: true,
-      vehicle_id: '',
-      image_url: '',
-      airports: []
-    };
-    setSelectedPackage(packageData);
-  };
 
   return (
     <div>
@@ -181,124 +158,66 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* For Reservation section */}
-      <section className="py-8 md:py-12 bg-gray-100">
+      {/* Why Choose Us Section */}
+      <section className="py-12 md:py-20 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-10">For reservation please select one of the following packages</h2>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
-            {/* Service Card 1 */}
-            <div 
-              className="bg-white rounded-lg shadow-md overflow-hidden transition transform hover:-translate-y-1 hover:shadow-xl cursor-pointer"
-              onClick={() => handlePackageSelect('Airport Pick Up / Drop Off')}
-            >
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-center mb-2">Airport Pick Up / Drop Off</h3>
-                <p className="text-gray-600 text-sm text-center mb-2">LAX - SNA - LGB - ONT - SAN</p>
-                <p className="text-gray-600 mb-6 text-sm">
-                  Our experienced chauffeurs provide luxury transfers to and from all major airports in the Greater Los Angeles area and San Diego, including Los Angeles International (LAX), John Wayne/Orange County (SNA), Long Beach (LGB), Ontario (ONT), and San Diego (SAN). Travel in style and comfort to your destination with our premium service.
-                </p>
-                <div className="w-full h-48 mb-6">
-                  <img 
-                    src="/plane.png" 
-                    alt="Airport Transfer Service" 
-                    className="w-full h-full object-cover rounded"
-                  />
-                </div>
-                <div className="flex justify-center">
-                  <Link to="/booking">
-                    <Button variant="primary" className="flex items-center">
-                      Book Now <span className="ml-1">→</span>
-                    </Button>
-                  </Link>
-                </div>
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-900">
+              Why Choose <span className="bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Kar Limo LAX</span>
+            </h2>
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+              Experience unmatched luxury, reliability, and professionalism with every ride
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            {/* Feature 1 */}
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-purple-50 to-white border border-purple-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600 text-white mb-4">
+                <Shield className="h-8 w-8" />
               </div>
+              <h3 className="text-xl font-bold mb-3 text-gray-900">Safe & Secure</h3>
+              <p className="text-gray-600 text-sm md:text-base">
+                Fully licensed, insured, and professionally trained chauffeurs ensuring your safety and peace of mind
+              </p>
             </div>
-            
-            {/* Service Card 2 */}
-            <div 
-              className="bg-white rounded-lg shadow-md overflow-hidden transition transform hover:-translate-y-1 hover:shadow-xl cursor-pointer"
-              onClick={() => handlePackageSelect('Disneyland Park & Hotel')}
-            >
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-center mb-2">Disneyland Park & Hotel</h3>
-                <p className="text-gray-600 mb-6 text-sm">
-                  We pick up and drop off to Disneyland Park and hotels such as Disneyland Hotel, Disney's Grand Californian Hotel & Spa. We offer the best and lowest deals for limo service to and from Disneyland in Anaheim California and amusement parks in Los Angeles California.
-                </p>
-                <div className="w-full h-48 mb-6">
-                  <img 
-                    src="/disneyland.png" 
-                    alt="Disneyland Transportation Service" 
-                    className="w-full h-full object-cover rounded"
-                  />
-                </div>
-                <div className="flex justify-center">
-                  <Link to="/booking">
-                    <Button variant="primary" className="flex items-center">
-                      Book Now <span className="ml-1">→</span>
-                    </Button>
-                  </Link>
-                </div>
+
+            {/* Feature 2 */}
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-purple-50 to-white border border-purple-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600 text-white mb-4">
+                <Clock className="h-8 w-8" />
               </div>
+              <h3 className="text-xl font-bold mb-3 text-gray-900">24/7 Availability</h3>
+              <p className="text-gray-600 text-sm md:text-base">
+                Available around the clock for your convenience. Book anytime, anywhere in Los Angeles
+              </p>
             </div>
-            
-            {/* Service Card 3 */}
-            <div 
-              className="bg-white rounded-lg shadow-md overflow-hidden transition transform hover:-translate-y-1 hover:shadow-xl cursor-pointer"
-              onClick={() => handlePackageSelect('Special Events')}
-            >
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-center mb-2">Special Events</h3>
-                <p className="text-gray-600 mb-6 text-sm">
-                  Make your special occasions even more memorable with our luxury transportation service. Perfect for weddings, proms, corporate events, and other special celebrations. Our professional chauffeurs ensure a safe and stylish journey for your important day.
-                </p>
-                <div className="w-full h-48 mb-6">
-                  <img 
-                    src="/weddings.png" 
-                    alt="Special Events Transportation" 
-                    className="w-full h-full object-cover rounded"
-                  />
-                </div>
-                <div className="flex justify-center">
-                  <Link to="/booking">
-                    <Button variant="primary" className="flex items-center">
-                      Book Now <span className="ml-1">→</span>
-                    </Button>
-                  </Link>
-                </div>
+
+            {/* Feature 3 */}
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-purple-50 to-white border border-purple-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600 text-white mb-4">
+                <Users className="h-8 w-8" />
               </div>
+              <h3 className="text-xl font-bold mb-3 text-gray-900">Premium Fleet</h3>
+              <p className="text-gray-600 text-sm md:text-base">
+                Luxury Mercedes Sprinter limousines with spacious interiors and top-tier amenities
+              </p>
             </div>
-            
-            {/* Service Card 4 */}
-            <div 
-              className="bg-white rounded-lg shadow-md overflow-hidden transition transform hover:-translate-y-1 hover:shadow-xl cursor-pointer"
-              onClick={() => handlePackageSelect('Party Bus')}
-            >
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-center mb-2">Party Bus</h3>
-                <p className="text-gray-600 mb-6 text-sm">
-                  Experience the ultimate party on wheels with our luxury party bus service. Perfect for bachelor/bachelorette parties, birthday celebrations, and group outings. Enjoy premium amenities and create unforgettable memories with your friends and family.
-                </p>
-                <div className="w-full h-48 mb-6">
-                  <img 
-                    src="/partybus.png" 
-                    alt="Party Bus Service" 
-                    className="w-full h-full object-cover rounded"
-                  />
-                </div>
-                <div className="flex justify-center">
-                  <Link to="/booking">
-                    <Button variant="primary" className="flex items-center">
-                      Book Now <span className="ml-1">→</span>
-                    </Button>
-                  </Link>
-                </div>
+
+            {/* Feature 4 */}
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-purple-50 to-white border border-purple-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-600 text-white mb-4">
+                <Award className="h-8 w-8" />
               </div>
+              <h3 className="text-xl font-bold mb-3 text-gray-900">5-Star Service</h3>
+              <p className="text-gray-600 text-sm md:text-base">
+                Exceptional customer service with attention to detail that exceeds expectations
+              </p>
             </div>
           </div>
         </div>
       </section>
-      
+
       {/* Our Premium Fleet */}
       <section className="py-8 md:py-16">
         <div className="container mx-auto px-4">

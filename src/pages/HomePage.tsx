@@ -71,9 +71,9 @@ export default function HomePage() {
   return (
     <div>
       <Helmet>
-        <title>Kar Limo LAX | Premium Los Angeles Airport Transportation</title>
-        <meta name="description" content="Premium limousine service for Los Angeles airports (LAX, SNA, LGB, ONT), Disneyland hotels, and special events with luxury Mercedes Sprinter limos." />
-        <link rel="canonical" href="https://dapperlimolax.com/" />
+        <title>KAR Limo LAX | Los Angeles Sprinter Limo Airport Transportation Services</title>
+        <meta name="description" content="Premium Limousine Service for Los Angeles airports (LAX, SNA, LGB, ONT), Disneyland hotels, and special events with luxury Mercedes Sprinter limos." />
+        <link rel="canonical" href="https://karlimolax.com/" />
       </Helmet>
 
       {/* Hero Section */}
@@ -492,7 +492,7 @@ export default function HomePage() {
               We Cover
             </h2>
             <p className="text-gray-200 max-w-3xl mx-auto text-sm md:text-base">
-              Comprehensive transportation services across Southern California with premium vehicles and professional chauffeurs.
+              Comprehensive transportation services across Southern California with premium sprinter vehicles and professional chauffeurs.
             </p>
           </div>
 

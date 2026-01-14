@@ -16,6 +16,6 @@ export const paymentConfig = {
 
 // Zelle configuration
 export const zelleConfig = {
-  email: 'dapperlimolax@gmail.com',
+  email: 'Knockoutautorentals@gmai.com',
   name: 'Kar Limo LAX'
 }; 

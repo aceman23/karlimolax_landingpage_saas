@@ -62,7 +62,7 @@ const NotFound = () => {
           </div>
           
           <div className="mt-8 text-gray-500">
-            <p>Need assistance? Call us at (310) 555-7890</p>
+            <p>Need assistance? Call us at (424) 526-0457</p>
           </div>
         </div>
       </div>

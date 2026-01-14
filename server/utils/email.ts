@@ -39,7 +39,7 @@ export const sendEmail = async (options: EmailOptions): Promise<void> => {
     console.log('Email subject:', options.subject);
     
     const mailOptions = {
-      from: process.env.SMTP_FROM || 'karlimolax@gmail.com',
+      from: process.env.SMTP_FROM || 'Knockoutautorentals@gmai.com',
       ...options,
     };
     
@@ -220,8 +220,8 @@ The Kar Limo LAX Team`,
               <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e5e5;">
                 <p style="color: #4a4a4a; margin: 0 0 10px 0;">Need help? Our team is here for you:</p>
                 <p style="color: #4a4a4a; margin: 0;">
-                  <strong>Phone:</strong> (310) 555-7890<br>
-                  <strong>Email:</strong> karlimolax@gmail.com
+                  <strong>Phone:</strong> (424) 526-0457<br>
+                  <strong>Email:</strong> Knockoutautorentals@gmai.com
                 </p>
               </div>
             </div>
@@ -419,8 +419,8 @@ If you have any questions about your booking, please contact our customer servic
               <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e5e5;">
                 <p style="color: #4a4a4a; margin: 0 0 10px 0;">If you have any questions about your booking, please contact us:</p>
                 <p style="color: #4a4a4a; margin: 0;">
-                  <strong>Phone:</strong> (310) 555-7890<br>
-                  <strong>Email:</strong> karlimolax@gmail.com
+                  <strong>Phone:</strong> (424) 526-0457<br>
+                  <strong>Email:</strong> Knockoutautorentals@gmai.com
                 </p>
               </div>
             </div>

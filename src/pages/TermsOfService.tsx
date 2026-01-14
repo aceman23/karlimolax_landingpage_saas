@@ -111,8 +111,8 @@ export default function TermsOfService() {
               <p className="mb-1">KarLimoLax</p>
               <p className="mb-1">1550 N Batavia</p>
               <p className="mb-1">Orange, CA 92867</p>
-              <p className="mb-1">Email: legal@dapperlimolax.com</p>
-              <p>Phone: (310) 555-7890</p>
+              <p className="mb-1">Email: Knockoutautorentals@gmai.com</p>
+              <p>Phone: (424) 526-0457</p>
             </div>
           </div>
         </div>

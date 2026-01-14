@@ -139,7 +139,7 @@ export async function sendReminderSms(booking: Booking): Promise<boolean> {
 KarLimoLax Reminder: Your limo service is scheduled for tomorrow at ${pickupTime.toLocaleTimeString()}.
 Booking #${booking._id}
 Pickup Location: ${booking.pickupLocation}
-Any questions? Call us at (310) 555-7890.
+Any questions? Call us at (424) 526-0457.
   `.trim();
   
   const result = await sendSMS({

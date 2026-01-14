@@ -299,7 +299,7 @@ export default function HomePage() {
                     <h3 className="text-lg md:text-xl font-bold mb-2 h-12 md:h-14 overflow-hidden text-white">
                       {vehicle.name}
                     </h3>
-                    <p className="text-gray-200 mb-4 h-16 md:h-20 overflow-y-auto text-sm md:text-base">
+                    <p className="text-gray-200 mb-4 text-sm md:text-base">
                       {vehicle.description || 'High-quality vehicle for your comfort and style.'}
                     </p>
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">

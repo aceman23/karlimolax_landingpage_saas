@@ -92,11 +92,11 @@ export default function Footer() {
               </li>
               <li className="flex items-center space-x-3">
                 <Phone size={20} className="text-purple-500 flex-shrink-0" />
-                <span className="text-gray-400">(213) 590-6085</span>
+                <span className="text-gray-400">(424) 526-0457</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Mail size={20} className="text-purple-500 flex-shrink-0" />
-                <span className="text-gray-400 break-all">dapperlimolax@gmail.com</span>
+                <span className="text-gray-400 break-all">Knockoutautorentals@gmai.com</span>
               </li>
               <li className="flex items-center space-x-3 mt-4">
                 <Lock size={20} className="text-purple-500 flex-shrink-0" />

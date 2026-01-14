@@ -350,20 +350,26 @@ If you have any questions about your booking, please contact our customer servic
         <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
           <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px;">
             <!-- Header -->
-            <div style="text-align: center; padding: 20px 0; background-color: #f59e0b; margin: -20px -20px 20px -20px;">
-              <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Booking Confirmation</h1>
-              <p style="color: #ffffff; margin: 10px 0 0 0;">Kar Limo LAX</p>
+            <div style="text-align: center; padding: 20px 0; background-color: #f2c568; margin: -20px -20px 20px -20px;">
+              <h1 style="color: #1a1a1a; margin: 0; font-size: 24px; font-weight: bold;">Booking Confirmation</h1>
+              <p style="color: #1a1a1a; margin: 10px 0 0 0; font-weight: 600;">Kar Limo LAX</p>
             </div>
 
             <!-- Main Content -->
             <div style="padding: 20px 0;">
               <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
-                Thank you for choosing Kar Limo LAX. Your booking has been confirmed and we're looking forward to serving you.
+                Dear ${customerName},
+              </p>
+              <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                Thank you for choosing Kar Limo LAX for your transportation needs. Your booking has been confirmed and we're looking forward to providing you with exceptional service.
+              </p>
+              <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                Please review your booking details below. If you need to make any changes or have questions, please contact us at your earliest convenience.
               </p>
 
               <!-- Booking Details Section -->
               <div style="background-color: #f8f8f8; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-                <h2 style="color: #1a1a1a; margin: 0 0 15px 0; font-size: 18px; border-bottom: 2px solid #f59e0b; padding-bottom: 10px;">
+                <h2 style="color: #1a1a1a; margin: 0 0 15px 0; font-size: 18px; border-bottom: 2px solid #f2c568; padding-bottom: 10px;">
                   Booking Details
                 </h2>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
@@ -385,7 +391,7 @@ If you have any questions about your booking, please contact our customer servic
 
               <!-- Location Details Section -->
               <div style="background-color: #f8f8f8; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-                <h2 style="color: #1a1a1a; margin: 0 0 15px 0; font-size: 18px; border-bottom: 2px solid #f59e0b; padding-bottom: 10px;">
+                <h2 style="color: #1a1a1a; margin: 0 0 15px 0; font-size: 18px; border-bottom: 2px solid #f2c568; padding-bottom: 10px;">
                   Location Details
                 </h2>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
@@ -401,7 +407,7 @@ If you have any questions about your booking, please contact our customer servic
 
               <!-- Customer Information Section -->
               <div style="background-color: #f8f8f8; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-                <h2 style="color: #1a1a1a; margin: 0 0 15px 0; font-size: 18px; border-bottom: 2px solid #f59e0b; padding-bottom: 10px;">
+                <h2 style="color: #1a1a1a; margin: 0 0 15px 0; font-size: 18px; border-bottom: 2px solid #f2c568; padding-bottom: 10px;">
                   Customer Information
                 </h2>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">

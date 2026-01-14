@@ -120,12 +120,6 @@ export default function Header() {
           <div className="hidden menu:flex items-center space-x-3 flex-shrink-0 ml-4">
             {user ? (
               <div className="flex items-center space-x-2">
-                <div className="flex items-center space-x-2">
-                  <User className="h-5 w-5 text-brand-500 flex-shrink-0" />
-                  <span className="text-sm font-medium text-white truncate max-w-[120px]">
-                    Welcome, {user.firstName} {user.lastName}
-                  </span>
-                </div>
                 <button
                   onClick={logout}
                   className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-brand hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 whitespace-nowrap"
@@ -245,12 +239,6 @@ export default function Header() {
           <div className="mt-3 pt-3 border-t border-gray-800">
             {user ? (
               <div className="flex flex-col space-y-3">
-                <div className="flex items-center space-x-2">
-                  <User className="h-4 w-4 text-brand-500 flex-shrink-0" />
-                  <span className="text-lg font-medium text-white truncate">
-                    Welcome, {user.firstName} {user.lastName}
-                  </span>
-                </div>
                 <button
                   onClick={() => {
                     logout();

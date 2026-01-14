@@ -109,7 +109,7 @@ export const sendBookingNotificationEmail = async (booking: any) => {
     const emailPromises = adminEmails.map(async (email: string) => {
       try {
         await transporter.sendMail({
-          from: process.env.SMTP_FROM || 'dapperlimolax@gmail.com',
+          from: process.env.SMTP_FROM || 'karlimolax@gmail.com',
           to: email,
           subject: `New Booking Notification - ${booking._id?.toString() || 'N/A'}`,
           text: content

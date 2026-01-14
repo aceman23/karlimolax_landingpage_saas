@@ -11,8 +11,11 @@ export default function AboutPage() {
     <div className="bg-gray-50 min-h-screen">
       <Helmet>
         <title>About Us | Kar Limo LAX</title>
-        <meta name="description" content="Learn about KarLimoLax and our premium transportation services in Los Angeles. We offer luxury Mercedes Sprinter limos for airport transfers and special events." />
-        <link rel="canonical" href="https://dapperlimolax.com/about" />
+        <meta
+          name="description"
+          content="Learn about Kar Limo LAX and our premium transportation services across Los Angeles, Orange County, and Riverside County. We provide luxury Mercedes Sprinter limo service for airport transfers, corporate travel, and special events."
+        />
+        <link rel="canonical" href="https://karlimolax.com/about" />
       </Helmet>
       
       {/* Page Header */}
@@ -38,27 +41,27 @@ export default function AboutPage() {
             </div>
             
             <div className="p-8">
-              <h2 className="text-3xl font-bold mb-6">Welcome to KarLimoLax</h2>
+              <h2 className="text-3xl font-bold mb-6">Welcome to Kar Limo LAX</h2>
               
               <div className="prose max-w-none">
                 <p className="mb-4">
-                  Welcome to Dapper Limo Lax, your premier limousine service for airport transportation and special events in Los Angeles, Orange County, and Riverside County. Our fleet of luxurious Mercedes Sprinter limousines are the perfect way to travel in style and comfort.
+                  Kar Limo LAX is a premium transportation company built around one simple promise: your ride should feel effortless. From airport pickups to special events, we deliver a luxury experience with professional chauffeurs and a Mercedes Sprinter fleet designed for comfort, space, and style.
                 </p>
                 
                 <p className="mb-4">
-                  We offer reliable and luxurious transportation to and from major airports, including LAX, SNA, LGB, and ONT. Our professional chauffeurs will ensure that you arrive on time and in style, while our modern amenities, such as plush leather seating, climate control, and premium sound systems, will make your ride a truly enjoyable experience.
+                  We proudly serve Los Angeles, Orange County, and Riverside County with reliable service to major airports including LAX, SNA, LGB, ONT, and SAN. Whether you’re traveling for business or leisure, our team focuses on punctuality, clear communication, and a smooth door-to-door experience.
                 </p>
                 
                 <p className="mb-8">
-                  In addition to airport transportation, we specialize in high-end limousine services for a variety of special events, including weddings, birthdays, corporate events and funerals. Our Mercedes Sprinter limousines are spacious enough to accommodate large parties and provide an elegant and sophisticated transportation solution for your special occasion.
+                  Beyond airport transportation, we provide elevated limo service for special events—weddings, proms, birthdays, corporate events, concerts, and more. Our Sprinter limousines are ideal for groups who want a refined ride, premium amenities, and a chauffeur who takes care of the details.
                 </p>
                 
                 <p className="mb-4">
-                  We also offer transportation to popular Southern California destinations, such as Disneyland and other theme parks, as well as sporting events.
+                  Planning a destination trip? We regularly provide transportation to Disneyland and other theme parks, sporting events, and long-distance destinations throughout Southern California (and beyond).
                 </p>
                 
                 <p className="mb-6">
-                  At Dapper Limo Lax we are committed to delivering exceptional service and ensuring that each of our clients has a memorable and enjoyable experience. Contact us today to book your next event or transportation service. We look forward to serving you!
+                  At Kar Limo LAX, we’re committed to five-star service—clean vehicles, respectful chauffeurs, and consistent reliability. When you book with us, you’re choosing a team that values your time, your comfort, and your peace of mind.
                 </p>
               </div>
             </div>

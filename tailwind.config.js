@@ -5,7 +5,11 @@ module.exports = {
     "./index.html",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'menu': '950px',
+      },
+    },
   },
   plugins: [],
 };

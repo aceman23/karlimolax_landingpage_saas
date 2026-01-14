@@ -27,7 +27,7 @@ export default function Header() {
           
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden p-1.5 rounded-md hover:bg-gray-800 focus:outline-none flex-shrink-0"
+            className="menu:hidden p-1.5 rounded-md hover:bg-gray-800 focus:outline-none flex-shrink-0"
             onClick={toggleMobileMenu}
             aria-label="Toggle menu"
           >
@@ -39,7 +39,7 @@ export default function Header() {
           </button>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6 ml-4">
+          <nav className="hidden menu:flex items-center space-x-6 ml-4">
             <Link 
               to="/" 
               className={`hover:text-purple-400 transition text-base whitespace-nowrap ${isActive('/') ? 'text-purple-400' : ''}`}
@@ -113,7 +113,7 @@ export default function Header() {
           </nav>
           
           {/* Desktop Login Links */}
-          <div className="hidden md:flex items-center space-x-3 flex-shrink-0 ml-4">
+          <div className="hidden menu:flex items-center space-x-3 flex-shrink-0 ml-4">
             {user ? (
               <div className="flex items-center space-x-2">
                 <div className="flex items-center space-x-2">
@@ -153,7 +153,7 @@ export default function Header() {
         </div>
 
         {/* Mobile Menu */}
-        <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} mt-2 pb-2`}>
+        <div className={`menu:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} mt-2 pb-2`}>
           <nav className="flex flex-col space-y-2">
             <Link 
               to="/" 

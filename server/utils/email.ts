@@ -39,7 +39,7 @@ export const sendEmail = async (options: EmailOptions): Promise<void> => {
     console.log('Email subject:', options.subject);
     
     const mailOptions = {
-      from: process.env.SMTP_FROM || 'dapperlimolax@gmail.com',
+      from: process.env.SMTP_FROM || 'karlimolax@gmail.com',
       ...options,
     };
     
@@ -70,7 +70,7 @@ export const templates = {
     console.log('Creating verification email template with URL:', verificationUrl);
     return {
       subject: 'Verify Your Email Address',
-      text: `Hello ${user.name},\n\nPlease verify your email address by clicking the following link:\n${verificationUrl}\n\nThis link will expire in 24 hours.\n\nBest regards,\nDapper Limo LAX Team`,
+      text: `Hello ${user.name},\n\nPlease verify your email address by clicking the following link:\n${verificationUrl}\n\nThis link will expire in 24 hours.\n\nBest regards,\nKar Limo LAX Team`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -83,7 +83,7 @@ export const templates = {
           <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
             <h2 style="color: #1a1a1a; margin-bottom: 20px;">Verify Your Email Address</h2>
             <p style="color: #4a4a4a; margin-bottom: 20px;">Hello ${user.name},</p>
-            <p style="color: #4a4a4a; margin-bottom: 20px;">Thank you for signing up with Dapper Limo LAX. Please verify your email address by clicking the link below:</p>
+            <p style="color: #4a4a4a; margin-bottom: 20px;">Thank you for signing up with Kar Limo LAX. Please verify your email address by clicking the link below:</p>
             <div style="text-align: center; margin: 30px 0;">
               <a href="${verificationUrl}" style="display: inline-block; background-color: #d97706; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
                 Verify Email Address
@@ -92,7 +92,7 @@ export const templates = {
             <p style="color: #4a4a4a; margin-bottom: 20px;">This link will expire in 24 hours.</p>
             <p style="color: #4a4a4a; margin-bottom: 20px;">If you did not create an account, you can safely ignore this email.</p>
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
-              <p style="color: #4a4a4a; margin: 0;">Best regards,<br>Dapper Limo LAX Team</p>
+              <p style="color: #4a4a4a; margin: 0;">Best regards,<br>Kar Limo LAX Team</p>
             </div>
           </div>
         </body>
@@ -104,12 +104,12 @@ export const templates = {
   passwordReset: (resetUrl: string) => {
     console.log('Creating password reset template with URL:', resetUrl);
     const template = {
-      subject: 'Password Reset Request - Dapper Limo LAX',
+      subject: 'Password Reset Request - Kar Limo LAX',
       text: `You requested a password reset. Click this link to set a new password: ${resetUrl}. This link will expire in 1 hour. If you didn't request this, please ignore this email.`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #1a1a1a;">Password Reset Request</h2>
-          <p style="color: #4a4a4a;">You requested a password reset for your Dapper Limo LAX account.</p>
+          <p style="color: #4a4a4a;">You requested a password reset for your Kar Limo LAX account.</p>
           <p style="color: #4a4a4a;">Click the button below to set a new password:</p>
           <div style="text-align: center; margin: 30px 0;">
             <a href="${resetUrl}" 
@@ -131,8 +131,8 @@ export const templates = {
   welcomeEmail: (user: { name: string; email: string }) => {
     console.log('Creating welcome email template for user:', user.email);
     const template = {
-      subject: 'Welcome to Dapper Limo LAX!',
-      text: `Welcome to Dapper Limo LAX, ${user.name}!
+      subject: 'Welcome to Kar Limo LAX!',
+      text: `Welcome to Kar Limo LAX, ${user.name}!
 
 Thank you for creating an account with us. We're excited to have you on board and look forward to providing you with exceptional luxury transportation services.
 
@@ -145,20 +145,20 @@ With your account, you can:
 If you have any questions, our customer service team is here to help.
 
 Best regards,
-The Dapper Limo LAX Team`,
+The Kar Limo LAX Team`,
       html: `
         <!DOCTYPE html>
         <html>
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Welcome to Dapper Limo LAX</title>
+          <title>Welcome to Kar Limo LAX</title>
         </head>
         <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
           <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px;">
             <!-- Header -->
             <div style="text-align: center; padding: 20px 0; background-color: #f59e0b; margin: -20px -20px 20px -20px;">
-              <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Welcome to Dapper Limo LAX</h1>
+              <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Welcome to Kar Limo LAX</h1>
               <p style="color: #ffffff; margin: 10px 0 0 0;">Your Luxury Transportation Partner</p>
             </div>
 
@@ -168,7 +168,7 @@ The Dapper Limo LAX Team`,
                 Dear ${user.name},
               </p>
               <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
-                Thank you for creating an account with Dapper Limo LAX. We're excited to have you on board and look forward to providing you with exceptional luxury transportation services.
+                Thank you for creating an account with Kar Limo LAX. We're excited to have you on board and look forward to providing you with exceptional luxury transportation services.
               </p>
 
               <!-- Features Section -->
@@ -209,7 +209,7 @@ The Dapper Limo LAX Team`,
                   Ready to book your first ride? Simply log in to your account and click the "Book Now" button to get started.
                 </p>
                 <div style="text-align: center; margin: 20px 0;">
-                  <a href="${process.env.FRONTEND_URL || 'https://dapperlimolax.com'}/book" 
+                  <a href="${process.env.FRONTEND_URL || 'https://karlimolax.com'}/book" 
                      style="background-color: #f59e0b; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">
                     Book Your First Ride
                   </a>
@@ -221,7 +221,7 @@ The Dapper Limo LAX Team`,
                 <p style="color: #4a4a4a; margin: 0 0 10px 0;">Need help? Our team is here for you:</p>
                 <p style="color: #4a4a4a; margin: 0;">
                   <strong>Phone:</strong> (310) 555-7890<br>
-                  <strong>Email:</strong> dapperlimolax@gmail.com
+                  <strong>Email:</strong> karlimolax@gmail.com
                 </p>
               </div>
             </div>
@@ -230,7 +230,7 @@ The Dapper Limo LAX Team`,
             <div style="text-align: center; padding: 20px 0; border-top: 1px solid #e5e5e5; margin-top: 20px;">
               <p style="color: #888; font-size: 12px; margin: 0;">
                 This is an automated message, please do not reply to this email.<br>
-                © ${new Date().getFullYear()} Dapper Limo LAX. All rights reserved.
+                © ${new Date().getFullYear()} Kar Limo LAX. All rights reserved.
               </p>
             </div>
           </div>
@@ -318,7 +318,7 @@ The Dapper Limo LAX Team`,
     
     const template = {
       subject: `Booking Confirmation - ${booking._id}`,
-      text: `Thank you for your booking with Dapper Limo LAX. Your booking has been confirmed.
+      text: `Thank you for your booking with Kar Limo LAX. Your booking has been confirmed.
       
 Booking Details:
 - Booking ID: ${booking._id}
@@ -352,13 +352,13 @@ If you have any questions about your booking, please contact our customer servic
             <!-- Header -->
             <div style="text-align: center; padding: 20px 0; background-color: #f59e0b; margin: -20px -20px 20px -20px;">
               <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Booking Confirmation</h1>
-              <p style="color: #ffffff; margin: 10px 0 0 0;">Dapper Limo LAX</p>
+              <p style="color: #ffffff; margin: 10px 0 0 0;">Kar Limo LAX</p>
             </div>
 
             <!-- Main Content -->
             <div style="padding: 20px 0;">
               <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
-                Thank you for choosing Dapper Limo LAX. Your booking has been confirmed and we're looking forward to serving you.
+                Thank you for choosing Kar Limo LAX. Your booking has been confirmed and we're looking forward to serving you.
               </p>
 
               <!-- Booking Details Section -->
@@ -420,7 +420,7 @@ If you have any questions about your booking, please contact our customer servic
                 <p style="color: #4a4a4a; margin: 0 0 10px 0;">If you have any questions about your booking, please contact us:</p>
                 <p style="color: #4a4a4a; margin: 0;">
                   <strong>Phone:</strong> (310) 555-7890<br>
-                  <strong>Email:</strong> dapperlimolax@gmail.com
+                  <strong>Email:</strong> karlimolax@gmail.com
                 </p>
               </div>
             </div>
@@ -429,7 +429,7 @@ If you have any questions about your booking, please contact our customer servic
             <div style="text-align: center; padding: 20px 0; border-top: 1px solid #e5e5e5; margin-top: 20px;">
               <p style="color: #888; font-size: 12px; margin: 0;">
                 This is an automated message, please do not reply to this email.<br>
-                © ${new Date().getFullYear()} Dapper Limo LAX. All rights reserved.
+                © ${new Date().getFullYear()} Kar Limo LAX. All rights reserved.
               </p>
             </div>
           </div>

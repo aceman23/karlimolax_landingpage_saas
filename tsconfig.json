@@ -2,7 +2,10 @@
   "compilerOptions": {
     "target": "es2018",
     "module": "commonjs",
-    "lib": ["es2018", "esnext.asynciterable"],
+    "lib": [
+      "es2018",
+      "esnext.asynciterable"
+    ],
     "skipLibCheck": true,
     "sourceMap": true,
     "outDir": "./dist",
@@ -21,8 +24,18 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "allowJs": true,
+    "strict": false,
+    "noEmit": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
   },
-  "exclude": ["node_modules"],
-  "include": ["./scripts/**/*.ts"]
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "./scripts/**/*.ts"
+  ]
 }

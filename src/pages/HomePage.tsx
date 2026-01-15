@@ -482,7 +482,7 @@ export default function HomePage() {
               </div>
               <div className="p-4 md:p-6">
                 <div className="flex items-center gap-2 text-brand-200 mb-2">
-                  <ImageIcon className="h-5 w-5" />
+                  <Image className="h-5 w-5" />
                   <h3 className="font-semibold text-white">Premium Interior</h3>
                 </div>
                 <p className="text-sm text-gray-300">
@@ -504,7 +504,7 @@ export default function HomePage() {
               </div>
               <div className="p-4 md:p-6">
                 <div className="flex items-center gap-2 text-brand-200 mb-2">
-                  <ImageIcon className="h-5 w-5" />
+                  <Image className="h-5 w-5" />
                   <h3 className="font-semibold text-white">Elegant Exterior</h3>
                 </div>
                 <p className="text-sm text-gray-300">
@@ -526,7 +526,7 @@ export default function HomePage() {
               </div>
               <div className="p-4 md:p-6">
                 <div className="flex items-center gap-2 text-brand-200 mb-2">
-                  <ImageIcon className="h-5 w-5" />
+                  <Image className="h-5 w-5" />
                   <h3 className="font-semibold text-white">Spacious Entry</h3>
                 </div>
                 <p className="text-sm text-gray-300">

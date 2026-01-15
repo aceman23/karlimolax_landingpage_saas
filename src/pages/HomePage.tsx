@@ -402,11 +402,11 @@ export default function HomePage() {
           )}
 
           {!loadingFleet && !fleetError && fleetVehicles.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8 max-w-6xl mx-auto">
               {fleetVehicles.map(vehicle => (
                 <div
                   key={vehicle._id}
-                  className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-xl overflow-hidden hover:bg-white/15 transition-all duration-300"
+                  className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-xl overflow-hidden hover:bg-white/15 transition-all duration-300 w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm flex-shrink-0"
                 >
                   <div className="relative h-40 md:h-48">
                     {vehicle.imageUrls && vehicle.imageUrls.length > 0 ? (

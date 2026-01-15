@@ -117,7 +117,7 @@ export default function AboutPage() {
                   </li>
                   <li className="flex items-start">
                     <span className="text-brand mr-2">•</span>
-                    Sporting Events, Bar Hopping, Concerts, Corporate Events
+                     Concerts, Corporate Events & more
                   </li>
                 </ul>
               </div>
@@ -133,11 +133,11 @@ export default function AboutPage() {
                 <ul className="text-gray-600 space-y-1 mb-4">
                   <li className="flex items-start">
                     <span className="text-brand mr-2">•</span>
-                    Disneyland & theme parks
+                    Disneyland Hotels & Theme Parks
                   </li>
                   <li className="flex items-start">
                     <span className="text-brand mr-2">•</span>
-                    Sporting events
+                    Sporting Events
                   </li>
                   <li className="flex items-start">
                     <span className="text-brand mr-2">•</span>

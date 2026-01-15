@@ -41,11 +41,11 @@ export default function AboutPage() {
             </div>
             
             <div className="p-8">
-              <h2 className="text-3xl font-bold mb-6">Welcome to KarLimoLAX.com owned & operated by KAR Transportation Services</h2>
+              <h2 className="text-3xl font-bold mb-6">Welcome to KarLimoLAX.com owned & operated by KAR Transportation Services from Carson, California</h2>
               
               <div className="prose max-w-none">
                 <p className="mb-4">
-                  Kar Limo LAX is a premium transportation company built around one simple promise: your ride should feel effortless. From airport pickups to special events, we deliver a luxury experience with professional chauffeurs and a Mercedes Sprinter fleet designed for comfort, space, and style.
+                  KarLimoLAX.com is a premium transportation booking system & service built around one simple promise: your ride should feel effortless. From airport pickups to special events, we deliver a luxury experience with professional chauffeurs and a Mercedes Sprinter fleet designed for comfort, space, and style.
                 </p>
                 
                 <p className="mb-4">
@@ -61,7 +61,7 @@ export default function AboutPage() {
                 </p>
                 
                 <p className="mb-6">
-                  At Kar Limo LAX, we’re committed to five-star service—clean vehicles, respectful chauffeurs, and consistent reliability. When you book with us, you’re choosing a team that values your time, your comfort, and your peace of mind.
+                  At KarLimoLAX.com, we’re committed to five-star service—clean vehicles, respectful chauffeurs, and consistent reliability. When you book with us, you’re choosing a team that values your time, your comfort, and your peace of mind.
                 </p>
               </div>
             </div>

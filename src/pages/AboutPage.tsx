@@ -109,15 +109,15 @@ export default function AboutPage() {
                 <ul className="text-gray-600 space-y-1 mb-4">
                   <li className="flex items-start">
                     <span className="text-brand mr-2">•</span>
-                    Weddings & proms
+                    Weddings & Proms, Funerals
                   </li>
                   <li className="flex items-start">
                     <span className="text-brand mr-2">•</span>
-                    Corporate events
+                    Quinceañera’s, Sweet 16’s, Birthday celebrations
                   </li>
                   <li className="flex items-start">
                     <span className="text-brand mr-2">•</span>
-                    Birthday celebrations
+                    Sporting Events, Bar Hopping, Concerts, Corporate Events
                   </li>
                 </ul>
               </div>

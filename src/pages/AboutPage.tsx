@@ -34,7 +34,7 @@ export default function AboutPage() {
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="h-64 overflow-hidden">
               <img 
-                src="/limo-2.png" 
+                src="/Sprinter10.jpeg" 
                 alt="Mercedes Sprinter Limo Fleet" 
                 className="w-full h-full object-cover"
               />

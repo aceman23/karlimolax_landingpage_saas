@@ -9,7 +9,7 @@ const vehiclesToSeed = [
   {
     name: 'Mercedes VIP Sprinter',
     make: 'Mercedes-Benz',
-    model: 'Sprinter Limo',
+    model: 'Sprinter VIP',
     year: 2024, 
     description: 'Ultimate luxury and comfort with the VIP1 Limo Sprinter. Perfect for special occasions and executive travel.',
     capacity: 12, 
@@ -23,7 +23,7 @@ const vehiclesToSeed = [
   {
     name: 'Mercedes Sprinter Limo',
     make: 'Mercedes-Benz',
-    model: 'Sprinter Executive',
+    model: 'Sprinter Limo',
     year: 2023, 
     description: 'Sophisticated and spacious, the VIP2 Executive Sprinter is ideal for corporate clients and group travel.',
     capacity: 12, 

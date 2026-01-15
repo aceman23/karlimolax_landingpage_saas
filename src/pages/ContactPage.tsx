@@ -48,7 +48,7 @@ export default function ContactPage() {
     <div className="bg-gray-50 min-h-screen">
       <Helmet>
         <title>Contact Us | KAR Limo LAX</title>
-        <meta name="description" content="Contact KAR Limo LAX for premium transportation services in Los Angeles. We're here to help with your booking inquiries and special requests." />
+        <meta name="description" content="Contact KAR Transportation Services for premium transportation services in Los Angeles. We're here to help with your booking inquiries and special requests." />
         <link rel="canonical" href="https://karlimolax.com/contact" />
       </Helmet>
 

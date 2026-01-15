@@ -549,7 +549,7 @@ export default function HomePage() {
               <div className="p-4 md:p-6">
                 <div className="flex items-center gap-2 text-brand-200 mb-2">
                   <Image className="h-5 w-5" />
-                  <h3 className="font-semibold text-white">Premium Sprinter</h3>
+                  <h3 className="font-semibold text-white">VIP Sprinter</h3>
                 </div>
                 <p className="text-sm text-gray-300">
                   Luxury transportation at its finest
@@ -571,7 +571,7 @@ export default function HomePage() {
               <div className="p-4 md:p-6">
                 <div className="flex items-center gap-2 text-brand-200 mb-2">
                   <Image className="h-5 w-5" />
-                  <h3 className="font-semibold text-white">Elite Sprinter</h3>
+                  <h3 className="font-semibold text-white">VIP Sprinter</h3>
                 </div>
                 <p className="text-sm text-gray-300">
                   Spacious and comfortable interior
@@ -637,7 +637,7 @@ export default function HomePage() {
               <div className="p-4 md:p-6">
                 <div className="flex items-center gap-2 text-brand-200 mb-2">
                   <Image className="h-5 w-5" />
-                  <h3 className="font-semibold text-white">Premium Sprinter</h3>
+                  <h3 className="font-semibold text-white">VIP Sprinter</h3>
                 </div>
                 <p className="text-sm text-gray-300">
                   Exceptional quality and service
@@ -659,7 +659,7 @@ export default function HomePage() {
               <div className="p-4 md:p-6">
                 <div className="flex items-center gap-2 text-brand-200 mb-2">
                   <Image className="h-5 w-5" />
-                  <h3 className="font-semibold text-white">Elite Sprinter</h3>
+                  <h3 className="font-semibold text-white">VIP Sprinter</h3>
                 </div>
                 <p className="text-sm text-gray-300">
                   Sophisticated and refined

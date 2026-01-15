@@ -7,12 +7,12 @@ dotenv.config({ path: '../.env' }); // Path to .env from script location
 
 const vehiclesToSeed = [
   {
-    name: 'Mercedes Limo Sprinter (VIP1)',
+    name: 'Mercedes VIP Sprinter',
     make: 'Mercedes-Benz',
     model: 'Sprinter Limo',
-    year: 2023, 
+    year: 2024, 
     description: 'Ultimate luxury and comfort with the VIP1 Limo Sprinter. Perfect for special occasions and executive travel.',
-    capacity: 10, 
+    capacity: 12, 
     pricePerHour: 150, 
     features: ['Plush leather seating', 'Ambient lighting', 'Privacy partition', 'Premium sound system', 'Bar area', 'Smart TV'],
     imageUrls: ['/exec-image-2.png', '/limo.png'],
@@ -21,7 +21,7 @@ const vehiclesToSeed = [
     status: 'active',
   },
   {
-    name: 'Mercedes Executive Sprinter (VIP2)',
+    name: 'Mercedes Sprinter Limo',
     make: 'Mercedes-Benz',
     model: 'Sprinter Executive',
     year: 2023, 

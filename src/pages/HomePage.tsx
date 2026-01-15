@@ -468,7 +468,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 max-w-7xl mx-auto">
             {/* Sprinter 1 */}
             <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
               <div className="relative aspect-[4/3] overflow-hidden">
@@ -513,12 +513,12 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Sprinter 1 Tailgate */}
+            {/* Sprinter 7 (replacing Tailgate) */}
             <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img
-                  src="/Sprinter1_Tailgate.jpg"
-                  alt="Mercedes Sprinter Limousine Tailgate"
+                  src="/Sprinter7.jpeg"
+                  alt="Mercedes Sprinter Limousine"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
@@ -527,13 +527,234 @@ export default function HomePage() {
               <div className="p-4 md:p-6">
                 <div className="flex items-center gap-2 text-brand-200 mb-2">
                   <Image className="h-5 w-5" />
-                  <h3 className="font-semibold text-white">Spacious Entry</h3>
+                  <h3 className="font-semibold text-white">Luxury Sprinter</h3>
                 </div>
                 <p className="text-sm text-gray-300">
-                  Easy access with our convenient tailgate design
+                  Premium Mercedes Sprinter limousine
                 </p>
               </div>
             </div>
+
+            {/* Sprinter 3 */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter3.jpeg"
+                  alt="Mercedes Sprinter Limousine"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <Image className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Premium Sprinter</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Luxury transportation at its finest
+                </p>
+              </div>
+            </div>
+
+            {/* Sprinter 4 */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter4.jpeg"
+                  alt="Mercedes Sprinter Limousine"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <Image className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Elite Sprinter</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Spacious and comfortable interior
+                </p>
+              </div>
+            </div>
+
+            {/* Sprinter 5 */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter5.jpeg"
+                  alt="Mercedes Sprinter Limousine"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <Image className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Executive Sprinter</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Professional and elegant design
+                </p>
+              </div>
+            </div>
+
+            {/* Sprinter 6 */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter6.jpeg"
+                  alt="Mercedes Sprinter Limousine"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <Image className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Luxury Sprinter</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Premium comfort and style
+                </p>
+              </div>
+            </div>
+
+            {/* Sprinter 8 */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter8.jpeg"
+                  alt="Mercedes Sprinter Limousine"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <Image className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Premium Sprinter</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Exceptional quality and service
+                </p>
+              </div>
+            </div>
+
+            {/* Sprinter 9 */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter9.jpeg"
+                  alt="Mercedes Sprinter Limousine"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <Image className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Elite Sprinter</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Sophisticated and refined
+                </p>
+              </div>
+            </div>
+
+            {/* Sprinter 11 */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter11.jpeg"
+                  alt="Mercedes Sprinter Limousine"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <Image className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Premium Sprinter</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Top-tier transportation experience
+                </p>
+              </div>
+            </div>
+
+            {/* Sprinter 12 */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter12.jpeg"
+                  alt="Mercedes Sprinter Limousine"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <Image className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Executive Sprinter</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Professional luxury service
+                </p>
+              </div>
+            </div>
+
+            {/* Sprinter 13 */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter13.jpeg"
+                  alt="Mercedes Sprinter Limousine"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <Image className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Elite Sprinter</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Superior quality and design
+                </p>
+              </div>
+            </div>
+
+            {/* Sprinter 14 */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter14.jpeg"
+                  alt="Mercedes Sprinter Limousine"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <Image className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Luxury Sprinter</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Exceptional comfort and style
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

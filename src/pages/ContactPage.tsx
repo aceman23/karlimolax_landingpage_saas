@@ -162,7 +162,9 @@ export default function ContactPage() {
                   <Phone className="h-6 w-6 text-brand-500 mr-3 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold">Phone</h3>
-                    <p className="text-gray-600">(424) 526-0457</p>
+                    <a href="tel:+14245260457" className="text-gray-600 hover:text-brand-500 transition">
+                      (424) 526-0457
+                    </a>
                   </div>
                 </div>
 

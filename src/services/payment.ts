@@ -134,18 +134,55 @@ export async function processStripePayment(
       throw new Error('No client secret received from server');
     }
 
+    // Validate client secret format (should be pi_xxx_secret_xxx)
+    if (!data.clientSecret || typeof data.clientSecret !== 'string' || !data.clientSecret.includes('_secret_')) {
+      console.error('[ERROR] Invalid client secret format:', data.clientSecret?.substring(0, 20));
+      throw new Error('Invalid payment session. Please try again.');
+    }
+
     // Confirm the payment with the client secret
     console.log('[DEBUG] Confirming payment with client secret:', data.clientSecret?.substring(0, 20) + '...');
     console.log('[DEBUG] Payment intent ID:', data.paymentIntentId);
     console.log('[DEBUG] Cardholder name:', paymentInfo.cardholderName);
     
-    const result = await stripe.confirmCardPayment(data.clientSecret, {
-      payment_method: {
-        card: cardNumberElement,
-        billing_details: {
-          name: paymentInfo.cardholderName,
-        },
+    // Ensure card elements are still valid
+    if (!cardNumberElement || !cardExpiryElement || !cardCvcElement) {
+      throw new Error('Card information is missing. Please refresh and try again.');
+    }
+    
+    // Create payment method first from card elements
+    // This is more reliable than passing card elements directly to confirmCardPayment
+    console.log('[DEBUG] Creating payment method from card elements');
+    const { error: pmError, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardNumberElement,
+      billing_details: {
+        name: paymentInfo.cardholderName || '',
       },
+    });
+    
+    if (pmError) {
+      console.error('[ERROR] Failed to create payment method:', pmError);
+      return {
+        success: false,
+        error: pmError.message || 'Failed to process card information. Please check your card details and try again.',
+      };
+    }
+    
+    if (!paymentMethod) {
+      return {
+        success: false,
+        error: 'Failed to create payment method. Please try again.',
+      };
+    }
+    
+    console.log('[DEBUG] Payment method created:', paymentMethod.id);
+    
+    // Confirm the payment intent with the payment method ID
+    // This approach is more reliable than passing card elements directly
+    console.log('[DEBUG] Confirming payment intent with payment method');
+    const result = await stripe.confirmCardPayment(data.clientSecret, {
+      payment_method: paymentMethod.id,
     });
     
     console.log('[DEBUG] Payment confirmation result:', {
@@ -157,22 +194,42 @@ export async function processStripePayment(
 
     if (result.error) {
       console.error('[ERROR] Payment confirmation failed:', result.error);
+      console.error('[ERROR] Error code:', result.error.code);
+      console.error('[ERROR] Error type:', result.error.type);
+      console.error('[ERROR] Error message:', result.error.message);
       
       // Handle specific Stripe errors
-      if (result.error.code === 'resource_missing') {
+      if (result.error.code === 'resource_missing' || result.error.code === 'payment_intent_unexpected_state') {
+        // Payment intent might have expired or been used - suggest retry
         return {
           success: false,
-          error: 'Payment session expired. Please try again.',
+          error: 'Payment session expired or invalid. Please try again with a fresh payment.',
+        };
+      }
+      
+      // Handle card errors more gracefully
+      if (result.error.type === 'card_error') {
+        return {
+          success: false,
+          error: result.error.message || 'Card payment failed. Please check your card details and try again.',
         };
       }
       
       return {
         success: false,
-        error: result.error.message,
+        error: result.error.message || 'Payment confirmation failed. Please try again.',
       };
     }
 
     console.log('[DEBUG] Payment confirmed successfully:', result.paymentIntent?.id);
+    console.log('[DEBUG] Payment intent status:', result.paymentIntent?.status);
+    console.log('[DEBUG] Payment intent amount:', result.paymentIntent?.amount);
+    
+    // Verify the payment was actually captured
+    if (result.paymentIntent?.status !== 'succeeded') {
+      console.warn('[WARNING] Payment intent status is not "succeeded":', result.paymentIntent?.status);
+    }
+    
     return {
       success: true,
       paymentIntent: result.paymentIntent,

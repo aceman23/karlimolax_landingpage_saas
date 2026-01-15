@@ -1121,11 +1121,22 @@ router.post('/create-payment-intent', async (req, res) => {
       automatic_payment_methods: {
         enabled: true,
       },
+      capture_method: 'automatic', // Explicitly set to automatically capture payment
       // Add a unique description to help with debugging
       description: `Booking payment - ${new Date().toISOString()}`,
     });
 
     console.log('[DEBUG] Payment intent created:', paymentIntent.id);
+    console.log('[DEBUG] Payment intent status:', paymentIntent.status);
+    console.log('[DEBUG] Client secret present:', !!paymentIntent.client_secret);
+    
+    if (!paymentIntent.client_secret) {
+      console.error('[ERROR] Payment intent created but no client secret returned');
+      return res.status(500).json({ 
+        error: 'Failed to create payment session',
+        details: 'No client secret returned from Stripe'
+      });
+    }
 
     res.json({
       clientSecret: paymentIntent.client_secret,

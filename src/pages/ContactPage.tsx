@@ -153,7 +153,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold">Address</h3>
                     <p className="text-gray-600">
-                      Carson, CA
+                      Carson Street, Carson, CA 90745
                     </p>
                   </div>
                 </div>
@@ -207,17 +207,20 @@ export default function ContactPage() {
               <h2 className="text-2xl font-bold mb-6">Our Location</h2>
               <div className="aspect-w-16 aspect-h-9">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.1234567890123!2d-117.853683!3d33.787235!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dcd9c8c8c8c8c8%3A0x0!2zMTU1MCBOIEJhdGF2aWEsIE9yYW5nZSwgQ0EgOTI4Njc!5e0!3m2!1sen!2sus!4v1234567890"
+                  src="https://www.google.com/maps?q=Carson+Street,+Carson,+CA+90745&output=embed&zoom=15"
                   width="100%"
                   height="300"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Kar Limo LAX Location"
+                  title="Kar Limo LAX Location - Carson Street, Carson, CA"
                   className="rounded-lg"
                 />
               </div>
+              <p className="mt-4 text-sm text-gray-600">
+                Carson Street, Carson, CA 90745
+              </p>
             </div>
           </div>
         </div>

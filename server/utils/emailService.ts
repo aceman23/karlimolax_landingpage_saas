@@ -1,5 +1,8 @@
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 import { AdminSettings } from '../models/schema.js';
+
+dotenv.config();
 
 // Create a transporter using SMTP
 const transporter = nodemailer.createTransport({

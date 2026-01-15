@@ -9,16 +9,16 @@
   "telephone": "+12135906085",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "1550 N Batavia",
-    "addressLocality": "Orange",
+    "streetAddress": "Carson Street",
+    "addressLocality": "Carson",
     "addressRegion": "CA",
-    "postalCode": "92867",
+    "postalCode": "90745",
     "addressCountry": "US"
   },
   "geo": {
     "@type": "GeoCoordinates",
-    "latitude": 34.052235,
-    "longitude": -118.243683
+    "latitude": 33.8310,
+    "longitude": -118.2819
   },
   "openingHoursSpecification": {
     "@type": "OpeningHoursSpecification",

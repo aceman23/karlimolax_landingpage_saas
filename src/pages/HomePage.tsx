@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Star, ThumbsUp, Lock, ChevronLeft, ChevronRight, Car, ChevronDown, ArrowRight, Shield, Clock, Users, Award, Calendar, MapPin, CreditCard, Plane, Sparkles, Briefcase } from 'lucide-react';
+import { Star, ThumbsUp, Lock, ChevronLeft, ChevronRight, Car, ChevronDown, ArrowRight, Shield, Clock, Users, Award, Calendar, MapPin, CreditCard, Plane, Sparkles, Briefcase, Image } from 'lucide-react';
 import Button from '../components/common/Button';
 // import ServiceCard from '../components/common/ServiceCard'; // Keep commented for now
 // import TestimonialCard from '../components/common/TestimonialCard'; // Keep commented for now
 // import BookingForm from '../components/booking/BookingForm'; // Keep commented for now
 import { Helmet } from 'react-helmet-async';
-import { useEffect, useState } from 'react'; // Removed useRef, useCallback
+import { useEffect, useState, useRef } from 'react';
 import Carousel from '../components/common/Carousel'; // Added import for Carousel
 import InstagramEmbed from '../components/common/InstagramEmbed';
 
@@ -27,6 +27,7 @@ export default function HomePage() {
   const [loadingFleet, setLoadingFleet] = useState(true);
   const [fleetError, setFleetError] = useState<string | null>(null);
   const [instagramImages, setInstagramImages] = useState<Array<{ src: string; href?: string; alt?: string }>>([]);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const fetchFleetVehicles = async () => {
@@ -66,7 +67,126 @@ export default function HomePage() {
     fetchInstagram();
   }, []);
 
+  // Ensure video plays completely and doesn't pause unexpectedly
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
 
+    const ensurePlaying = () => {
+      if (video.paused && !video.ended) {
+        video.play().catch(err => {
+          console.warn('Video play attempt failed:', err);
+        });
+      }
+    };
+
+    const handleCanPlayThrough = () => {
+      // Video is ready to play through without stopping
+      ensurePlaying();
+    };
+
+    const handleLoadedData = () => {
+      // Ensure video plays when data is loaded
+      ensurePlaying();
+    };
+
+    const handleEnded = () => {
+      // If loop attribute doesn't work, manually restart
+      if (video.loop) {
+        video.currentTime = 0;
+        video.play().catch(err => {
+          console.warn('Video restart failed:', err);
+        });
+      }
+    };
+
+    const handlePause = () => {
+      // If video pauses unexpectedly (not by user), resume it
+      // Only auto-resume if it's not at the end and should be looping
+      if (!video.ended && video.loop) {
+        // Small delay to avoid conflicts with browser controls
+        setTimeout(() => {
+          if (video.paused && !video.ended) {
+            video.play().catch(err => {
+              console.warn('Video auto-resume failed:', err);
+            });
+          }
+        }, 100);
+      }
+    };
+
+    const handleWaiting = () => {
+      // Video is buffering - ensure it resumes when ready
+      video.addEventListener('canplay', () => {
+        ensurePlaying();
+      }, { once: true });
+    };
+
+    const handleStalled = () => {
+      // Video loading stalled - try to resume
+      console.warn('Video stalled, attempting to resume...');
+      setTimeout(() => {
+        ensurePlaying();
+      }, 500);
+    };
+
+    const handleError = (e: Event) => {
+      console.error('Video error:', e);
+      // Try to reload the video source
+      const source = video.querySelector('source');
+      if (source) {
+        const src = source.src;
+        source.src = '';
+        setTimeout(() => {
+          source.src = src;
+          video.load();
+        }, 1000);
+      }
+    };
+
+    // Handle page visibility changes
+    const handleVisibilityChange = () => {
+      if (!document.hidden && video.paused && !video.ended) {
+        video.play().catch(err => {
+          console.warn('Video resume on visibility change failed:', err);
+        });
+      }
+    };
+
+    // Periodic check to ensure video is playing (every 2 seconds)
+    const playCheckInterval = setInterval(() => {
+      if (video.paused && !video.ended && video.loop) {
+        ensurePlaying();
+      }
+    }, 2000);
+
+    // Add all event listeners
+    video.addEventListener('canplaythrough', handleCanPlayThrough);
+    video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('ended', handleEnded);
+    video.addEventListener('pause', handlePause);
+    video.addEventListener('waiting', handleWaiting);
+    video.addEventListener('stalled', handleStalled);
+    video.addEventListener('error', handleError);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Try to play immediately if video is already loaded
+    if (video.readyState >= 3) {
+      ensurePlaying();
+    }
+
+    return () => {
+      clearInterval(playCheckInterval);
+      video.removeEventListener('canplaythrough', handleCanPlayThrough);
+      video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('ended', handleEnded);
+      video.removeEventListener('pause', handlePause);
+      video.removeEventListener('waiting', handleWaiting);
+      video.removeEventListener('stalled', handleStalled);
+      video.removeEventListener('error', handleError);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   return (
     <div>
@@ -81,14 +201,18 @@ export default function HomePage() {
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
+            preload="auto"
+            disablePictureInPicture
+            disableRemotePlayback
             className="w-full h-full object-cover"
             style={{ minHeight: '100%', minWidth: '100%' }}
           >
-            <source src="/KARLimoLAX_HD.mp4" type="video/mp4" />
+            <source src="/KARLimoLAX_HeroVideo.mp4" type="video/mp4" />
             {/* Fallback image if video doesn't load */}
             <img
               src="/limo-2.png"
@@ -315,6 +439,102 @@ export default function HomePage() {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section className="relative py-12 md:py-20 bg-gray-900 text-white overflow-hidden">
+        {/* Background overlays (match hero styling) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/60" />
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+            backgroundSize: '50px 50px',
+          }}
+        />
+
+        <div className="relative z-10 container mx-auto px-4">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              Our{' '}
+              <span className="bg-gradient-to-r from-brand-300 to-brand-500 bg-clip-text text-transparent">
+                Gallery
+              </span>
+            </h2>
+            <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto">
+              Take a closer look at our premium Mercedes Sprinter limousines
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+            {/* Sprinter 1 */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter1.jpg"
+                  alt="Mercedes Sprinter Limousine Interior"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <ImageIcon className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Premium Interior</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Luxurious and spacious interior designed for your comfort
+                </p>
+              </div>
+            </div>
+
+            {/* Sprinter 2 */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter2.jpg"
+                  alt="Mercedes Sprinter Limousine Exterior"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <ImageIcon className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Elegant Exterior</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Sleek and sophisticated design that makes a statement
+                </p>
+              </div>
+            </div>
+
+            {/* Sprinter 1 Tailgate */}
+            <div className="group relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/Sprinter1_Tailgate.jpg"
+                  alt="Mercedes Sprinter Limousine Tailgate"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-4 md:p-6">
+                <div className="flex items-center gap-2 text-brand-200 mb-2">
+                  <ImageIcon className="h-5 w-5" />
+                  <h3 className="font-semibold text-white">Spacious Entry</h3>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Easy access with our convenient tailgate design
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
       

@@ -305,16 +305,33 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     // Apply fee rules
     if (settings.feeRules.length > 0) {
+      // Calculate distance in miles for use in fee rules
+      const distanceInMiles = bookingDetails.distance?.value 
+        ? bookingDetails.distance.value / 1609.34 
+        : 0;
+      
       settings.feeRules.forEach(rule => {
         // Here you can add logic to evaluate conditions and apply fees
         // For example, if rule.condition is a string that can be evaluated
         try {
-          const condition = new Function('bookingDetails', 'settings', `return ${rule.condition}`);
-          if (condition(bookingDetails, settings)) {
+          // Create a safe evaluation context with all necessary variables
+          // The condition can reference: bookingDetails, settings, distance, distanceInMiles, total
+          const condition = new Function(
+            'bookingDetails', 
+            'settings', 
+            'distance', 
+            'distanceInMiles',
+            'total',
+            `return ${rule.condition}`
+          );
+          // Pass distance and distanceInMiles as the same value for convenience
+          if (condition(bookingDetails, settings, distanceInMiles, distanceInMiles, total)) {
             total += rule.fee;
           }
         } catch (error) {
           console.error('[ERROR] Error evaluating fee rule:', error);
+          console.error('[ERROR] Rule condition:', rule.condition);
+          // Don't break the flow, just skip this rule
         }
       });
     }

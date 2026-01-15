@@ -353,8 +353,9 @@ export async function updateServicePackage(id: string, data: Partial<ServicePack
     body: JSON.stringify(data),
   });
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ message: 'Failed to update service package' }));
-    throw new Error(errorData.message || 'Failed to update service package');
+    const errorData = await response.json().catch(() => ({ error: 'Failed to update service package' }));
+    const errorMessage = errorData.error || errorData.message || errorData.details || 'Failed to update service package';
+    throw new Error(errorMessage);
   }
   return response.json();
 }

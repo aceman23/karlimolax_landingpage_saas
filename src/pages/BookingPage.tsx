@@ -752,15 +752,14 @@ export default function BookingPage() {
                               (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
                             );
                             
-                            // If no tier found and distance exceeds all tiers, use the highest tier
+                            // If no tier found and distance exceeds all tiers, only use the highest tier if it has Infinity/null maxDistance
                             if (!applicableTier && settings.distanceTiers.length > 0) {
-                              const sortedTiers = [...settings.distanceTiers].sort((a, b) => 
-                                (a.maxDistance === Infinity || a.maxDistance === null ? Infinity : a.maxDistance) - 
-                                (b.maxDistance === Infinity || b.maxDistance === null ? Infinity : b.maxDistance)
+                              const openEndedTier = settings.distanceTiers.find(tier => 
+                                tier.maxDistance === Infinity || tier.maxDistance === null
                               );
-                              const highestTier = sortedTiers[sortedTiers.length - 1];
-                              if (distanceInMiles >= highestTier.minDistance) {
-                                applicableTier = highestTier;
+                              
+                              if (openEndedTier && distanceInMiles >= openEndedTier.minDistance) {
+                                applicableTier = openEndedTier;
                               }
                             }
 
@@ -1043,37 +1042,179 @@ export default function BookingPage() {
                     <span>Base Price:</span>
                     <span>${calculateBasePrice().toFixed(2)}</span>
                   </div>
-                  {settings.distanceFeeEnabled && bookingDetails.distance && (
-                    <>
-                      {(() => {
-                        const distanceInMiles = bookingDetails.distance.value / 1609.34;
-                        const applicableTier = settings.distanceTiers.find(tier => 
-                          (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
-                          (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
+                  {bookingDetails.distance && (() => {
+                    const distanceInMiles = bookingDetails.distance.value / 1609.34;
+                    const breakdownItems: JSX.Element[] = [];
+                    
+                    // Distance tier fees
+                    if (settings.distanceFeeEnabled) {
+                      let applicableTier = settings.distanceTiers.find(tier => 
+                        (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
+                        (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
+                      );
+                      
+                      // If no tier found and distance exceeds all tiers, only use the highest tier if it has Infinity/null maxDistance
+                      if (!applicableTier && settings.distanceTiers.length > 0) {
+                        const openEndedTier = settings.distanceTiers.find(tier => 
+                          tier.maxDistance === Infinity || tier.maxDistance === null
                         );
-
-                        if (applicableTier) {
-                          return (
-                            <>
-                              <div className="flex justify-between text-brand text-xs sm:text-sm">
-                                <span className="break-words">Distance Fee ({applicableTier.maxDistance === Infinity || applicableTier.maxDistance === null 
-                                  ? `${applicableTier.minDistance}+ miles` 
-                                  : `${applicableTier.minDistance}-${applicableTier.maxDistance} miles`}):</span>
-                                <span className="ml-2 flex-shrink-0">${applicableTier.fee.toFixed(2)}</span>
-                              </div>
-                              {settings.perMileFeeEnabled && distanceInMiles > settings.distanceThreshold && (
-                                <div className="flex justify-between text-brand text-xs sm:text-sm">
-                                  <span className="break-words">Per Mile Fee (beyond {settings.distanceThreshold} miles):</span>
-                                  <span className="ml-2 flex-shrink-0">${((distanceInMiles - settings.distanceThreshold) * settings.perMileFee).toFixed(2)}</span>
-                                </div>
-                              )}
-                            </>
-                          );
+                        
+                        if (openEndedTier && distanceInMiles >= openEndedTier.minDistance) {
+                          applicableTier = openEndedTier;
                         }
-                        return null;
-                      })()}
-                    </>
-                  )}
+                      }
+
+                      if (applicableTier) {
+                        breakdownItems.push(
+                          <div key="distance-tier" className="flex justify-between text-brand text-xs sm:text-sm">
+                            <span className="break-words">Distance Fee ({applicableTier.maxDistance === Infinity || applicableTier.maxDistance === null 
+                              ? `${applicableTier.minDistance}+ miles` 
+                              : `${applicableTier.minDistance}-${applicableTier.maxDistance} miles`}):</span>
+                            <span className="ml-2 flex-shrink-0">${applicableTier.fee.toFixed(2)}</span>
+                          </div>
+                        );
+                      }
+                    }
+
+                    // Per-mile fee (works independently of distance tiers)
+                    if (settings.perMileFeeEnabled && distanceInMiles > settings.distanceThreshold) {
+                      const excessMiles = distanceInMiles - settings.distanceThreshold;
+                      breakdownItems.push(
+                        <div key="per-mile" className="flex justify-between text-brand text-xs sm:text-sm">
+                          <span className="break-words">Per Mile Fee (beyond {settings.distanceThreshold} miles):</span>
+                          <span className="ml-2 flex-shrink-0">${(excessMiles * settings.perMileFee).toFixed(2)}</span>
+                        </div>
+                      );
+                    }
+
+                    return breakdownItems.length > 0 ? <>{breakdownItems}</> : null;
+                  })()}
+                  {bookingDetails.pickupTime && settings.timeSurcharges.length > 0 && (() => {
+                    const pickupTime = new Date(bookingDetails.pickupTime);
+                    const pickupHour = pickupTime.getHours();
+                    const pickupMinute = pickupTime.getMinutes();
+
+                    const applicableSurcharge = settings.timeSurcharges.find(surcharge => {
+                      const [startHour, startMinute] = surcharge.startTime.split(':').map(Number);
+                      const [endHour, endMinute] = surcharge.endTime.split(':').map(Number);
+                      const pickupTimeMinutes = pickupHour * 60 + pickupMinute;
+                      const startTimeMinutes = startHour * 60 + startMinute;
+                      const endTimeMinutes = endHour * 60 + endMinute;
+
+                      return pickupTimeMinutes >= startTimeMinutes && pickupTimeMinutes <= endTimeMinutes;
+                    });
+
+                    if (applicableSurcharge) {
+                      return (
+                        <div className="flex justify-between text-brand">
+                          <span>Time Surcharge ({applicableSurcharge.startTime} - {applicableSurcharge.endTime}):</span>
+                          <span>${applicableSurcharge.surcharge.toFixed(2)}</span>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })()}
+                  {bookingDetails.distance && settings.feeRules.length > 0 && (() => {
+                    const distanceInMiles = bookingDetails.distance.value / 1609.34;
+                    const applicableRules: JSX.Element[] = [];
+                    
+                    // Calculate running total up to fee rules (base + distance fees + time surcharges + stops + seats)
+                    let runningTotal = calculateBasePrice();
+                    
+                    // Add distance tier fees
+                    if (settings.distanceFeeEnabled) {
+                      let applicableTier = settings.distanceTiers.find(tier => 
+                        (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
+                        (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
+                      );
+                      
+                      if (!applicableTier && settings.distanceTiers.length > 0) {
+                        const openEndedTier = settings.distanceTiers.find(tier => 
+                          tier.maxDistance === Infinity || tier.maxDistance === null
+                        );
+                        if (openEndedTier && distanceInMiles >= openEndedTier.minDistance) {
+                          applicableTier = openEndedTier;
+                        }
+                      }
+                      if (applicableTier) {
+                        runningTotal += applicableTier.fee;
+                      }
+                    }
+                    
+                    // Add per-mile fee
+                    if (settings.perMileFeeEnabled && distanceInMiles > settings.distanceThreshold) {
+                      const excessMiles = distanceInMiles - settings.distanceThreshold;
+                      runningTotal += excessMiles * settings.perMileFee;
+                    }
+                    
+                    // Add time surcharges
+                    if (bookingDetails.pickupTime && settings.timeSurcharges.length > 0) {
+                      const pickupTime = new Date(bookingDetails.pickupTime);
+                      const pickupHour = pickupTime.getHours();
+                      const pickupMinute = pickupTime.getMinutes();
+                      const applicableSurcharge = settings.timeSurcharges.find(surcharge => {
+                        const [startHour, startMinute] = surcharge.startTime.split(':').map(Number);
+                        const [endHour, endMinute] = surcharge.endTime.split(':').map(Number);
+                        const pickupTimeMinutes = pickupHour * 60 + pickupMinute;
+                        const startTimeMinutes = startHour * 60 + startMinute;
+                        const endTimeMinutes = endHour * 60 + endMinute;
+                        return pickupTimeMinutes >= startTimeMinutes && pickupTimeMinutes <= endTimeMinutes;
+                      });
+                      if (applicableSurcharge) {
+                        runningTotal += applicableSurcharge.surcharge;
+                      }
+                    }
+                    
+                    // Add stops
+                    if (bookingDetails.stops && bookingDetails.stops.length > 0) {
+                      runningTotal += bookingDetails.stops.reduce((sum, stop) => sum + (stop.price || settings.stopPrice), 0);
+                    }
+                    
+                    // Add seats
+                    if (Number(bookingDetails.carSeats) > 0) {
+                      runningTotal += bookingDetails.carSeats * settings.carSeatPrice;
+                    }
+                    if (Number(bookingDetails.boosterSeats) > 0) {
+                      runningTotal += bookingDetails.boosterSeats * settings.boosterSeatPrice;
+                    }
+                    
+                    settings.feeRules.forEach((rule, index) => {
+                      // Explicitly skip the "distance > 100" fee rule with fee 150
+                      const conditionMatch = rule.condition && (
+                        rule.condition.includes('distance > 100') || 
+                        rule.condition === 'distance > 100' ||
+                        rule.condition.trim() === 'distance > 100'
+                      );
+                      const feeMatch = rule.fee === 150;
+                      if (conditionMatch && feeMatch) {
+                        return; // Skip this rule
+                      }
+                      
+                      try {
+                        const condition = new Function(
+                          'bookingDetails', 
+                          'settings', 
+                          'distance', 
+                          'distanceInMiles',
+                          'total',
+                          `return ${rule.condition}`
+                        );
+                        if (condition(bookingDetails, settings, distanceInMiles, distanceInMiles, runningTotal)) {
+                          applicableRules.push(
+                            <div key={`fee-rule-${index}`} className="flex justify-between text-brand">
+                              <span>Additional Fee ({rule.condition}):</span>
+                              <span>${rule.fee.toFixed(2)}</span>
+                            </div>
+                          );
+                          runningTotal += rule.fee; // Update running total for subsequent rules
+                        }
+                      } catch (error) {
+                        // Skip invalid rules
+                      }
+                    });
+
+                    return applicableRules.length > 0 ? <>{applicableRules}</> : null;
+                  })()}
                   {bookingDetails.stops && bookingDetails.stops.length > 0 && (
                     <div className="flex justify-between text-brand">
                       <span>Additional Stops ({bookingDetails.stops.length}):</span>

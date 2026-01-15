@@ -176,23 +176,36 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
       setSettings({
         distanceFeeEnabled: data.distanceFeeEnabled ?? true,
-        distanceThreshold: data.distanceThreshold ?? 40,
-        distanceFee: data.distanceFee ?? 49,
+        distanceThreshold: Number(data.distanceThreshold) || 40,
+        distanceFee: Number(data.distanceFee) || 49,
         perMileFeeEnabled: data.perMileFeeEnabled ?? false,
-        perMileFee: data.perMileFee ?? 2,
-        minFee: data.minFee ?? 0,
-        maxFee: data.maxFee ?? 1000,
-        stopPrice: data.stopPrice ?? 25,
-        distanceTiers: data.distanceTiers ?? [
+        perMileFee: Number(data.perMileFee) || 2,
+        minFee: Number(data.minFee) || 0,
+        maxFee: Number(data.maxFee) || 1000,
+        stopPrice: Number(data.stopPrice) || 25,
+        distanceTiers: (data.distanceTiers ?? [
           { minDistance: 0, maxDistance: 40, fee: 0 },
           { minDistance: 40, maxDistance: 60, fee: 49 },
           { minDistance: 60, maxDistance: 100, fee: 99 }
-        ],
+        ]).map(tier => ({
+          minDistance: Number(tier.minDistance) || 0,
+          maxDistance: tier.maxDistance === Infinity || tier.maxDistance === null ? null : Number(tier.maxDistance),
+          fee: Number(tier.fee) || 0
+        })),
         timeSurcharges: data.timeSurcharges ?? [],
         vehiclePackagePricing: data.vehiclePackagePricing ?? [],
-        feeRules: data.feeRules ?? [],
-        carSeatPrice: data.carSeatPrice ?? 15,
-        boosterSeatPrice: data.boosterSeatPrice ?? 10
+        feeRules: (data.feeRules ?? []).filter(rule => {
+          // Explicitly filter out the "distance > 100" fee rule with fee 150
+          const conditionMatch = rule.condition && (
+            rule.condition.includes('distance > 100') || 
+            rule.condition === 'distance > 100' ||
+            rule.condition.trim() === 'distance > 100'
+          );
+          const feeMatch = rule.fee === 150;
+          return !(conditionMatch && feeMatch);
+        }),
+        carSeatPrice: Number(data.carSeatPrice) || 15,
+        boosterSeatPrice: Number(data.boosterSeatPrice) || 10
       });
     } catch (error) {
       console.error('[ERROR] Error fetching admin settings:', error);
@@ -233,35 +246,62 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
 
     // Add distance-based fees
-    if (settings.distanceFeeEnabled && bookingDetails.distance?.value) {
+    if (bookingDetails.distance?.value) {
       const distanceInMiles = bookingDetails.distance.value / 1609.34;
       
-      // Find applicable distance tier - handle distances beyond the highest tier
-      let applicableTier = settings.distanceTiers.find(tier => 
-        (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
-        (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
-      );
-      
-      // If no tier found and distance exceeds all tiers, use the highest tier
-      if (!applicableTier && settings.distanceTiers.length > 0) {
-        const sortedTiers = [...settings.distanceTiers].sort((a, b) => 
-          (a.maxDistance === Infinity || a.maxDistance === null ? Infinity : a.maxDistance) - 
-          (b.maxDistance === Infinity || b.maxDistance === null ? Infinity : b.maxDistance)
+      // Add distance tier fees if enabled
+      if (settings.distanceFeeEnabled) {
+        // Find applicable distance tier - handle distances beyond the highest tier
+        let applicableTier = settings.distanceTiers.find(tier => 
+          (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
+          (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
         );
-        const highestTier = sortedTiers[sortedTiers.length - 1];
-        if (distanceInMiles >= highestTier.minDistance) {
-          applicableTier = highestTier;
+        
+        // If no tier found and distance exceeds all tiers, only use the highest tier if it has Infinity/null maxDistance
+        // Otherwise, don't apply a tier fee for distances beyond the configured tiers
+        if (!applicableTier && settings.distanceTiers.length > 0) {
+          // First, check if there's a tier with Infinity or null maxDistance (open-ended tier)
+          const openEndedTier = settings.distanceTiers.find(tier => 
+            tier.maxDistance === Infinity || tier.maxDistance === null
+          );
+          
+          if (openEndedTier && distanceInMiles >= openEndedTier.minDistance) {
+            applicableTier = openEndedTier;
+          }
+          // If no open-ended tier and distance exceeds all tiers, don't apply any tier fee
+          // The per-mile fee will handle distances beyond the highest tier
+        }
+
+        if (applicableTier) {
+          total += applicableTier.fee;
         }
       }
 
-      if (applicableTier) {
-        total += applicableTier.fee;
-      }
-
-      // Add per-mile fee if enabled and distance exceeds threshold
-      if (settings.perMileFeeEnabled && distanceInMiles > settings.distanceThreshold) {
-        const excessMiles = distanceInMiles - settings.distanceThreshold;
-        total += excessMiles * settings.perMileFee;
+      // Add per-mile fee if enabled and distance exceeds threshold (works independently of distance fees)
+      if (settings.perMileFeeEnabled) {
+        const threshold = Number(settings.distanceThreshold) || 0;
+        const perMileFee = Number(settings.perMileFee) || 0;
+        
+        if (distanceInMiles > threshold && perMileFee > 0) {
+          const excessMiles = distanceInMiles - threshold;
+          const perMileFeeAmount = excessMiles * perMileFee;
+          console.log('[DEBUG] Per-mile fee calculation:', {
+            distanceInMiles: distanceInMiles.toFixed(2),
+            threshold,
+            excessMiles: excessMiles.toFixed(2),
+            perMileFee,
+            perMileFeeAmount: perMileFeeAmount.toFixed(2)
+          });
+          total += perMileFeeAmount;
+        } else {
+          console.log('[DEBUG] Per-mile fee not applied:', {
+            perMileFeeEnabled: settings.perMileFeeEnabled,
+            distanceInMiles: distanceInMiles.toFixed(2),
+            threshold,
+            perMileFee,
+            condition: distanceInMiles > threshold && perMileFee > 0
+          });
+        }
       }
     }
 
@@ -303,7 +343,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       total += bookingDetails.boosterSeats * settings.boosterSeatPrice;
     }
 
-    // Apply fee rules
+      // Apply fee rules
     if (settings.feeRules.length > 0) {
       // Calculate distance in miles for use in fee rules
       const distanceInMiles = bookingDetails.distance?.value 
@@ -311,6 +351,17 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         : 0;
       
       settings.feeRules.forEach(rule => {
+        // Explicitly skip the "distance > 100" fee rule with fee 150
+        const conditionMatch = rule.condition && (
+          rule.condition.includes('distance > 100') || 
+          rule.condition === 'distance > 100' ||
+          rule.condition.trim() === 'distance > 100'
+        );
+        const feeMatch = rule.fee === 150;
+        if (conditionMatch && feeMatch) {
+          return; // Skip this rule
+        }
+        
         // Here you can add logic to evaluate conditions and apply fees
         // For example, if rule.condition is a string that can be evaluated
         try {
@@ -367,21 +418,62 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
 
     // Add distance-based fees
-    if (settings.distanceFeeEnabled && bookingDetails.distance?.value) {
+    if (bookingDetails.distance?.value) {
       const distanceInMiles = bookingDetails.distance.value / 1609.34;
       
-      const applicableTier = settings.distanceTiers.find(tier => 
-        (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
-        (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
-      );
+      // Add distance tier fees if enabled
+      if (settings.distanceFeeEnabled) {
+        // Find applicable distance tier - handle distances beyond the highest tier
+        let applicableTier = settings.distanceTiers.find(tier => 
+          (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
+          (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
+        );
+        
+        // If no tier found and distance exceeds all tiers, only use the highest tier if it has Infinity/null maxDistance
+        // Otherwise, don't apply a tier fee for distances beyond the configured tiers
+        if (!applicableTier && settings.distanceTiers.length > 0) {
+          // First, check if there's a tier with Infinity or null maxDistance (open-ended tier)
+          const openEndedTier = settings.distanceTiers.find(tier => 
+            tier.maxDistance === Infinity || tier.maxDistance === null
+          );
+          
+          if (openEndedTier && distanceInMiles >= openEndedTier.minDistance) {
+            applicableTier = openEndedTier;
+          }
+          // If no open-ended tier and distance exceeds all tiers, don't apply any tier fee
+          // The per-mile fee will handle distances beyond the highest tier
+        }
 
-      if (applicableTier) {
-        total += applicableTier.fee;
+        if (applicableTier) {
+          total += applicableTier.fee;
+        }
       }
 
-      if (settings.perMileFeeEnabled && distanceInMiles > settings.distanceThreshold) {
-        const excessMiles = distanceInMiles - settings.distanceThreshold;
-        total += excessMiles * settings.perMileFee;
+      // Add per-mile fee if enabled and distance exceeds threshold (works independently of distance fees)
+      if (settings.perMileFeeEnabled) {
+        const threshold = Number(settings.distanceThreshold) || 0;
+        const perMileFee = Number(settings.perMileFee) || 0;
+        
+        if (distanceInMiles > threshold && perMileFee > 0) {
+          const excessMiles = distanceInMiles - threshold;
+          const perMileFeeAmount = excessMiles * perMileFee;
+          console.log('[DEBUG] Per-mile fee calculation (with gratuity):', {
+            distanceInMiles: distanceInMiles.toFixed(2),
+            threshold,
+            excessMiles: excessMiles.toFixed(2),
+            perMileFee,
+            perMileFeeAmount: perMileFeeAmount.toFixed(2)
+          });
+          total += perMileFeeAmount;
+        } else {
+          console.log('[DEBUG] Per-mile fee not applied (with gratuity):', {
+            perMileFeeEnabled: settings.perMileFeeEnabled,
+            distanceInMiles: distanceInMiles.toFixed(2),
+            threshold,
+            perMileFee,
+            condition: distanceInMiles > threshold && perMileFee > 0
+          });
+        }
       }
     }
 

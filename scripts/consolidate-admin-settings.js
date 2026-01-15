@@ -107,9 +107,7 @@ async function consolidateSettings() {
       vehiclePackagePricing: pricingSettings?.vehiclePackagePricing || [
         { vehicleId: '1', packageId: '1', distanceThreshold: 40, perMileFee: 2 }
       ],
-      feeRules: pricingSettings?.feeRules || [
-        { condition: 'distance > 100', fee: 150 }
-      ],
+      feeRules: pricingSettings?.feeRules || [],
       updatedAt: new Date()
     };
 

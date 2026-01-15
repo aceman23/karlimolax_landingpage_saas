@@ -65,9 +65,7 @@ router.get('/settings', authenticateToken, async (req: AuthenticatedRequest, res
         vehiclePackagePricing: [
           { vehicleId: '1', packageId: '1', distanceThreshold: 40, perMileFee: 2 }
         ],
-        feeRules: [
-          { condition: 'distance > 100', fee: 150 }
-        ]
+        feeRules: []
       });
     }
 
@@ -212,9 +210,7 @@ router.get('/settings/pricing', authenticateToken, async (req: AuthenticatedRequ
         vehiclePackagePricing: [
           { vehicleId: '1', packageId: '1', distanceThreshold: 40, perMileFee: 2 }
         ],
-        feeRules: [
-          { condition: 'distance > 100', fee: 150 }
-        ]
+        feeRules: []
       });
     }
 
@@ -338,9 +334,7 @@ router.get('/settings/public', async (req: Request, res: Response) => {
         vehiclePackagePricing: [
           { vehicleId: '1', packageId: '1', distanceThreshold: 40, perMileFee: 2 }
         ],
-        feeRules: [
-          { condition: 'distance > 100', fee: 150 }
-        ]
+        feeRules: []
       });
     }
 

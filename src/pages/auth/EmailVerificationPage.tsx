@@ -18,11 +18,15 @@ export default function EmailVerificationPage() {
     if (token && !hasVerified.current) {
       hasVerified.current = true;
       verifyEmail(token);
+    } else if (!token && verificationStatus === 'idle') {
+      // If no token, show the initial verification page
+      setVerificationStatus('idle');
     }
   }, [token]);
 
   const verifyEmail = async (verificationToken: string) => {
     setVerificationStatus('loading');
+    setMessage('Verifying your email address...');
     try {
       const response = await fetch(`/api/verify-email/${verificationToken}`, {
         method: 'GET',
@@ -31,11 +35,12 @@ export default function EmailVerificationPage() {
         },
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to verify email');
+        const errorData = await response.json().catch(() => ({ error: 'Failed to verify email' }));
+        throw new Error(errorData.error || errorData.message || 'Failed to verify email');
       }
+
+      const data = await response.json();
 
       setVerificationStatus('success');
       setMessage(data.message || 'Email verified successfully!');
@@ -50,6 +55,7 @@ export default function EmailVerificationPage() {
         });
       }, 3000);
     } catch (error: any) {
+      console.error('Email verification error:', error);
       setVerificationStatus('error');
       setMessage(error.message || 'Failed to verify email. Please try again.');
     }
@@ -104,7 +110,7 @@ export default function EmailVerificationPage() {
               {verificationStatus === 'error' && 'Verification Failed'}
             </h2>
             <p className="mt-2 text-sm text-gray-600">
-              {message}
+              {message || (verificationStatus === 'loading' ? 'Please wait...' : '')}
             </p>
           </div>
 
@@ -119,6 +125,9 @@ export default function EmailVerificationPage() {
               )}
               {verificationStatus === 'error' && (
                 <div className="space-y-4">
+                  <p className="text-sm text-red-600 text-center mb-4">
+                    {message || 'Verification failed. Please try again.'}
+                  </p>
                   <Button
                     variant="primary"
                     className="w-full"

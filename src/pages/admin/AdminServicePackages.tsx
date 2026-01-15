@@ -12,6 +12,7 @@ export default function AdminServicePackages() {
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [editForm, setEditForm] = useState<Partial<ServicePackage>>({});
   const [newPackageForm, setNewPackageForm] = useState<Partial<ServicePackage>>({
     name: '',
@@ -62,6 +63,12 @@ export default function AdminServicePackages() {
     setImagePreview('');
   };
 
+  // Remove image for edit package
+  const removeEditImage = () => {
+    setEditForm({ ...editForm, image_url: '' });
+    setEditImagePreview('');
+  };
+
   const loadData = async () => {
     try {
       setLoading(true);
@@ -84,6 +91,7 @@ export default function AdminServicePackages() {
     setEditForm({ ...pkg });
     setEditImagePreview(pkg.image_url || '');
     setEditPriceInput(pkg.base_price?.toString() || '0');
+    setShowEditModal(true);
   };
 
   const cancelEdit = () => {
@@ -91,6 +99,7 @@ export default function AdminServicePackages() {
     setEditForm({});
     setEditImagePreview('');
     setEditPriceInput('');
+    setShowEditModal(false);
   };
 
   const saveEdit = async () => {
@@ -120,6 +129,7 @@ export default function AdminServicePackages() {
       setEditForm({});
       setEditImagePreview('');
       setEditPriceInput('');
+      setShowEditModal(false);
       loadData();
     } catch (error) {
       console.error('Error updating package:', error);
@@ -262,240 +272,89 @@ export default function AdminServicePackages() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {packages.map((pkg) => {
-                const isEditing = editingId === (pkg._id || pkg.id);
-                
                 return (
                   <tr key={pkg._id || pkg.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={editForm.name || ''}
-                          onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
-                          placeholder="Package name"
-                        />
-                      ) : (
-                        <div className="text-sm font-medium text-gray-900">{pkg.name}</div>
-                      )}
+                      <div className="text-sm font-medium text-gray-900">{pkg.name}</div>
                     </td>
                     
                     <td className="px-6 py-4">
-                      {isEditing ? (
-                        <textarea
-                          value={editForm.description || ''}
-                          onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
-                          rows={2}
-                          placeholder="Package description"
-                        />
-                      ) : (
-                        <div className="text-sm text-gray-500 max-w-xs truncate">{pkg.description}</div>
-                      )}
+                      <div className="text-sm text-gray-500 max-w-xs truncate">{pkg.description}</div>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {isEditing ? (
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2">
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                if (file) handleImageUpload(file, true);
-                              }}
-                              className="hidden"
-                              id={`image-upload-edit-${pkg._id || pkg.id}`}
-                            />
-                            <label
-                              htmlFor={`image-upload-edit-${pkg._id || pkg.id}`}
-                              className="cursor-pointer flex items-center gap-1 px-2 py-1 text-xs bg-brand-100 text-brand-600 rounded hover:bg-brand-200"
-                            >
-                              <Upload size={12} />
-                              Upload
-                            </label>
-                            {(editForm.image_url || editImagePreview) && (
-                              <button
-                                type="button"
-                                onClick={removeImage}
-                                className="text-red-500 text-xs underline"
-                              >
-                                Remove Image
-                              </button>
-                            )}
-                          </div>
-                          {(editForm.image_url || editImagePreview) && (
-                            <div className="w-16 h-16 rounded overflow-hidden">
-                              <img
-                                src={editForm.image_url || editImagePreview}
-                                alt="Package preview"
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                          )}
-                        </div>
-                      ) : (
-                        pkg.image_url ? (
-                          <div className="w-16 h-16 rounded overflow-hidden">
-                            <img
-                              src={pkg.image_url}
-                              alt={pkg.name}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <div className="w-16 h-16 rounded bg-gray-100 flex items-center justify-center">
-                            <ImageIcon className="w-8 h-8 text-gray-400" />
-                          </div>
-                        )
-                      )}
-                    </td>
-                    
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {isEditing ? (
-                        <select
-                          value={editForm.vehicle_id || ''}
-                          onChange={(e) => setEditForm({ ...editForm, vehicle_id: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
-                        >
-                          <option value="">Any Vehicle</option>
-                          {vehicles.map((vehicle) => (
-                            <option key={vehicle._id || vehicle.id} value={vehicle._id || vehicle.id}>
-                              {vehicle.name} ({vehicle.make} {vehicle.model})
-                            </option>
-                          ))}
-                        </select>
-                      ) : (
-                        <div className="text-sm text-gray-500">
-                          {getVehicleName(pkg.vehicle_id)}
-                        </div>
-                      )}
-                    </td>
-                    
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {isEditing ? (
-                        <label className="flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={editForm.is_hourly || false}
-                            onChange={(e) => setEditForm({ ...editForm, is_hourly: e.target.checked })}
-                            className="h-4 w-4 text-brand focus:ring-brand-500 border-gray-300 rounded"
-                          />
-                          <span className="ml-2 text-sm text-gray-700">Hourly Rate</span>
-                        </label>
-                      ) : (
-                        <div className="text-sm text-gray-500">
-                          {pkg.is_hourly ? 'Hourly Rate' : 'Fixed Rate'}
-                        </div>
-                      )}
-                    </td>
-                    
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {isEditing ? (
-                        <div className="space-y-2">
-                          <input
-                            type="number"
-                            min="1"
-                            value={editForm.minimum_hours || ''}
-                            onChange={(e) => setEditForm({ ...editForm, minimum_hours: parseInt(e.target.value) || undefined })}
-                            className="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
-                            placeholder="Min"
-                            disabled={!editForm.is_hourly}
+                      {pkg.image_url ? (
+                        <div className="w-16 h-16 rounded overflow-hidden">
+                          <img
+                            src={pkg.image_url}
+                            alt={pkg.name}
+                            className="w-full h-full object-cover"
                           />
                         </div>
                       ) : (
-                        <div className="text-sm text-gray-500">
-                          <div>{pkg.is_hourly && pkg.minimum_hours ? `${pkg.minimum_hours}h` : 'N/A'}</div>
+                        <div className="w-16 h-16 rounded bg-gray-100 flex items-center justify-center">
+                          <ImageIcon className="w-8 h-8 text-gray-400" />
                         </div>
                       )}
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {isEditing ? (
-                        <div className="relative">
-                          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
-                          <input
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            value={editPriceInput}
-                            onChange={(e) => setEditPriceInput(e.target.value)}
-                            className="w-24 pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
-                            placeholder="0.00"
-                          />
-                        </div>
-                      ) : (
-                        <div className="text-sm font-medium text-gray-900">
-                          ${pkg.base_price.toFixed(2)}
-                        </div>
-                      )}
+                      <div className="text-sm text-gray-500">
+                        {getVehicleName(pkg.vehicle_id)}
+                      </div>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {isEditing ? (
-                        <label className="flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={editForm.is_active || false}
-                            onChange={(e) => setEditForm({ ...editForm, is_active: e.target.checked })}
-                            className="h-4 w-4 text-brand focus:ring-brand-500 border-gray-300 rounded"
-                          />
-                          <span className="ml-2 text-sm text-gray-700">Active</span>
-                        </label>
-                      ) : (
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          pkg.is_active 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-red-100 text-red-800'
-                        }`}>
-                          {pkg.is_active ? 'Active' : 'Inactive'}
-                        </span>
-                      )}
+                      <div className="text-sm text-gray-500">
+                        {pkg.is_hourly ? 'Hourly Rate' : 'Fixed Rate'}
+                      </div>
+                    </td>
+                    
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-500">
+                        <div>{pkg.is_hourly && pkg.minimum_hours ? `${pkg.minimum_hours}h` : 'N/A'}</div>
+                      </div>
+                    </td>
+                    
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm font-medium text-gray-900">
+                        ${pkg.base_price.toFixed(2)}
+                      </div>
+                    </td>
+                    
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        pkg.is_active 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {pkg.is_active ? 'Active' : 'Inactive'}
+                      </span>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      {isEditing ? (
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={saveEdit}
-                            className="text-green-600 hover:text-green-900 flex items-center gap-1"
-                          >
-                            <Save size={16} />
-                            Save
-                          </button>
-                          <button
-                            onClick={cancelEdit}
-                            className="text-gray-600 hover:text-gray-900 flex items-center gap-1"
-                          >
-                            <X size={16} />
-                            Cancel
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <Button
-                            variant="secondary"
-                            onClick={() => startEdit(pkg)}
-                            className="flex items-center gap-1 text-xs"
-                          >
-                            <Edit size={16} />
-                            Edit
-                          </Button>
-                          <button
-                            onClick={() => {
-                              const id = pkg._id || pkg.id;
-                              if (id) {
-                                handleDelete(id);
-                              }
-                            }}
-                            className="text-red-600 hover:text-red-900 flex items-center gap-1"
-                          >
-                            <Trash2 size={16} />
-                            Delete
-                          </button>
-                        </div>
-                      )}
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="secondary"
+                          onClick={() => startEdit(pkg)}
+                          className="flex items-center gap-1 text-xs"
+                        >
+                          <Edit size={16} />
+                          Edit
+                        </Button>
+                        <button
+                          onClick={() => {
+                            const id = pkg._id || pkg.id;
+                            if (id) {
+                              handleDelete(id);
+                            }
+                          }}
+                          className="text-red-600 hover:text-red-900 flex items-center gap-1"
+                        >
+                          <Trash2 size={16} />
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -674,6 +533,235 @@ export default function AdminServicePackages() {
                 className="px-4 py-2 text-sm font-medium text-white bg-brand border border-transparent rounded-md hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500"
               >
                 Create Package
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Package Modal */}
+      {showEditModal && editingId && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+            <div className="px-6 py-4 border-b border-gray-200 flex-shrink-0 flex justify-between items-center">
+              <h3 className="text-lg font-medium text-gray-900">Edit Service Package</h3>
+              <button
+                onClick={cancelEdit}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto px-6 py-4">
+              <form className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Package Name *
+                    </label>
+                    <input
+                      type="text"
+                      value={editForm.name || ''}
+                      onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
+                      placeholder="Enter package name"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Base Price *
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                      <input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={editPriceInput}
+                        onChange={(e) => setEditPriceInput(e.target.value)}
+                        className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
+                        placeholder="0.00"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Description *
+                  </label>
+                  <textarea
+                    value={editForm.description || ''}
+                    onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    rows={4}
+                    placeholder="Enter package description"
+                    required
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Vehicle (Optional)
+                    </label>
+                    <select
+                      value={editForm.vehicle_id || ''}
+                      onChange={(e) => setEditForm({ ...editForm, vehicle_id: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    >
+                      <option value="">Any Vehicle</option>
+                      {vehicles.map((vehicle) => (
+                        <option key={vehicle._id || vehicle.id} value={vehicle._id || vehicle.id}>
+                          {vehicle.name} ({vehicle.make} {vehicle.model})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Package Type
+                    </label>
+                    <div className="mt-2">
+                      <label className="flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={editForm.is_hourly || false}
+                          onChange={(e) => setEditForm({ ...editForm, is_hourly: e.target.checked })}
+                          className="h-4 w-4 text-brand focus:ring-brand-500 border-gray-300 rounded"
+                        />
+                        <span className="ml-2 text-sm text-gray-700">Hourly Rate Package</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                {editForm.is_hourly && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Minimum Hours
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      value={editForm.minimum_hours || ''}
+                      onChange={(e) => setEditForm({ ...editForm, minimum_hours: parseInt(e.target.value) || undefined })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
+                      placeholder="Minimum hours required"
+                    />
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Airports (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={Array.isArray(editForm.airports) ? editForm.airports.join(', ') : ''}
+                    onChange={(e) => {
+                      const airports = e.target.value.split(',').map(a => a.trim()).filter(a => a);
+                      setEditForm({ ...editForm, airports });
+                    }}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    placeholder="Enter airport codes separated by commas (e.g., LAX, JFK, SFO)"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">Enter airport codes separated by commas</p>
+                </div>
+
+                <div>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={editForm.is_active ?? true}
+                      onChange={(e) => setEditForm({ ...editForm, is_active: e.target.checked })}
+                      className="h-4 w-4 text-brand focus:ring-brand-500 border-gray-300 rounded"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Package is active</span>
+                  </label>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Package Image</label>
+                  {editImagePreview || editForm.image_url ? (
+                    <div className="space-y-2">
+                      <img 
+                        src={editImagePreview || editForm.image_url} 
+                        alt="Package preview" 
+                        className="w-full h-48 object-cover rounded-md border border-gray-300"
+                      />
+                      <div className="flex gap-2">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            if (e.target.files && e.target.files[0]) {
+                              handleImageUpload(e.target.files[0], true);
+                            }
+                          }}
+                          className="hidden"
+                          id="edit-image-upload"
+                        />
+                        <label
+                          htmlFor="edit-image-upload"
+                          className="cursor-pointer flex items-center gap-2 px-4 py-2 text-sm bg-brand-100 text-brand-600 rounded hover:bg-brand-200"
+                        >
+                          <Upload size={16} />
+                          Change Image
+                        </label>
+                        <button
+                          type="button"
+                          onClick={removeEditImage}
+                          className="px-4 py-2 text-sm text-red-600 bg-red-50 rounded hover:bg-red-100"
+                        >
+                          Remove Image
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            handleImageUpload(e.target.files[0], true);
+                          }
+                        }}
+                        className="hidden"
+                        id="edit-image-upload"
+                      />
+                      <label
+                        htmlFor="edit-image-upload"
+                        className="cursor-pointer flex items-center justify-center gap-2 px-4 py-2 border-2 border-dashed border-gray-300 rounded-md hover:border-brand-500 hover:bg-gray-50"
+                      >
+                        <Upload size={20} />
+                        <span className="text-sm text-gray-600">Upload Image</span>
+                      </label>
+                    </div>
+                  )}
+                </div>
+              </form>
+            </div>
+            
+            <div className="px-6 py-4 border-t border-gray-200 flex justify-end gap-3 flex-shrink-0">
+              <button
+                type="button"
+                onClick={cancelEdit}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={saveEdit}
+                className="px-4 py-2 text-sm font-medium text-white bg-brand border border-transparent rounded-md hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              >
+                Save Changes
               </button>
             </div>
           </div>

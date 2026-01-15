@@ -1518,6 +1518,7 @@ router.post('/signup', async (req, res) => {
 // Email verification route
 router.get('/verify-email/:token', async (req, res) => {
   try {
+    await connectDB();
     const { token } = req.params;
     console.log('[DEBUG] Verifying email with token:', token);
 
@@ -1785,6 +1786,12 @@ router.post('/service-packages', authMiddleware, adminRoleMiddleware, async (req
 router.put('/service-packages/:id', authMiddleware, adminRoleMiddleware, async (req, res) => {
   try {
     await connectDB();
+    
+    // Validate ID format
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid service package ID format' });
+    }
+    
     const {
       name,
       description,
@@ -1798,35 +1805,44 @@ router.put('/service-packages/:id', authMiddleware, adminRoleMiddleware, async (
     } = req.body;
     
     // Validate required fields
-    if (!name || !base_price) {
-      return res.status(400).json({ error: 'Name and base price are required' });
+    if (name !== undefined && !name) {
+      return res.status(400).json({ error: 'Name cannot be empty' });
     }
 
-    // Validate base price is a positive number
-    if (typeof base_price !== 'number' || base_price <= 0) {
-      return res.status(400).json({ error: 'Base price must be a positive number' });
+    if (base_price !== undefined) {
+      // Validate base price is a positive number
+      if (typeof base_price !== 'number' || base_price <= 0) {
+        return res.status(400).json({ error: 'Base price must be a positive number' });
+      }
     }
 
     // Validate minimum hours if is_hourly is true
-    if (is_hourly && (!minimum_hours || minimum_hours <= 0)) {
+    if (is_hourly && minimum_hours !== undefined && (!minimum_hours || minimum_hours <= 0)) {
       return res.status(400).json({ error: 'Minimum hours must be a positive number for hourly packages' });
     }
 
+    // Build update object with only provided fields
+    const updateData: any = {
+      updated_at: new Date()
+    };
+
+    if (name !== undefined) updateData.name = name;
+    if (description !== undefined) updateData.description = description;
+    if (base_price !== undefined) updateData.base_price = base_price;
+    if (is_hourly !== undefined) updateData.is_hourly = is_hourly;
+    if (minimum_hours !== undefined) {
+      // Only set minimum_hours if is_hourly is true, otherwise set to undefined
+      updateData.minimum_hours = is_hourly ? minimum_hours : undefined;
+    }
+    if (vehicle_id !== undefined) updateData.vehicle_id = vehicle_id;
+    if (image_url !== undefined) updateData.image_url = image_url;
+    if (is_active !== undefined) updateData.is_active = is_active;
+    if (airports !== undefined) updateData.airports = airports;
+
     const updatedPackage = await ServicePackage.findByIdAndUpdate(
       req.params.id,
-      {
-      name,
-      description,
-      base_price,
-      is_hourly,
-      minimum_hours,
-      vehicle_id,
-      image_url,
-      is_active,
-        airports,
-      updated_at: new Date()
-      },
-      { new: true }
+      updateData,
+      { new: true, runValidators: true }
     );
 
     if (!updatedPackage) {
@@ -1836,9 +1852,10 @@ router.put('/service-packages/:id', authMiddleware, adminRoleMiddleware, async (
     res.json(updatedPackage);
   } catch (error) {
     console.error('Error updating service package:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     res.status(500).json({ 
       error: 'Failed to update service package',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      details: errorMessage
     });
   }
 });

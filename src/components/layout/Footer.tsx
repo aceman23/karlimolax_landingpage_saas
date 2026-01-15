@@ -100,7 +100,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center space-x-3">
                 <Mail size={20} className="text-brand-500 flex-shrink-0" />
-                <span className="text-gray-400 break-all">Knockoutautorentals@gmai.com</span>
+                <span className="text-gray-400 break-all">Knockoutautorentals@gmail.com</span>
               </li>
               <li className="flex items-center space-x-3 mt-4">
                 <Lock size={20} className="text-brand-500 flex-shrink-0" />

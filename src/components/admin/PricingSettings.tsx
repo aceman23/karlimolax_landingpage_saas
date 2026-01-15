@@ -92,6 +92,12 @@ export default function PricingSettings() {
       // Ensure distance tiers are properly formatted before saving
       const formattedSettings = {
         ...settings,
+        distanceThreshold: Number(settings.distanceThreshold) || 0,
+        distanceFee: Number(settings.distanceFee) || 0,
+        perMileFee: Number(settings.perMileFee) || 0,
+        minFee: Number(settings.minFee) || 0,
+        maxFee: Number(settings.maxFee) || 0,
+        stopPrice: Number(settings.stopPrice) || 0,
         distanceTiers: settings.distanceTiers.map(tier => ({
           minDistance: Number(tier.minDistance) || 0,
           maxDistance: tier.maxDistance === Infinity || tier.maxDistance === null ? null : Number(tier.maxDistance),
@@ -339,10 +345,11 @@ export default function PricingSettings() {
                 value={settings.distanceThreshold}
                 onChange={(e) => setSettings(prev => ({
                   ...prev,
-                  distanceThreshold: parseInt(e.target.value)
+                  distanceThreshold: e.target.value === '' ? 0 : Number(e.target.value) || 0
                 }))}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
                 min="0"
+                step="0.1"
                 placeholder="Enter threshold in miles"
               />
               <p className="mt-1 text-sm text-gray-500">
@@ -360,10 +367,11 @@ export default function PricingSettings() {
                 value={settings.perMileFee}
                 onChange={(e) => setSettings(prev => ({
                   ...prev,
-                  perMileFee: parseInt(e.target.value)
+                  perMileFee: e.target.value === '' ? 0 : Number(e.target.value) || 0
                 }))}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
                 min="0"
+                step="0.01"
               />
               <p className="mt-1 text-sm text-gray-500">
                 Additional fee per mile after threshold

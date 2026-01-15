@@ -201,9 +201,7 @@ router.get('/settings/pricing', authenticateToken, async (req, res) => {
         vehiclePackagePricing: [
           { vehicleId: '1', packageId: '1', distanceThreshold: 40, perMileFee: 2 }
         ],
-        feeRules: [
-          { condition: 'distance > 100', fee: 150 }
-        ]
+        feeRules: []
       });
     }
 

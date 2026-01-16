@@ -21,7 +21,7 @@ interface GratuityModalProps {
 
 export default function GratuityModal({ booking, onClose, onUpdate }: GratuityModalProps) {
   const [gratuityType, setGratuityType] = useState<'none' | 'percentage' | 'custom' | 'cash'>(
-    booking.gratuity?.type || 'none'
+    booking.gratuity?.type || 'percentage'
   );
   const [percentage, setPercentage] = useState<number>(booking.gratuity?.percentage || 15);
   const [customAmount, setCustomAmount] = useState<string>(
@@ -79,18 +79,7 @@ export default function GratuityModal({ booking, onClose, onUpdate }: GratuityMo
             <label className="block text-sm font-medium text-gray-700 mb-3">
               Gratuity Type
             </label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setGratuityType('none')}
-                className={`p-3 text-sm font-medium rounded-lg border ${
-                  gratuityType === 'none'
-                    ? 'bg-brand-50 border-brand-500 text-brand-600'
-                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                No Gratuity
-              </button>
+            <div className="grid grid-cols-3 gap-3">
               <button
                 type="button"
                 onClick={() => setGratuityType('percentage')}

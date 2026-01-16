@@ -1262,18 +1262,7 @@ export default function BookingPage() {
                   {/* Gratuity Type Selection */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Gratuity Option</label>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      <button
-                        type="button"
-                        onClick={() => updateGratuityType('none')}
-                        className={`p-3 text-sm rounded-lg border transition-colors ${
-                          gratuityType === 'none'
-                            ? 'border-brand-500 bg-brand-50 text-brand-600'
-                            : 'border-gray-300 hover:border-brand-200'
-                        }`}
-                      >
-                        No Gratuity
-                      </button>
+                    <div className="grid grid-cols-3 gap-3">
                       <button
                         type="button"
                         onClick={() => updateGratuityType('percentage')}

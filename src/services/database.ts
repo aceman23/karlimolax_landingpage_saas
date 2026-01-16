@@ -122,17 +122,47 @@ export async function createVehicle(vehicle: Partial<VehicleType>): Promise<Vehi
 }
 
 export async function updateVehicle(id: string, vehicle: Partial<VehicleType>): Promise<VehicleType> {
-  const response = await fetch(`${API_BASE_URL}/vehicles/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(vehicle),
-  });
-  if (!response.ok) {
-    throw new Error('Failed to update vehicle');
+  try {
+    const response = await fetch(`${API_BASE_URL}/vehicles/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(vehicle),
+    });
+    
+    if (!response.ok) {
+      let errorData;
+      try {
+        errorData = await response.json();
+      } catch (e) {
+        // If JSON parsing fails, try to get text
+        const text = await response.text();
+        console.error('[ERROR] Failed to parse error response:', text);
+        throw new Error(`Server error: ${response.status} ${response.statusText}`);
+      }
+      
+      const errorMessage = errorData.error || errorData.message || errorData.details || `Failed to update vehicle (${response.status})`;
+      console.error('[ERROR] Vehicle update failed:', errorData);
+      
+      // Provide more helpful error message for configuration errors
+      if (errorData.code === 'MISSING_JWT_SECRET' || errorData.details?.includes('JWT_SECRET')) {
+        throw new Error('Server configuration error: Authentication is not properly configured. Please contact support.');
+      }
+      
+      throw new Error(errorMessage);
+    }
+    
+    return response.json();
+  } catch (error: any) {
+    console.error('[ERROR] Error in updateVehicle:', error);
+    // Re-throw with more context if it's not already an Error
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error(error?.message || 'Failed to update vehicle');
   }
-  return response.json();
 }
 
 export async function deleteVehicle(id: string) {

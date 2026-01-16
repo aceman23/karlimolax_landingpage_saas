@@ -157,8 +157,13 @@ const authMiddleware = async (req: AuthenticatedRequest, res: Response, next: Ne
   const token = authHeader.split(' ')[1];
 
   if (!process.env.JWT_SECRET) {
-    console.error('JWT_SECRET is not set in environment variables');
-    return res.status(500).json({ error: 'Server configuration error' });
+    console.error('[ERROR] JWT_SECRET is not set in environment variables');
+    console.error('[ERROR] This is a server configuration issue. Please set JWT_SECRET in your environment variables.');
+    return res.status(500).json({ 
+      error: 'Server configuration error',
+      details: 'JWT_SECRET environment variable is not configured. Please contact the administrator.',
+      code: 'MISSING_JWT_SECRET'
+    });
   }
 
   try {
@@ -471,6 +476,17 @@ router.post('/vehicles', authMiddleware, adminRoleMiddleware, async (req: Authen
 router.put('/vehicles/:id', authMiddleware, adminRoleMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   try {
     await connectDB();
+    
+    // Validate ID format
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid vehicle ID format' });
+    }
+    
+    // Check if vehicle exists first
+    const existingVehicle = await Vehicle.findById(req.params.id);
+    if (!existingVehicle) {
+      return res.status(404).json({ error: 'Vehicle not found' });
+    }
     
     // Basic validation similar to POST route
     const { name, make, model, year, licensePlate, vin, capacity, pricePerHour, status } = req.body;

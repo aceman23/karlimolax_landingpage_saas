@@ -1097,6 +1097,22 @@ router.post('/create-payment-intent', async (req, res) => {
       return res.status(400).json({ error: 'Amount is required' });
     }
 
+    // Validate amount is a valid number
+    const amountNumber = typeof amount === 'string' ? parseFloat(amount) : amount;
+    if (isNaN(amountNumber) || amountNumber <= 0) {
+      console.error('[ERROR] Invalid amount:', amount);
+      return res.status(400).json({ error: 'Invalid amount. Amount must be a positive number.' });
+    }
+
+    // Stripe requires minimum of 50 cents (0.50 USD)
+    if (amountNumber < 50) {
+      console.error('[ERROR] Amount too low:', amountNumber);
+      return res.status(400).json({ error: 'Amount must be at least $0.50 (50 cents)' });
+    }
+
+    // Ensure amount is an integer (in cents)
+    const amountInCents = Math.round(amountNumber);
+
     if (!process.env.STRIPE_SECRET_KEY) {
       console.error('[ERROR] Stripe secret key not configured');
       return res.status(500).json({ 
@@ -1114,8 +1130,10 @@ router.post('/create-payment-intent', async (req, res) => {
       });
     }
 
+    console.log('[DEBUG] Creating payment intent with amount (cents):', amountInCents);
+    
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount), // Ensure amount is an integer
+      amount: amountInCents, // Amount in cents
       currency,
       metadata,
       automatic_payment_methods: {
@@ -1144,6 +1162,21 @@ router.post('/create-payment-intent', async (req, res) => {
     });
   } catch (error: any) {
     console.error('[ERROR] Failed to create payment intent:', error);
+    console.error('[ERROR] Error type:', error.type);
+    console.error('[ERROR] Error code:', error.code);
+    console.error('[ERROR] Error message:', error.message);
+    console.error('[ERROR] Error raw:', JSON.stringify(error, null, 2));
+    
+    // Handle Stripe-specific errors
+    if (error.type === 'StripeInvalidRequestError' || error.code) {
+      const errorMessage = error.message || 'Invalid payment request';
+      return res.status(400).json({ 
+        error: 'Failed to create payment intent',
+        details: errorMessage,
+        stripeError: error.code
+      });
+    }
+    
     res.status(500).json({ 
       error: 'Failed to create payment intent',
       details: error.message || 'Unknown error'

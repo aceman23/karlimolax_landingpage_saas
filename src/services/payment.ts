@@ -118,12 +118,17 @@ export async function processStripePayment(
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
       console.error('[ERROR] Payment intent creation failed:', errorData);
+      console.error('[ERROR] Response status:', response.status);
+      console.error('[ERROR] Amount sent:', paymentInfo.totalAmount, 'cents:', Math.round(paymentInfo.totalAmount * 100));
       
       if (errorData.details === 'Stripe configuration missing') {
         throw new Error('Payment processing is not configured. Please contact support.');
       }
       
-      throw new Error(errorData.error || 'Failed to create payment intent');
+      // Include details from the error response for better debugging
+      const errorMessage = errorData.error || 'Failed to create payment intent';
+      const detailsMessage = errorData.details ? `: ${errorData.details}` : '';
+      throw new Error(`${errorMessage}${detailsMessage}`);
     }
 
     const data = await response.json();

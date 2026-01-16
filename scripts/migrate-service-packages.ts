@@ -26,7 +26,7 @@ const servicePackages = [
   {
     id: 'disneyland',
     name: 'Disneyland Park & Hotel / Airports',
-    description: 'Direct service to Disneyland Park, hotels, and airports.',
+    description: 'Premium luxury transportation to Disneyland Park, Disney Resort hotels, and major Southern California airports (LAX, SNA, LGB, ONT). Perfect for families and groups, our spacious Mercedes Sprinter limousines provide comfortable, reliable service with professional chauffeurs. Ideal for theme park visits, hotel transfers, and airport connections throughout the Disneyland area.',
     rate: '$250 (Fixed rate)',
     vehicle: 'mercedes-sprinter',
     imageUrl: '/disneyland.png',
@@ -34,7 +34,7 @@ const servicePackages = [
   {
     id: 'special-events',
     name: 'Special Events',
-    description: 'Perfect for weddings, proms, and other special occasions.',
+    description: 'Elevate your special occasion with premium luxury transportation. Perfect for weddings, proms, quinceañeras, sweet 16s, birthday celebrations, corporate events, concerts, sporting events, funerals, wine tasting tours, and more. Our spacious Mercedes Sprinter limousines provide elegant, comfortable transportation for groups, ensuring you arrive in style with professional chauffeurs who understand the importance of your event. Hourly service available with flexible scheduling to accommodate your celebration needs.',
     rate: '$130/hr (4 hour minimum)',
     vehicle: 'mercedes-sprinter',
     imageUrl: '/weddings.png',

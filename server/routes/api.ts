@@ -994,7 +994,7 @@ router.post('/bootstrap/essential-data', async (req, res) => {
           },
           {
             name: 'Disneyland Park & Hotel / Airports',
-            description: 'Direct service to Disneyland Park, hotels, and airports.',
+            description: 'Premium luxury transportation to Disneyland Park, Disney Resort hotels, and major Southern California airports (LAX, SNA, LGB, ONT). Perfect for families and groups, our spacious Mercedes Sprinter limousines provide comfortable, reliable service with professional chauffeurs. Ideal for theme park visits, hotel transfers, and airport connections throughout the Disneyland area.',
             base_price: 250,
             duration: 120, // 2 hours in minutes
             vehicle_id: 'mercedes-sprinter',
@@ -1006,7 +1006,7 @@ router.post('/bootstrap/essential-data', async (req, res) => {
           },
           {
             name: 'Special Events',
-            description: 'Perfect for weddings, proms, and other special occasions.',
+            description: 'Elevate your special occasion with premium luxury transportation. Perfect for weddings, proms, quinceañeras, sweet 16s, birthday celebrations, corporate events, concerts, sporting events, funerals, wine tasting tours, and more. Our spacious Mercedes Sprinter limousines provide elegant, comfortable transportation for groups, ensuring you arrive in style with professional chauffeurs who understand the importance of your event. Hourly service available with flexible scheduling to accommodate your celebration needs.',
             base_price: 520, // 4 hours * $130
             duration: 240, // 4 hours in minutes
             vehicle_id: 'mercedes-sprinter',
@@ -1825,6 +1825,12 @@ router.put('/service-packages/:id', authMiddleware, adminRoleMiddleware, async (
       return res.status(400).json({ error: 'Invalid service package ID format' });
     }
     
+    // Check if package exists first
+    const existingPackage = await ServicePackage.findById(req.params.id);
+    if (!existingPackage) {
+      return res.status(404).json({ error: 'Service package not found' });
+    }
+    
     const {
       name,
       description,
@@ -1855,22 +1861,54 @@ router.put('/service-packages/:id', authMiddleware, adminRoleMiddleware, async (
     }
 
     // Build update object with only provided fields
-    const updateData: any = {
+    const updateFields: { [key: string]: any } = {
       updated_at: new Date()
     };
 
-    if (name !== undefined) updateData.name = name;
-    if (description !== undefined) updateData.description = description;
-    if (base_price !== undefined) updateData.base_price = base_price;
-    if (is_hourly !== undefined) updateData.is_hourly = is_hourly;
-    if (minimum_hours !== undefined) {
-      // Only set minimum_hours if is_hourly is true, otherwise set to undefined
-      updateData.minimum_hours = is_hourly ? minimum_hours : undefined;
+    if (name !== undefined) updateFields.name = name;
+    if (description !== undefined) {
+      // Ensure description is not empty if provided (schema requires it)
+      if (description === '' || description === null) {
+        return res.status(400).json({ error: 'Description cannot be empty' });
+      }
+      updateFields.description = description;
     }
-    if (vehicle_id !== undefined) updateData.vehicle_id = vehicle_id;
-    if (image_url !== undefined) updateData.image_url = image_url;
-    if (is_active !== undefined) updateData.is_active = is_active;
-    if (airports !== undefined) updateData.airports = airports;
+    if (base_price !== undefined) updateFields.base_price = base_price;
+    if (is_hourly !== undefined) {
+      updateFields.is_hourly = is_hourly;
+      // Only set minimum_hours if is_hourly is true, otherwise set to undefined
+      if (is_hourly && minimum_hours !== undefined) {
+        updateFields.minimum_hours = minimum_hours;
+      } else if (!is_hourly) {
+        // If not hourly, set minimum_hours to undefined
+        updateFields.minimum_hours = undefined;
+      }
+    } else if (minimum_hours !== undefined) {
+      // If is_hourly is not being changed but minimum_hours is provided
+      // Check current package to see if it's hourly
+      const currentPackage = await ServicePackage.findById(req.params.id).lean();
+      if (currentPackage && (currentPackage as any).is_hourly) {
+        updateFields.minimum_hours = minimum_hours;
+      } else if (currentPackage && !(currentPackage as any).is_hourly) {
+        return res.status(400).json({ error: 'Cannot set minimum_hours for non-hourly packages' });
+      }
+    }
+    if (vehicle_id !== undefined) updateFields.vehicle_id = vehicle_id;
+    if (image_url !== undefined) updateFields.image_url = image_url;
+    if (is_active !== undefined) updateFields.is_active = is_active;
+    if (airports !== undefined) updateFields.airports = airports;
+
+    console.log('[DEBUG] Updating service package:', req.params.id);
+    console.log('[DEBUG] Update fields:', JSON.stringify(updateFields, null, 2));
+
+    // Use $set operator for proper MongoDB update
+    const updateData: any = { $set: updateFields };
+    
+    // If minimum_hours is being set to undefined, use $unset
+    if (updateFields.minimum_hours === undefined && existingPackage.is_hourly === false) {
+      updateData.$unset = { minimum_hours: '' };
+      delete updateData.$set.minimum_hours;
+    }
 
     const updatedPackage = await ServicePackage.findByIdAndUpdate(
       req.params.id,
@@ -1879,12 +1917,34 @@ router.put('/service-packages/:id', authMiddleware, adminRoleMiddleware, async (
     );
 
     if (!updatedPackage) {
-      return res.status(404).json({ error: 'Service package not found' });
+      return res.status(404).json({ error: 'Service package not found after update' });
     }
 
+    console.log('[DEBUG] Service package updated successfully:', updatedPackage._id);
     res.json(updatedPackage);
-  } catch (error) {
-    console.error('Error updating service package:', error);
+  } catch (error: any) {
+    console.error('[ERROR] Error updating service package:', error);
+    console.error('[ERROR] Error stack:', error?.stack);
+    console.error('[ERROR] Error name:', error?.name);
+    console.error('[ERROR] Error code:', error?.code);
+    
+    // Handle MongoDB validation errors
+    if (error?.name === 'ValidationError') {
+      const validationErrors = Object.values(error.errors || {}).map((err: any) => err.message);
+      return res.status(400).json({ 
+        error: 'Validation error',
+        details: validationErrors.join(', ')
+      });
+    }
+    
+    // Handle MongoDB cast errors
+    if (error?.name === 'CastError') {
+      return res.status(400).json({ 
+        error: 'Invalid data format',
+        details: error.message
+      });
+    }
+    
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     res.status(500).json({ 
       error: 'Failed to update service package',

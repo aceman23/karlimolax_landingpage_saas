@@ -344,20 +344,41 @@ export async function createServicePackage(data: Partial<ServicePackageType>): P
 }
 
 export async function updateServicePackage(id: string, data: Partial<ServicePackageType>): Promise<ServicePackageType> {
-  const response = await fetch(`${API_BASE_URL}/service-packages/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(data),
-  });
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ error: 'Failed to update service package' }));
-    const errorMessage = errorData.error || errorData.message || errorData.details || 'Failed to update service package';
-    throw new Error(errorMessage);
+  try {
+    const response = await fetch(`${API_BASE_URL}/service-packages/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(data),
+    });
+    
+    if (!response.ok) {
+      let errorData;
+      try {
+        errorData = await response.json();
+      } catch (e) {
+        // If JSON parsing fails, try to get text
+        const text = await response.text();
+        console.error('[ERROR] Failed to parse error response:', text);
+        throw new Error(`Server error: ${response.status} ${response.statusText}`);
+      }
+      
+      const errorMessage = errorData.error || errorData.message || errorData.details || `Failed to update service package (${response.status})`;
+      console.error('[ERROR] Service package update failed:', errorData);
+      throw new Error(errorMessage);
+    }
+    
+    return response.json();
+  } catch (error: any) {
+    console.error('[ERROR] Error in updateServicePackage:', error);
+    // Re-throw with more context if it's not already an Error
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error(error?.message || 'Failed to update service package');
   }
-  return response.json();
 }
 
 export async function deleteServicePackage(id: string): Promise<void> {

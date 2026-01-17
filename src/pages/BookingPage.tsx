@@ -50,7 +50,6 @@ export default function BookingPage() {
   // Use gratuity info from context
   const gratuityType = gratuityInfo.type;
   const gratuityPercentage = gratuityInfo.percentage || 15;
-  const gratuityCustomAmount = gratuityInfo.customAmount?.toString() || '';
 
   // Functions to update gratuity info
   const updateGratuityType = (type: 'none' | 'percentage' | 'custom' | 'cash') => {
@@ -76,15 +75,6 @@ export default function BookingPage() {
       ...gratuityInfo,
       percentage,
       amount: (calculateTotal() * percentage) / 100
-    });
-  };
-
-  const updateGratuityCustomAmount = (customAmount: string) => {
-    const amount = parseFloat(customAmount) || 0;
-    setGratuityInfo({
-      ...gratuityInfo,
-      customAmount: amount,
-      amount
     });
   };
   
@@ -450,9 +440,6 @@ export default function BookingPage() {
     const baseAmount = calculateTotal();
     if (gratuityType === 'percentage') {
       return (baseAmount * gratuityPercentage) / 100;
-    } else if (gratuityType === 'custom') {
-      const customAmount = parseFloat(gratuityCustomAmount) || 0;
-      return customAmount;
     }
     return 0;
   };
@@ -1263,7 +1250,7 @@ export default function BookingPage() {
                   {/* Gratuity Type Selection */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Gratuity Option</label>
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-2 gap-3">
                       <button
                         type="button"
                         onClick={() => updateGratuityType('percentage')}
@@ -1274,17 +1261,6 @@ export default function BookingPage() {
                         }`}
                       >
                         Percentage
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => updateGratuityType('custom')}
-                        className={`p-3 text-sm rounded-lg border transition-colors ${
-                          gratuityType === 'custom'
-                            ? 'border-brand-500 bg-brand-50 text-brand-600'
-                            : 'border-gray-300 hover:border-brand-200'
-                        }`}
-                      >
-                        Custom Amount
                       </button>
                       <button
                         type="button"
@@ -1320,25 +1296,6 @@ export default function BookingPage() {
                           </button>
                         ))}
                       </div>
-                    </div>
-                  )}
-
-                  {/* Custom Amount Input */}
-                  {gratuityType === 'custom' && (
-                    <div>
-                      <label htmlFor="custom-gratuity" className="block text-sm font-medium text-gray-700 mb-2">
-                        Custom Amount ($)
-                      </label>
-                      <input
-                        type="number"
-                        id="custom-gratuity"
-                        value={gratuityCustomAmount}
-                        onChange={(e) => updateGratuityCustomAmount(e.target.value)}
-                        placeholder="0.00"
-                        min="0"
-                        step="0.01"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
-                      />
                     </div>
                   )}
 

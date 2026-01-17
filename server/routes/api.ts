@@ -2534,11 +2534,43 @@ router.put('/bookings/:id/assign-driver', authMiddleware, async (req: Authentica
       comment: `Driver ${driver.firstName} ${driver.lastName} assigned`
     });
 
-    // Populate the booking data for response
+    // Populate the booking data for response and email
     const populatedBooking = await Booking.findById(id)
       .populate('customerId', 'firstName lastName email phone')
       .populate('vehicleId')
       .populate('driverId', 'firstName lastName email phone');
+
+    // Send driver assignment email to customer
+    try {
+      const customerEmail = populatedBooking?.customerEmail || 
+        (populatedBooking?.customerId as any)?.email;
+      
+      if (customerEmail) {
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(customerEmail)) {
+          console.log('Sending driver assignment email to customer:', customerEmail);
+          
+          const emailTemplate = templates.driverAssignment(populatedBooking);
+          
+          await sendEmail({
+            to: customerEmail,
+            subject: emailTemplate.subject,
+            text: emailTemplate.text,
+            html: emailTemplate.html
+          });
+          
+          console.log('Driver assignment email sent successfully to customer');
+        } else {
+          console.error('Invalid email format for driver assignment email:', customerEmail);
+        }
+      } else {
+        console.warn('No customer email found for driver assignment notification');
+      }
+    } catch (emailError) {
+      console.error('Failed to send driver assignment email:', emailError);
+      // Don't fail the driver assignment if email fails
+    }
 
     res.json(populatedBooking);
   } catch (error) {

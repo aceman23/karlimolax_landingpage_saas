@@ -375,7 +375,10 @@ Customer Information:
 - Email: ${customerEmail}
 - Phone: ${customerPhone}
       
-If you have any questions about your booking, please contact our customer service team.`,
+If you have any questions about your booking, please contact our customer service team.
+
+Driver Assignment Update:
+Once a driver has been assigned to your ride, you will receive another email with your driver's contact information. This will allow you to communicate directly with your chauffeur if needed.`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -458,12 +461,20 @@ If you have any questions about your booking, please contact our customer servic
                 </div>
               </div>
 
+              <!-- Driver Assignment Notice -->
+              <div style="background-color: #fff3cd; border-left: 4px solid #f2c568; padding: 15px; margin: 20px 0; border-radius: 4px;">
+                <p style="color: #856404; margin: 0; font-size: 15px; line-height: 1.5;">
+                  <strong>📧 Driver Assignment Update:</strong><br>
+                  Once a driver has been assigned to your ride, you will receive another email with your driver's contact information. This will allow you to communicate directly with your chauffeur if needed.
+                </p>
+              </div>
+
               <!-- Contact Information -->
               <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e5e5;">
                 <p style="color: #4a4a4a; margin: 0 0 10px 0;">If you have any questions about your booking, please contact us:</p>
                 <p style="color: #4a4a4a; margin: 0;">
                   <strong>Phone:</strong> (424) 526-0457<br>
-                  <strong>Email:</strong> Knockoutautorentals@gmail.com
+                  <strong>Email:</strong> karlimolax@gmail.com
                 </p>
               </div>
             </div>
@@ -482,6 +493,156 @@ If you have any questions about your booking, please contact our customer servic
     };
     
     console.log('Booking confirmation template created successfully');
+    return template;
+  },
+  
+  driverAssignment: (booking: any) => {
+    console.log('Creating driver assignment template for booking:', booking._id);
+    
+    // Format pickup date and time
+    const pickupDateTime = new Date(booking.pickupTime);
+    const formattedDate = pickupDateTime.toLocaleDateString('en-US', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+    const formattedTime = pickupDateTime.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit'
+    });
+    
+    // Driver information
+    const driver = booking.driverId;
+    const driverName = driver?.firstName && driver?.lastName
+      ? `${driver.firstName} ${driver.lastName}`
+      : 'Your assigned driver';
+    const driverEmail = driver?.email || 'Not available';
+    const driverPhone = driver?.phone || booking.driverId?.phone || 'Not available';
+    
+    // Get customer information
+    const customerName = booking.customerId?.firstName && booking.customerId?.lastName
+      ? `${booking.customerId.firstName} ${booking.customerId.lastName}`
+      : booking.customerName || 'Valued Customer';
+    
+    const customerEmail = booking.customerId?.email || booking.customerEmail || 'Not provided';
+    
+    // Vehicle information
+    const vehicleInfo = (booking.vehicleId && (booking.vehicleId as any).name)
+      ? `${(booking.vehicleId as any).make} ${(booking.vehicleId as any).model} (${(booking.vehicleId as any).name})`
+      : (booking.vehicleName || 'Assigned vehicle');
+    
+    const template = {
+      subject: `Driver Assigned - Your Ride is Confirmed - ${booking._id}`,
+      text: `Dear ${customerName},
+
+Great news! A driver has been assigned to your booking.
+
+Your Driver Information:
+- Name: ${driverName}
+- Phone: ${driverPhone}
+${driverEmail !== 'Not available' ? `- Email: ${driverEmail}` : ''}
+
+Booking Details:
+- Booking ID: ${booking._id}
+- Date: ${formattedDate}
+- Time: ${formattedTime}
+- Pickup: ${booking.pickupLocation}
+- Dropoff: ${booking.dropoffLocation}
+- Vehicle: ${vehicleInfo}
+
+You can now contact your driver directly if you have any questions or need to coordinate your pickup. Your driver will arrive at the scheduled time and location.
+
+If you have any questions, please contact us at karlimolax@gmail.com or (424) 526-0457.
+
+Thank you for choosing Kar Limo LAX!`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Driver Assigned - Booking Confirmed</title>
+        </head>
+        <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px;">
+            <!-- Header -->
+            <div style="text-align: center; padding: 20px 0; background-color: #d97706; margin: -20px -20px 20px -20px;">
+              <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: bold;">Driver Assigned</h1>
+              <p style="color: #ffffff; margin: 10px 0 0 0; font-weight: 600;">Kar Limo LAX</p>
+            </div>
+
+            <!-- Main Content -->
+            <div style="padding: 20px 0;">
+              <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                Dear ${customerName},
+              </p>
+              <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                Great news! A driver has been assigned to your booking. Your ride is now confirmed and ready to go!
+              </p>
+
+              <!-- Driver Information Section -->
+              <div style="background-color: #f0f9ff; border-left: 4px solid #d97706; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                <h2 style="color: #1a1a1a; margin: 0 0 15px 0; font-size: 18px; border-bottom: 2px solid #d97706; padding-bottom: 10px;">
+                  Your Driver Information
+                </h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                  <div>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Driver Name:</strong><br>${driverName}</p>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Phone:</strong><br><a href="tel:${driverPhone}" style="color: #d97706; text-decoration: none;">${driverPhone}</a></p>
+                  </div>
+                  <div>
+                    ${driverEmail !== 'Not available' ? `<p style="color: #4a4a4a; margin: 8px 0;"><strong>Email:</strong><br><a href="mailto:${driverEmail}" style="color: #d97706; text-decoration: none;">${driverEmail}</a></p>` : ''}
+                  </div>
+                </div>
+                <p style="color: #4a4a4a; margin: 15px 0 0 0; font-size: 14px; line-height: 1.5;">
+                  You can now contact your driver directly if you have any questions or need to coordinate your pickup. Your driver will arrive at the scheduled time and location.
+                </p>
+              </div>
+
+              <!-- Booking Details Section -->
+              <div style="background-color: #f8f8f8; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                <h2 style="color: #1a1a1a; margin: 0 0 15px 0; font-size: 18px; border-bottom: 2px solid #d97706; padding-bottom: 10px;">
+                  Booking Details
+                </h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                  <div>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Booking ID:</strong><br>${booking._id}</p>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Date:</strong><br>${formattedDate}</p>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Time:</strong><br>${formattedTime}</p>
+                  </div>
+                  <div>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Pickup:</strong><br>${booking.pickupLocation}</p>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Dropoff:</strong><br>${booking.dropoffLocation}</p>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Vehicle:</strong><br>${vehicleInfo}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Contact Information -->
+              <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e5e5;">
+                <p style="color: #4a4a4a; margin: 0 0 10px 0;">If you have any questions, please contact us:</p>
+                <p style="color: #4a4a4a; margin: 0;">
+                  <strong>Phone:</strong> <a href="tel:+14245260457" style="color: #d97706; text-decoration: none;">(424) 526-0457</a><br>
+                  <strong>Email:</strong> <a href="mailto:karlimolax@gmail.com" style="color: #d97706; text-decoration: none;">karlimolax@gmail.com</a>
+                </p>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div style="text-align: center; padding: 20px 0; border-top: 1px solid #e5e5e5; margin-top: 20px;">
+              <p style="color: #888; font-size: 12px; margin: 0;">
+                This is an automated message, please do not reply to this email.<br>
+                © ${new Date().getFullYear()} Kar Limo LAX. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `
+    };
+    
+    console.log('Driver assignment template created successfully');
     return template;
   }
 };

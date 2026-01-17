@@ -517,8 +517,6 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (gratuityInfo.type === 'percentage' && gratuityInfo.percentage) {
       const gratuityAmount = baseTotal * gratuityInfo.percentage / 100;
       return baseTotal + gratuityAmount;
-    } else if (gratuityInfo.type === 'custom' && gratuityInfo.customAmount) {
-      return baseTotal + gratuityInfo.customAmount;
     }
     return baseTotal;
   };

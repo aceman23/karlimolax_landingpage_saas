@@ -375,11 +375,19 @@ export default function BookingPage() {
 
   // Handle vehicle selection
   const handleSelectVehicle = (vehicle: any) => {
+    // Prevent selection if bookings are disabled
+    if (!bookingsEnabled) {
+      return;
+    }
     setTempSelectedVehicle(vehicle);
   };
 
   // Handle vehicle confirmation
   const handleConfirmVehicle = () => {
+    // Prevent confirmation if bookings are disabled
+    if (!bookingsEnabled) {
+      return;
+    }
     console.log('DEBUG - Vehicle confirmed:', {
       vehicle: tempSelectedVehicle,
       vehicleName: tempSelectedVehicle?.name,
@@ -393,6 +401,10 @@ export default function BookingPage() {
 
   // Handle package selection (from PackageSelection)
   const handlePackageContinue = () => {
+    // Prevent continuation if bookings are disabled
+    if (!bookingsEnabled) {
+      return;
+    }
     setSelectedVehicle(null);
     setCurrentStep(2);
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -475,6 +487,72 @@ export default function BookingPage() {
     });
   };
 
+  // Check if bookings are disabled
+  const bookingsEnabled = settings.bookingsEnabled !== undefined ? settings.bookingsEnabled : true;
+
+  // Show prominent notification banner when bookings are disabled
+  const bookingsDisabledBanner = !bookingsEnabled ? (
+    <div className="bg-red-600 text-white py-4 px-4 mb-6 rounded-lg shadow-lg">
+      <div className="container mx-auto max-w-7xl">
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-3 flex-1">
+            <svg className="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <div>
+              <h2 className="text-xl font-bold mb-1">Bookings Temporarily Unavailable</h2>
+              <p className="text-red-100">
+                We are currently not accepting new bookings at this time. Please check back later or contact us for assistance.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 text-sm">
+            <a href="tel:+14245260457" className="hover:text-red-200 underline flex items-center gap-1">
+              <span>(424) 526-0457</span>
+            </a>
+            <a href="mailto:karlimolax@gmail.com" className="hover:text-red-200 underline flex items-center gap-1">
+              <span>karlimolax@gmail.com</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : null;
+
+  // If bookings are disabled, show full-page message
+  if (!bookingsEnabled) {
+    return (
+      <div className="bg-gray-50 min-h-screen py-12">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8 text-center">
+            <div className="mb-6">
+              <svg className="mx-auto h-16 w-16 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Bookings Temporarily Unavailable</h1>
+            <p className="text-lg text-gray-600 mb-6">
+              We are currently not accepting new bookings at this time. Please check back later or contact us for assistance.
+            </p>
+            <div className="space-y-4">
+              <p className="text-gray-500">
+                <strong>Phone:</strong> <a href="tel:+14245260457" className="text-brand-600 hover:text-brand-700">(424) 526-0457</a>
+              </p>
+              <p className="text-gray-500">
+                <strong>Email:</strong> <a href="mailto:karlimolax@gmail.com" className="text-brand-600 hover:text-brand-700">karlimolax@gmail.com</a>
+              </p>
+              <div className="pt-4">
+                <Button onClick={() => navigate('/')} className="px-6">
+                  Return to Home
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-gray-50 min-h-screen py-12">
       <div className="container mx-auto px-4">
@@ -548,8 +626,8 @@ export default function BookingPage() {
                   {vehicles.map(vehicle => (
                     <div
                       key={vehicle._id}
-                        className={`border rounded-lg p-4 flex flex-col transition cursor-pointer ${tempSelectedVehicle?._id === vehicle._id ? 'border-brand bg-brand-50' : 'border-gray-200 hover:border-brand-200'}`}
-                      onClick={() => handleSelectVehicle(vehicle)}
+                        className={`border rounded-lg p-4 flex flex-col transition ${!bookingsEnabled ? 'cursor-not-allowed opacity-60 border-gray-300 bg-gray-100' : `cursor-pointer ${tempSelectedVehicle?._id === vehicle._id ? 'border-brand bg-brand-50' : 'border-gray-200 hover:border-brand-200'}`}`}
+                      onClick={() => bookingsEnabled && handleSelectVehicle(vehicle)}
                     >
                       <div className="relative h-48">
                         {Array.isArray((vehicle as any).imageUrls) && (vehicle as any).imageUrls.length > 0 ? (
@@ -575,7 +653,7 @@ export default function BookingPage() {
                       variant="primary"
                       className="px-8 py-3 text-lg"
                       onClick={handleConfirmVehicle}
-                      disabled={!tempSelectedVehicle}
+                      disabled={!bookingsEnabled || !tempSelectedVehicle}
                     >
                       Confirm Vehicle Selection
                     </Button>

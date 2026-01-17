@@ -722,6 +722,18 @@ router.get('/bookings/:id', async (req, res) => {
 router.post('/bookings', async (req: Request, res: Response) => {
   console.log('Booking creation request received');
   try {
+    // Check if bookings are enabled
+    await connectDB();
+    const bookingSettings = await AdminSettings.findOne({ type: 'settings', key: 'admin_settings' });
+    const bookingsEnabled = bookingSettings?.bookingsEnabled !== undefined ? bookingSettings.bookingsEnabled : true;
+    
+    if (!bookingsEnabled) {
+      return res.status(403).json({ 
+        error: 'Bookings are currently disabled',
+        message: 'We are currently not accepting new bookings. Please try again later or contact us for assistance.'
+      });
+    }
+
     const {
       customerId,
       customerEmail,
@@ -886,7 +898,7 @@ router.post('/bookings', async (req: Request, res: Response) => {
             // Don't fail the booking creation if admin email fails
           }
 
-      // Send email
+      // Send email - this will throw an error if SMTP_USER is not karlimolax@gmail.com
       await sendEmail({
         to: customerEmail,
         subject: emailTemplate.subject,
@@ -894,7 +906,7 @@ router.post('/bookings', async (req: Request, res: Response) => {
         html: emailTemplate.html
       });
 
-      console.log('Booking confirmation email sent successfully');
+      console.log('[SUCCESS] Booking confirmation email sent successfully from karlimolax@gmail.com');
         }
       }
     } catch (emailError) {
@@ -2553,6 +2565,7 @@ router.put('/bookings/:id/assign-driver', authMiddleware, async (req: Authentica
           
           const emailTemplate = templates.driverAssignment(populatedBooking);
           
+          // Send email - this will throw an error if SMTP_USER is not karlimolax@gmail.com
           await sendEmail({
             to: customerEmail,
             subject: emailTemplate.subject,
@@ -2560,7 +2573,7 @@ router.put('/bookings/:id/assign-driver', authMiddleware, async (req: Authentica
             html: emailTemplate.html
           });
           
-          console.log('Driver assignment email sent successfully to customer');
+          console.log('[SUCCESS] Driver assignment email sent successfully from karlimolax@gmail.com to customer');
         } else {
           console.error('Invalid email format for driver assignment email:', customerEmail);
         }

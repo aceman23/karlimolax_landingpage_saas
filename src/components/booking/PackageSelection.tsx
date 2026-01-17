@@ -22,8 +22,12 @@ export default function PackageSelection({ onContinue }: { onContinue: () => voi
     selectedAirport, 
     setSelectedAirport,
     bookingDetails,
-    setBookingDetails 
+    setBookingDetails,
+    settings
   } = useBooking();
+  
+  // Check if bookings are disabled
+  const bookingsEnabled = settings?.bookingsEnabled !== undefined ? settings.bookingsEnabled : true;
   const [packages, setPackages] = useState<ServicePackage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +51,11 @@ export default function PackageSelection({ onContinue }: { onContinue: () => voi
   }, []);
 
   const handlePackageSelect = (packageId: string) => {
+    // Prevent selection if bookings are disabled
+    if (!bookingsEnabled) {
+      return;
+    }
+    
     // Clear any previously selected vehicle when selecting a package
     setSelectedVehicle(null);
     
@@ -76,6 +85,11 @@ export default function PackageSelection({ onContinue }: { onContinue: () => voi
   };
 
   const handleAirportSelect = (airport: string) => {
+    // Prevent selection if bookings are disabled
+    if (!bookingsEnabled) {
+      return;
+    }
+    
     setSelectedAirport(airport);
     
     // Update airport in booking details
@@ -116,10 +130,12 @@ export default function PackageSelection({ onContinue }: { onContinue: () => voi
           <div 
             key={pkg._id || pkg.id}
             className={`
-              border rounded-lg p-4 cursor-pointer transition
-              ${selectedPackage?._id === pkg._id ? 'border-brand-500 bg-brand-50' : 'border-gray-200 hover:border-brand-300'}
+              border rounded-lg p-4 transition
+              ${!bookingsEnabled 
+                ? 'border-gray-300 bg-gray-100 opacity-60 cursor-not-allowed' 
+                : `cursor-pointer ${selectedPackage?._id === pkg._id ? 'border-brand-500 bg-brand-50' : 'border-gray-200 hover:border-brand-300'}`}
             `}
-            onClick={() => handlePackageSelect(pkg._id || pkg.id || '')}
+            onClick={() => bookingsEnabled && handlePackageSelect(pkg._id || pkg.id || '')}
           >
             <div className="w-full h-48 rounded overflow-hidden mb-4 bg-gray-100 flex items-center justify-center">
               <img 
@@ -149,12 +165,15 @@ export default function PackageSelection({ onContinue }: { onContinue: () => voi
             {LA_AIRPORTS.map((airport) => (
               <button
                 key={airport.code}
-                onClick={() => handleAirportSelect(airport.code)}
+                onClick={() => bookingsEnabled && handleAirportSelect(airport.code)}
+                disabled={!bookingsEnabled}
                 className={`
                   px-4 py-2 rounded-lg text-sm font-medium transition
-                  ${selectedAirport === airport.code 
-                    ? 'bg-brand-500 text-white' 
-                    : 'bg-white border border-gray-200 hover:border-brand-300 text-gray-700'}
+                  ${!bookingsEnabled
+                    ? 'bg-gray-100 border border-gray-300 text-gray-400 cursor-not-allowed opacity-60'
+                    : selectedAirport === airport.code 
+                      ? 'bg-brand-500 text-white' 
+                      : 'bg-white border border-gray-200 hover:border-brand-300 text-gray-700'}
                 `}
               >
                 {airport.code}
@@ -168,7 +187,7 @@ export default function PackageSelection({ onContinue }: { onContinue: () => voi
       <div className="mt-8 flex justify-center">
         <Button 
           variant="primary"
-          disabled={!selectedPackage || (selectedPackage.name === 'LAX Special' && !selectedAirport)}
+          disabled={!bookingsEnabled || !selectedPackage || (selectedPackage.name === 'LAX Special' && !selectedAirport)}
           onClick={onContinue}
         >
           Continue with Selected Package

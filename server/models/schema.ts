@@ -251,6 +251,9 @@ const bookingStatusHistorySchema = new mongoose.Schema({
 const adminSettingsSchema = new mongoose.Schema({
   type: { type: String, required: true, enum: ['settings'] },
   key: { type: String, required: true, unique: true },
+  // Booking settings
+  // Note: default is true, but false values must be explicitly saved
+  bookingsEnabled: { type: Boolean, default: true, required: false },
   // Notification settings
   smsEnabled: { type: Boolean, default: true },
   emailEnabled: { type: Boolean, default: true },
@@ -326,6 +329,8 @@ adminSettingsSchema.statics.getOrCreateAdminSettings = async function() {
     settings = await this.create({
       type: 'settings',
       key: 'admin_settings',
+      // Booking settings - explicitly set to true by default
+      bookingsEnabled: true,
       emailNotifications: {
         sendToAdmin: true,
         adminEmails: [process.env.ADMIN_EMAIL || 'admin@example.com'],
@@ -353,6 +358,12 @@ adminSettingsSchema.statics.getOrCreateAdminSettings = async function() {
         }
       }
     });
+  } else {
+    // If settings exist but bookingsEnabled is missing, initialize it
+    if (settings.bookingsEnabled === null || settings.bookingsEnabled === undefined) {
+      settings.bookingsEnabled = true;
+      await settings.save();
+    }
   }
   
   return settings;

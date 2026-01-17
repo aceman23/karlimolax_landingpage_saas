@@ -44,22 +44,23 @@ export const sendEmail = async (options: EmailOptions): Promise<void> => {
     // CRITICAL: SMTP_USER in .env MUST be karlimolax@gmail.com
     // Gmail will override the "from" field with the authenticated user's email
     const fromAddress = 'karlimolax@gmail.com';
+    const requiredUser = 'karlimolax@gmail.com';
     
     // Validate SMTP_USER matches the desired from address
     const smtpUser = process.env.SMTP_USER?.trim().toLowerCase();
-    const requiredUser = 'karlimolax@gmail.com';
     
     if (!smtpUser) {
-      console.error(`[ERROR] SMTP_USER is not set in environment variables`);
-      console.error(`[ERROR] Please set SMTP_USER=${requiredUser} in your .env file`);
-      throw new Error('SMTP_USER environment variable is not configured');
+      const errorMsg = `[EMAIL ERROR] SMTP_USER is not set in environment variables. Please set SMTP_USER=${requiredUser} in your Vercel environment variables or .env file`;
+      console.error(errorMsg);
+      throw new Error(errorMsg);
     }
     
     if (smtpUser !== requiredUser) {
-      console.error(`[ERROR] SMTP_USER (${process.env.SMTP_USER}) does not match required from address (${requiredUser})`);
-      console.error(`[ERROR] Gmail will override the "from" field with the authenticated user's email`);
-      console.error(`[ERROR] To fix: Set SMTP_USER=${requiredUser} in your .env file and restart the server`);
-      throw new Error(`SMTP_USER must be set to ${requiredUser} to send emails from that address. Current value: ${process.env.SMTP_USER}`);
+      const errorMsg = `[EMAIL ERROR] SMTP_USER (${process.env.SMTP_USER}) does not match required from address (${requiredUser}). Gmail will override the "from" field with the authenticated user's email. To fix: Set SMTP_USER=${requiredUser} in your Vercel environment variables and redeploy.`;
+      console.error(errorMsg);
+      console.error(`[EMAIL ERROR] Current SMTP_USER: ${process.env.SMTP_USER}`);
+      console.error(`[EMAIL ERROR] Required SMTP_USER: ${requiredUser}`);
+      throw new Error(errorMsg);
     }
     
     const mailOptions = {

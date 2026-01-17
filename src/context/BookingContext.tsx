@@ -29,6 +29,7 @@ interface FeeRule {
 }
 
 interface PricingSettings {
+  bookingsEnabled?: boolean;
   distanceFeeEnabled: boolean;
   distanceThreshold: number;
   distanceFee: number;
@@ -104,7 +105,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const [currentBooking, setCurrentBooking] = useState<Booking | null>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
-  const [settings, setSettings] = useState<PricingSettings>({
+  const [settings, setSettings] = useState<PricingSettings & { bookingsEnabled?: boolean }>({
     distanceFeeEnabled: true,
     distanceThreshold: 40,
     distanceFee: 49,
@@ -122,7 +123,8 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     vehiclePackagePricing: [],
     feeRules: [],
     carSeatPrice: 15,
-    boosterSeatPrice: 10
+    boosterSeatPrice: 10,
+    bookingsEnabled: true
   });
 
   useEffect(() => {
@@ -205,7 +207,8 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
           return !(conditionMatch && feeMatch);
         }),
         carSeatPrice: Number(data.carSeatPrice) || 15,
-        boosterSeatPrice: Number(data.boosterSeatPrice) || 10
+        boosterSeatPrice: Number(data.boosterSeatPrice) || 10,
+        bookingsEnabled: data.bookingsEnabled !== undefined ? data.bookingsEnabled : true
       });
     } catch (error) {
       console.error('[ERROR] Error fetching admin settings:', error);

@@ -11,15 +11,17 @@ interface EmailOptions {
 }
 
 // Create reusable transporter
+// Note: The "from" address in emails must match the authenticated SMTP_USER
+// If SMTP_USER is karlimolax@gmail.com, Gmail will use that as the sender
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
+  host: process.env.SMTP_HOST || 'smtp.gmail.com',
   port: parseInt(process.env.SMTP_PORT || '587'),
   secure: process.env.SMTP_SECURE === 'true',
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
-});
+} as any);
 
 // Send email function
 export const sendEmail = async (options: EmailOptions): Promise<void> => {
@@ -38,15 +40,35 @@ export const sendEmail = async (options: EmailOptions): Promise<void> => {
     console.log('Attempting to send email to:', options.to);
     console.log('Email subject:', options.subject);
     
+    // Always use karlimolax@gmail.com as the sender address
+    // CRITICAL: SMTP_USER in .env MUST be karlimolax@gmail.com
+    // Gmail will override the "from" field with the authenticated user's email
+    const fromAddress = 'karlimolax@gmail.com';
+    
+    // Validate SMTP_USER matches the desired from address
+    const smtpUser = process.env.SMTP_USER?.trim().toLowerCase();
+    const requiredUser = 'karlimolax@gmail.com';
+    
+    if (!smtpUser) {
+      console.error(`[ERROR] SMTP_USER is not set in environment variables`);
+      console.error(`[ERROR] Please set SMTP_USER=${requiredUser} in your .env file`);
+      throw new Error('SMTP_USER environment variable is not configured');
+    }
+    
+    if (smtpUser !== requiredUser) {
+      console.error(`[ERROR] SMTP_USER (${process.env.SMTP_USER}) does not match required from address (${requiredUser})`);
+      console.error(`[ERROR] Gmail will override the "from" field with the authenticated user's email`);
+      console.error(`[ERROR] To fix: Set SMTP_USER=${requiredUser} in your .env file and restart the server`);
+      throw new Error(`SMTP_USER must be set to ${requiredUser} to send emails from that address. Current value: ${process.env.SMTP_USER}`);
+    }
+    
     const mailOptions = {
-      from: process.env.SMTP_FROM || 'Knockoutautorentals@gmail.com',
+      from: fromAddress,
       ...options,
     };
     
-    // Validate from address
-    if (!mailOptions.from) {
-      throw new Error('SMTP_FROM environment variable is not set');
-    }
+    console.log(`[EMAIL] Sending email from: ${fromAddress}`);
+    console.log(`[EMAIL] SMTP_USER verified: ${smtpUser} (matches required address)`);
     
     console.log('Mail options:', {
       from: mailOptions.from,
@@ -69,30 +91,45 @@ export const templates = {
   emailVerification: (verificationUrl: string, user: { name: string; email: string }) => {
     console.log('Creating verification email template with URL:', verificationUrl);
     return {
-      subject: 'Verify Your Email Address',
-      text: `Hello ${user.name},\n\nPlease verify your email address by clicking the following link:\n${verificationUrl}\n\nThis link will expire in 24 hours.\n\nBest regards,\nKar Limo LAX Team`,
+      subject: 'Verify Your Email Address - Kar Limo LAX',
+      text: `Hello ${user.name},\n\nThank you for signing up with Kar Limo LAX!\n\nPlease verify your email address by clicking the following link:\n${verificationUrl}\n\nThis link will expire in 24 hours.\n\nIf you did not create an account, you can safely ignore this email.\n\nBest regards,\nKar Limo LAX Team`,
       html: `
         <!DOCTYPE html>
         <html>
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Verify Your Email</title>
+          <title>Verify Your Email - Kar Limo LAX</title>
         </head>
         <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
-          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-            <h2 style="color: #1a1a1a; margin-bottom: 20px;">Verify Your Email Address</h2>
-            <p style="color: #4a4a4a; margin-bottom: 20px;">Hello ${user.name},</p>
-            <p style="color: #4a4a4a; margin-bottom: 20px;">Thank you for signing up with Kar Limo LAX. Please verify your email address by clicking the link below:</p>
-            <div style="text-align: center; margin: 30px 0;">
-              <a href="${verificationUrl}" style="display: inline-block; background-color: #d97706; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
-                Verify Email Address
-              </a>
+          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+            <!-- Header with Branding -->
+            <div style="background-color: #d97706; padding: 30px 20px; text-align: center;">
+              <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">Kar Limo LAX</h1>
+              <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 14px;">Premium Transportation Services</p>
             </div>
-            <p style="color: #4a4a4a; margin-bottom: 20px;">This link will expire in 24 hours.</p>
-            <p style="color: #4a4a4a; margin-bottom: 20px;">If you did not create an account, you can safely ignore this email.</p>
-            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
-              <p style="color: #4a4a4a; margin: 0;">Best regards,<br>Kar Limo LAX Team</p>
+            
+            <!-- Email Content -->
+            <div style="padding: 30px 20px;">
+              <h2 style="color: #1a1a1a; margin-bottom: 20px; font-size: 24px;">Verify Your Email Address</h2>
+              <p style="color: #4a4a4a; margin-bottom: 20px; font-size: 16px; line-height: 1.6;">Hello ${user.name},</p>
+              <p style="color: #4a4a4a; margin-bottom: 20px; font-size: 16px; line-height: 1.6;">Thank you for signing up with <strong>Kar Limo LAX</strong>! Please verify your email address by clicking the button below:</p>
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${verificationUrl}" style="display: inline-block; background-color: #d97706; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 16px;">
+                  Verify Email Address
+                </a>
+              </div>
+              <p style="color: #4a4a4a; margin-bottom: 10px; font-size: 14px;">This link will expire in 24 hours.</p>
+              <p style="color: #4a4a4a; margin-bottom: 0; font-size: 14px;">If you did not create an account with Kar Limo LAX, you can safely ignore this email.</p>
+            </div>
+            
+            <!-- Footer -->
+            <div style="background-color: #f9fafb; padding: 20px; border-top: 1px solid #e2e8f0; text-align: center;">
+              <p style="color: #4a4a4a; margin: 0 0 10px 0; font-size: 14px;">Best regards,</p>
+              <p style="color: #1a1a1a; margin: 0; font-weight: bold; font-size: 16px;">Kar Limo LAX Team</p>
+              <p style="color: #6b7280; margin: 15px 0 0 0; font-size: 12px;">
+                This email was sent from karlimolax@gmail.com
+              </p>
             </div>
           </div>
         </body>

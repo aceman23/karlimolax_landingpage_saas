@@ -19,18 +19,15 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as LocationState;
-  
-  const [isRegistering, setIsRegistering] = useState(state?.showRegistration || false);
+  const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ 
     email?: string; 
-    password?: string; 
-    confirmPassword?: string;
+    password?: string;
     firstName?: string;
     lastName?: string;
     general?: string 
@@ -41,16 +38,28 @@ export default function LoginPage() {
     if (state?.message && state?.type === 'success') {
       toast.success(state.message);
     }
+    // Check if we should show sign-up form
+    if (state?.showRegistration) {
+      setIsSignUp(true);
+    }
   }, [state]);
 
   const validateForm = () => {
     const newErrors: { 
       email?: string; 
       password?: string;
-      confirmPassword?: string;
       firstName?: string;
       lastName?: string;
     } = {};
+    
+    if (isSignUp) {
+      if (!firstName.trim()) {
+        newErrors.firstName = 'First name is required';
+      }
+      if (!lastName.trim()) {
+        newErrors.lastName = 'Last name is required';
+      }
+    }
     
     if (!email.trim()) {
       newErrors.email = 'Email is required';
@@ -60,22 +69,8 @@ export default function LoginPage() {
     
     if (!password) {
       newErrors.password = 'Password is required';
-    } else if (password.length < 6) {
+    } else if (isSignUp && password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
-    }
-    
-    if (isRegistering) {
-      if (!firstName.trim()) {
-        newErrors.firstName = 'First name is required';
-      }
-      if (!lastName.trim()) {
-        newErrors.lastName = 'Last name is required';
-      }
-      if (!confirmPassword) {
-        newErrors.confirmPassword = 'Please confirm your password';
-      } else if (confirmPassword !== password) {
-        newErrors.confirmPassword = 'Passwords do not match';
-      }
     }
     
     setErrors(newErrors);
@@ -93,61 +88,54 @@ export default function LoginPage() {
     setErrors({});
     
     try {
-      let result;
-      if (isRegistering) {
-        result = await signUp(email, password, firstName, lastName);
+      if (isSignUp) {
+        // Handle sign-up
+        const result = await signUp(email, password, firstName, lastName, 'customer');
         
         if (result.error) {
-          console.error('Registration error:', result.error);
+          console.error('Sign-up error:', result.error);
           setErrors({ 
-            general: 'Failed to create account. Please try again.'
+            general: result.error.message || 'Failed to create account. Please try again.'
           });
-          toast.error('Registration failed', { duration: 5000 });
+          toast.error(result.error.message || 'Failed to create account', { duration: 5000 });
         } else {
-          // Redirect to email verification page
-          navigate('/verify-email', { 
-            state: { 
-              email,
-              message: 'Registration successful. Please check your email to verify your account.'
-            }
-          });
+          toast.success('Account created successfully! You can now log in.');
+          setIsSignUp(false);
+          setEmail('');
+          setPassword('');
+          setFirstName('');
+          setLastName('');
         }
       } else {
-        result = await signIn(email, password);
-      
-      if (result.error) {
+        // Handle sign-in
+        const result = await signIn(email, password);
+        
+        if (result.error) {
           console.error('Login error:', result.error);
-          if (result.error.needsVerification) {
-            setErrors({ 
-              general: 'Please verify your email before logging in.'
-            });
-            toast.error('Please verify your email before logging in', { duration: 5000 });
-          } else {
-        setErrors({ 
-              general: 'The email or password you entered is incorrect. Please try again.',
-          password: 'Incorrect password' 
-        });
-            toast.error('Invalid login credentials', { duration: 5000 });
-      }
+          setErrors({ 
+            general: 'The email or password you entered is incorrect. Please try again.',
+            password: 'Incorrect password' 
+          });
+          toast.error('Invalid login credentials', { duration: 5000 });
         } else {
           toast.success('Login successful');
-      
-      // Redirect based on user role
-      if (isAdmin()) {
-        navigate('/admin');
-      } else if (isDriver()) {
-        navigate('/driver');
-      } else {
-        navigate(state?.from?.pathname || '/');
-      }
+          
+          // Redirect based on user role
+          if (isAdmin()) {
+            navigate('/admin');
+          } else if (isDriver()) {
+            navigate('/driver');
+          } else {
+            navigate(state?.from?.pathname || '/');
+          }
         }
       }
     } catch (error: any) {
-      console.error(isRegistering ? 'Registration error:' : 'Login error:', error);
+      console.error('Auth error:', error);
       setErrors({ 
         general: `An unexpected error occurred: ${error.message || 'Please try again later'}`
       });
-      toast.error(`An error occurred during ${isRegistering ? 'registration' : 'login'}`, { duration: 5000 });
+      toast.error('An error occurred', { duration: 5000 });
     } finally {
       setIsLoading(false);
     }
@@ -156,8 +144,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <Helmet>
-        <title>{isRegistering ? 'Sign Up' : 'Login'} | Kar Limo LAX</title>
-        <meta name="description" content={`${isRegistering ? 'Create' : 'Log in to'} your Kar Limo LAX account.`} />
+        <title>Login | Kar Limo LAX</title>
+        <meta name="description" content="Log in to your Kar Limo LAX account." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       
@@ -166,12 +154,13 @@ export default function LoginPage() {
           KarLimoLax.com
         </h1>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          {isRegistering ? 'Create your account' : 'Sign in to your account'}
+          {isSignUp ? 'Create your account' : 'Sign in to your account'}
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          {isRegistering 
-            ? 'Join Kar Limo LAX for premium transportation services'
-            : 'Access the limo service portal for admins and drivers'}
+          {isSignUp 
+            ? 'Join Kar Limo LAX to book premium transportation services'
+            : 'Access the limo service portal for admins and drivers'
+          }
         </p>
       </div>
 
@@ -184,7 +173,7 @@ export default function LoginPage() {
               </div>
             )}
 
-            {isRegistering && (
+            {isSignUp && (
               <>
                 <div>
                   <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
@@ -266,7 +255,7 @@ export default function LoginPage() {
                   id="password"
                   name="password"
                   type="password"
-                  autoComplete={isRegistering ? 'new-password' : 'current-password'}
+                  autoComplete="current-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -280,30 +269,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {isRegistering && (
-              <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                  Confirm Password
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    autoComplete="new-password"
-                    required
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className={`appearance-none block w-full px-3 py-2 border ${
-                      errors.confirmPassword ? 'border-red-300' : 'border-gray-300'
-                    } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
-                  />
-                  {errors.confirmPassword && (
-                    <p className="mt-2 text-sm text-red-600">{errors.confirmPassword}</p>
-                  )}
-                </div>
-              </div>
-            )}
 
             <div className="flex items-center justify-between">
               <div className="flex items-center">
@@ -333,51 +298,45 @@ export default function LoginPage() {
               >
                 {isLoading ? (
                   'Processing...'
-                ) : isRegistering ? (
-                  <>
-                    <UserPlus className="h-5 w-5 mr-2" />
-                    Create Account
-                  </>
                 ) : (
                   <>
-                    <LogIn className="h-5 w-5 mr-2" />
-                    Sign in
+                    {isSignUp ? (
+                      <>
+                        <UserPlus className="h-5 w-5 mr-2" />
+                        Create Account
+                      </>
+                    ) : (
+                      <>
+                        <LogIn className="h-5 w-5 mr-2" />
+                        Sign in
+                      </>
+                    )}
                   </>
                 )}
+              </button>
+            </div>
+
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSignUp(!isSignUp);
+                  setErrors({});
+                  setEmail('');
+                  setPassword('');
+                  setFirstName('');
+                  setLastName('');
+                }}
+                className="text-sm font-medium text-brand hover:text-brand-500"
+              >
+                {isSignUp 
+                  ? 'Already have an account? Sign in'
+                  : "Don't have an account? Sign up"
+                }
               </button>
             </div>
           </form>
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or</span>
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <button
-                type="button"
-                onClick={() => setIsRegistering(!isRegistering)}
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
-              >
-                {isRegistering ? (
-                  <>
-                    <LogIn className="h-5 w-5 mr-2 text-gray-400" />
-                    Sign in instead
-                  </>
-                ) : (
-                  <>
-                    <UserPlus className="h-5 w-5 mr-2 text-gray-400" />
-                    Create new account
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ export default function TermsOfService() {
       <Helmet>
         <title>Terms of Service | Kar Limo LAX</title>
         <meta name="description" content="Terms of Service for Kar Limo LAX. Read the full legal terms governing the use of our services." />
-        <link rel="canonical" href="https://dapperlimolax.com/terms" />
+        <link rel="canonical" href="https://karlimolax.com/terms" />
       </Helmet>
       
       <div className="container mx-auto px-4">

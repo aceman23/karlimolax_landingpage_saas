@@ -308,25 +308,41 @@ router.put('/profiles/:id', authMiddleware, adminRoleMiddleware, async (req: Aut
       return res.status(404).json({ error: 'Profile not found' });
     }
 
-    // If changing password, verify current password
+    // If changing password
     if (newPassword) {
-      if (!currentPassword) {
-        return res.status(400).json({ error: 'Current password is required to change password' });
-      }
+      // Admin password reset: if adminPasswordReset flag is set, skip current password verification
+      const isAdminPasswordReset = req.body.adminPasswordReset === true;
+      
+      if (!isAdminPasswordReset) {
+        // Regular password change: verify current password
+        if (!currentPassword) {
+          return res.status(400).json({ error: 'Current password is required to change password' });
+        }
 
-      const user = await User.findById(profileToUpdate.userId);
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
+        const user = await User.findById(profileToUpdate.userId);
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+        }
 
-      const isMatch = await user.comparePassword(currentPassword);
-      if (!isMatch) {
-        return res.status(400).json({ error: 'Current password is incorrect' });
-      }
+        const isMatch = await user.comparePassword(currentPassword);
+        if (!isMatch) {
+          return res.status(400).json({ error: 'Current password is incorrect' });
+        }
 
-      // Update password
-      user.password = newPassword;
-      await user.save();
+        // Update password
+        user.password = newPassword;
+        await user.save();
+      } else {
+        // Admin password reset: no current password required
+        const user = await User.findById(profileToUpdate.userId);
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Update password directly (will be hashed by pre-save hook)
+        user.password = newPassword;
+        await user.save();
+      }
     }
 
     // Update profile fields
@@ -363,16 +379,58 @@ router.put('/profiles/:id', authMiddleware, adminRoleMiddleware, async (req: Aut
   }
 });
 
-router.delete('/profiles/:id', async (req, res) => {
+router.delete('/profiles/:id', authMiddleware, adminRoleMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   try {
-    await connectDB();
-    const profile = await Profile.findByIdAndDelete(req.params.id);
+    // connectDB() is called in adminRoleMiddleware
+    const profileId = req.params.id;
+    console.log(`[DELETE /profiles/:id] Attempting to delete profile with ID: ${profileId}`);
+
+    if (!profileId || !mongoose.Types.ObjectId.isValid(profileId)) {
+      return res.status(400).json({ error: 'Invalid profile ID' });
+    }
+
+    const profile = await Profile.findById(profileId);
     if (!profile) {
+      console.log(`[DELETE /profiles/:id] Profile not found: ${profileId}`);
       return res.status(404).json({ error: 'Profile not found' });
     }
-    res.json({ message: 'Profile deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to delete profile' });
+
+    console.log(`[DELETE /profiles/:id] Found profile:`, {
+      id: profile._id,
+      email: profile.email,
+      userId: profile.userId
+    });
+
+    // Also delete the associated User document if userId exists
+    if (profile.userId) {
+      try {
+        const userDeleted = await User.findByIdAndDelete(profile.userId);
+        if (userDeleted) {
+          console.log(`[INFO] Deleted User document with ID: ${profile.userId}`);
+        } else {
+          console.log(`[WARN] User document not found for ID: ${profile.userId}`);
+        }
+      } catch (userError: any) {
+        console.warn(`[WARN] Failed to delete User document ${profile.userId}:`, userError);
+        // Continue with profile deletion even if User deletion fails
+      }
+    } else {
+      console.log(`[WARN] Profile has no userId, skipping User deletion`);
+    }
+
+    // Delete the profile
+    const deletedProfile = await Profile.findByIdAndDelete(profileId);
+    if (!deletedProfile) {
+      console.log(`[ERROR] Profile was not deleted: ${profileId}`);
+      return res.status(500).json({ error: 'Failed to delete profile' });
+    }
+
+    console.log(`[INFO] Successfully deleted profile: ${profileId}`);
+    res.json({ message: 'User deleted successfully' });
+  } catch (error: any) {
+    console.error('[ERROR] Error deleting profile:', error);
+    const errorMessage = error.message || 'Failed to delete user';
+    res.status(500).json({ error: errorMessage });
   }
 });
 
@@ -1501,8 +1559,8 @@ router.post('/webhook/stripe', express.raw({ type: 'application/json' }), (req, 
   res.json({ received: true });
 });
 
-// Signup route
-router.post('/signup', async (req, res) => {
+// Signup route - Only admins can create accounts (deprecated, use /auth/register instead)
+router.post('/signup', authMiddleware, adminRoleMiddleware, async (req, res) => {
   try {
     await connectDB(); // Ensure database connection
     const { email, password, firstName, lastName, role, phone } = req.body;
@@ -1513,11 +1571,7 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ error: 'Email already registered' });
     }
 
-    // Generate verification token
-    const verificationToken = crypto.randomBytes(32).toString('hex');
-    const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-
-    // Create new user
+    // Create new user - email verification not required
     const user = await User.create({
       email,
       password,
@@ -1525,38 +1579,14 @@ router.post('/signup', async (req, res) => {
       lastName,
       role: role || 'customer',
       phone,
-      emailVerificationToken: verificationToken,
-      emailVerificationExpires: verificationExpires,
-      isEmailVerified: false
+      isEmailVerified: true // Set to true by default - no email verification required
     });
-
-    // Generate verification URL
-    const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/verify-email/${verificationToken}`;
-
-    // Send verification email
-    try {
-      const verificationEmail = templates.emailVerification(verificationUrl, {
-        name: `${user.firstName} ${user.lastName}`,
-        email: user.email
-      });
-      
-      await sendEmail({
-        to: user.email,
-        subject: verificationEmail.subject,
-        text: verificationEmail.text,
-        html: verificationEmail.html
-      });
-      console.log(`[INFO] Verification email sent to ${user.email}`);
-    } catch (emailError) {
-      console.error('[ERROR] Failed to send verification email:', emailError);
-      // Don't fail the signup process if email fails
-    }
 
     // Return user data (excluding sensitive information)
     const { password: _, emailVerificationToken: __, ...userData } = user.toObject();
     res.status(201).json({
       user: userData,
-      message: 'Registration successful. Please check your email to verify your account.'
+      message: 'User account created successfully.'
     });
   } catch (error) {
     console.error('Signup error:', error);
@@ -1686,13 +1716,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    // Check if email is verified
-    if (!user.isEmailVerified) {
-      return res.status(401).json({ 
-        error: 'Please verify your email before logging in',
-        needsVerification: true
-      });
-    }
+    // Email verification is not required - users can log in immediately after account creation
 
     // Verify password
     const isMatch = await user.comparePassword(password);

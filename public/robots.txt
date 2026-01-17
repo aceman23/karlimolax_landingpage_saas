@@ -26,4 +26,4 @@ Allow: /privacy-policy
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://dapperlimolax.com/sitemap.xml
+Sitemap: https://karlimolax.com/sitemap.xml

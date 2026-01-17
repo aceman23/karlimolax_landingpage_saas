@@ -147,7 +147,7 @@ export default function CustomerInfoPage() {
       <Helmet>
         <title>Customer Information | Kar Limo LAX</title>
         <meta name="description" content="Complete your booking information for KarLimoLax premium transportation services in Los Angeles." />
-        <link rel="canonical" href="https://dapperlimolax.com/customer-info" />
+        <link rel="canonical" href="https://karlimolax.com/customer-info" />
       </Helmet>
       
       <div className="container mx-auto px-4">

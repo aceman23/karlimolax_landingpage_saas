@@ -251,15 +251,15 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       
       // Add distance tier fees if enabled
       if (settings.distanceFeeEnabled) {
-        // Find applicable distance tier - handle distances beyond the highest tier
-        let applicableTier = settings.distanceTiers.find(tier => 
-          (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
-          (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
-        );
-        
+      // Find applicable distance tier - handle distances beyond the highest tier
+      let applicableTier = settings.distanceTiers.find(tier => 
+        (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
+        (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
+      );
+      
         // If no tier found and distance exceeds all tiers, only use the highest tier if it has Infinity/null maxDistance
         // Otherwise, don't apply a tier fee for distances beyond the configured tiers
-        if (!applicableTier && settings.distanceTiers.length > 0) {
+      if (!applicableTier && settings.distanceTiers.length > 0) {
           // First, check if there's a tier with Infinity or null maxDistance (open-ended tier)
           const openEndedTier = settings.distanceTiers.find(tier => 
             tier.maxDistance === Infinity || tier.maxDistance === null
@@ -270,11 +270,11 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
           }
           // If no open-ended tier and distance exceeds all tiers, don't apply any tier fee
           // The per-mile fee will handle distances beyond the highest tier
-        }
+      }
 
-        if (applicableTier) {
-          total += applicableTier.fee;
-        }
+      if (applicableTier) {
+        total += applicableTier.fee;
+      }
       }
 
       // Add per-mile fee if enabled and distance exceeds threshold (works independently of distance fees)
@@ -343,7 +343,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       total += bookingDetails.boosterSeats * settings.boosterSeatPrice;
     }
 
-      // Apply fee rules
+    // Apply fee rules
     if (settings.feeRules.length > 0) {
       // Calculate distance in miles for use in fee rules
       const distanceInMiles = bookingDetails.distance?.value 
@@ -425,9 +425,9 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       if (settings.distanceFeeEnabled) {
         // Find applicable distance tier - handle distances beyond the highest tier
         let applicableTier = settings.distanceTiers.find(tier => 
-          (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
-          (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
-        );
+        (tier.maxDistance === Infinity || tier.maxDistance === null) && distanceInMiles >= tier.minDistance ||
+        (distanceInMiles >= tier.minDistance && distanceInMiles <= tier.maxDistance)
+      );
         
         // If no tier found and distance exceeds all tiers, only use the highest tier if it has Infinity/null maxDistance
         // Otherwise, don't apply a tier fee for distances beyond the configured tiers
@@ -444,9 +444,9 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
           // The per-mile fee will handle distances beyond the highest tier
         }
 
-        if (applicableTier) {
-          total += applicableTier.fee;
-        }
+      if (applicableTier) {
+        total += applicableTier.fee;
+      }
       }
 
       // Add per-mile fee if enabled and distance exceeds threshold (works independently of distance fees)

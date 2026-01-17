@@ -70,9 +70,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await response.json();
 
       if (!response.ok) {
-        if (data.needsVerification) {
-          return { error: { needsVerification: true, message: data.error } };
-        }
         return { error: new Error(data.error || 'Failed to login') };
       }
 

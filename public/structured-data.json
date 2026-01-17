@@ -1,11 +1,11 @@
 {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "name": "Dapper Limo LAX",
+  "name": "Kar Limo LAX",
   "image": "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg",
   "logo": "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg",
-  "@id": "https://dapperlimolax.com",
-  "url": "https://dapperlimolax.com",
+  "@id": "https://karlimolax.com",
+  "url": "https://karlimolax.com",
   "telephone": "+12135906085",
   "address": {
     "@type": "PostalAddress",
@@ -35,9 +35,9 @@
     "closes": "23:59"
   },
   "sameAs": [
-    "https://www.facebook.com/dapperlimolax",
-    "https://www.instagram.com/dapperlimolax",
-    "https://twitter.com/dapperlimolax"
+    "https://www.facebook.com/karlimolax",
+    "https://www.instagram.com/karlimolax",
+    "https://twitter.com/karlimolax"
   ],
   "priceRange": "$$$",
   "servesCuisine": "Transportation",

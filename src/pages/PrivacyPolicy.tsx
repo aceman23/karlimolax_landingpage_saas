@@ -6,7 +6,7 @@ export default function PrivacyPolicy() {
       <Helmet>
         <title>Privacy Policy | Kar Limo LAX</title>
         <meta name="description" content="Privacy Policy for Kar Limo LAX. Learn how we collect, use, and protect your personal information." />
-        <link rel="canonical" href="https://dapperlimolax.com/privacy" />
+        <link rel="canonical" href="https://karlimolax.com/privacy" />
       </Helmet>
       
       <div className="container mx-auto px-4">
@@ -17,7 +17,7 @@ export default function PrivacyPolicy() {
           <div className="prose max-w-none">
             <h2 className="text-2xl font-semibold mt-8 mb-4">1. Introduction</h2>
             <p>
-              KarLimoLax ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy describes how we collect, use, disclose, and safeguard your information when you visit our website dapperlimolax.com or use our transportation services.
+              KarLimoLax ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy describes how we collect, use, disclose, and safeguard your information when you visit our website karlimolax.com or use our transportation services.
             </p>
             <p>
               Please read this Privacy Policy carefully. By accessing or using our Services, you acknowledge that you have read, understood, and agree to be bound by all the terms of this Privacy Policy.

@@ -1,5 +1,5 @@
 /*
-  # Complete Database Schema for DapperLimoLAX
+  # Complete Database Schema for KarLimoLAX
 
   1. New Tables
     - `customers` - Customer information

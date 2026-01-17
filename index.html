@@ -65,22 +65,25 @@
     
     <!-- Google Places API Script - Loaded dynamically in main.tsx -->
 
-    <!-- Google tag (gtag.js) -->
+    <!-- Resource Hints for Performance -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://js.authorize.net" crossorigin>
+    <link rel="preconnect" href="https://jstest.authorize.net" crossorigin>
+    <link rel="dns-prefetch" href="https://js.authorize.net">
+    <link rel="dns-prefetch" href="https://jstest.authorize.net">
+
+    <!-- Google tag (gtag.js) - Defer loading -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN8HD73PWH"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-WN8HD73PWH');
     </script>
 
-    <!-- Preconnect for payment library domains -->
-    <link rel="preconnect" href="https://js.authorize.net" crossorigin>
-    <link rel="preconnect" href="https://jstest.authorize.net" crossorigin>
-
-    <!-- Accept.js: include sandbox CDN script early to satisfy library presence checks -->
-    <script src="https://jstest.authorize.net/v1/Accept.js" async></script>
+    <!-- Accept.js: Defer loading -->
+    <script src="https://jstest.authorize.net/v1/Accept.js" defer></script>
   </head>
   <body>
     <div id="root"></div>

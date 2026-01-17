@@ -1,4 +1,4 @@
-# Deployment Guide for DapperLimoLax
+# Deployment Guide for KarLimoLAX
 
 ## Environment Setup
 

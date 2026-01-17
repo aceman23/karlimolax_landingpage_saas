@@ -160,8 +160,8 @@ export async function processStripePayment(
     console.log('[DEBUG] Creating payment method from card elements');
     const { error: pmError, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
-      card: cardNumberElement,
-      billing_details: {
+        card: cardNumberElement,
+        billing_details: {
         name: paymentInfo.cardholderName || '',
       },
     });

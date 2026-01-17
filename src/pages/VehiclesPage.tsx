@@ -160,7 +160,7 @@ export default function VehiclesPage() {
       <Helmet>
         <title>Our Fleet | Luxury Mercedes Sprinter Limos | Kar Limo LAX</title>
         <meta name="description" content="Explore our luxury fleet of Mercedes Sprinter limousines for airport transfers, Disneyland visits, and special events in Los Angeles." />
-        <link rel="canonical" href="https://dapperlimolax.com/vehicles" />
+        <link rel="canonical" href="https://karlimolax.com/vehicles" />
       </Helmet>
       
       <div className="bg-gray-900 text-white py-16">

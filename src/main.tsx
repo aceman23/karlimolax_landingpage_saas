@@ -28,24 +28,36 @@ if (!apiKey) {
   });
 }
 
-// Preload Google Maps API with specific required services
-console.log('main.tsx: Preloading Google Maps API');
-loadGoogleMapsAPI({
-  libraries: ['places', 'geocoding'],
-  callback: () => {
-    console.log('main.tsx: Google Maps API loaded successfully');
-  },
-  onerror: (error) => {
-    if (error.message?.includes('Places API') || error.message?.includes('ApiNotActivatedMapError')) {
-      console.warn('main.tsx: Google Places API is not activated for this API key');
-      console.warn('See GOOGLE_PLACES_API_SETUP.md for instructions on how to enable it');
-    } else {
-      console.warn('main.tsx: Failed to preload Google Maps API:', error);
-    }
+// Defer Google Maps API loading to improve initial page load
+// Load it after the page is interactive
+if (typeof window !== 'undefined') {
+  // Use requestIdleCallback if available, otherwise setTimeout
+  const loadMaps = () => {
+    console.log('main.tsx: Loading Google Maps API (deferred)');
+    loadGoogleMapsAPI({
+      libraries: ['places', 'geocoding'],
+      callback: () => {
+        console.log('main.tsx: Google Maps API loaded successfully');
+      },
+      onerror: (error) => {
+        if (error.message?.includes('Places API') || error.message?.includes('ApiNotActivatedMapError')) {
+          console.warn('main.tsx: Google Places API is not activated for this API key');
+          console.warn('See GOOGLE_PLACES_API_SETUP.md for instructions on how to enable it');
+        } else {
+          console.warn('main.tsx: Failed to load Google Maps API:', error);
+        }
+      }
+    }).catch(error => {
+      console.error('main.tsx: Google Maps API loading error:', error);
+    });
+  };
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(loadMaps, { timeout: 2000 });
+  } else {
+    setTimeout(loadMaps, 2000);
   }
-}).catch(error => {
-  console.error('main.tsx: Google Maps API preloading error:', error);
-});
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
@@ -8,7 +8,56 @@ import crypto from 'crypto';
 import connectDB from '../db.js';
 import { Profile } from '../models/schema.js';
 
+interface AuthenticatedRequest extends Request {
+  user?: {
+    userId: string;
+    email: string;
+    role: string;
+  };
+}
+
 const router = express.Router();
+
+// Authentication Middleware
+const authMiddleware = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Authentication token required.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  if (!process.env.JWT_SECRET) {
+    console.error('[ERROR] JWT_SECRET is not set in environment variables');
+    return res.status(500).json({ 
+      error: 'Server configuration error',
+      details: 'JWT_SECRET environment variable is not configured.',
+      code: 'MISSING_JWT_SECRET'
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) as { userId: string; email: string; role: string; iat: number; exp: number };
+    req.user = { 
+      userId: decoded.userId, 
+      email: decoded.email,
+      role: decoded.role 
+    };
+    next();
+  } catch (error) {
+    console.error('Authentication error:', error);
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+};
+
+// Admin Role Middleware
+const adminRoleMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Access denied. Admin role required.' });
+  }
+  next();
+};
 
 // Test email endpoint
 router.post('/test-email', async (req, res) => {
@@ -66,14 +115,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    // Check if email is verified
-    if (!user.isEmailVerified) {
-      console.log(`[DEBUG] Login Attempt - Email not verified for user: ${email}`);
-      return res.status(401).json({ 
-        error: 'Please verify your email before logging in',
-        needsVerification: true
-      });
-    }
+    // Email verification is not required - users can log in immediately after account creation
 
     // Check password
     try {
@@ -158,70 +200,41 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Register route
+// Register route - Public sign-up enabled
 router.post('/register', async (req, res) => {
   try {
     await connectDB();
     const { email, password, firstName, lastName, role } = req.body;
 
+    // Validate required fields
+    if (!email || !password || !firstName || !lastName) {
+      return res.status(400).json({ error: 'All fields (email, password, firstName, lastName) are required' });
+    }
+
+    // Normalize email (trim and lowercase) - though User schema setter should handle this
+    const normalizedEmail = email.trim().toLowerCase();
+
     // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
       return res.status(400).json({ error: 'Email already registered' });
     }
 
-    // Generate verification token
-    const verificationToken = crypto.randomBytes(32).toString('hex');
-    const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-
-    // Create new user
+    // Create new user - email verification not required
     const user = await User.create({
-      email,
-      password,
-      firstName,
-      lastName,
+      email: normalizedEmail,
+      password, // Plain password - will be hashed by pre-save hook
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
       role: role || 'customer',
-      emailVerificationToken: verificationToken,
-      emailVerificationExpires: verificationExpires,
-      isEmailVerified: false
+      isEmailVerified: true // Set to true by default - no email verification required
     });
-
-    // Generate verification URL
-    console.log('FRONTEND_URL:', process.env.FRONTEND_URL); // Debug log
-    const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/verify-email/${verificationToken}`;
-    console.log('Generated verification URL:', verificationUrl); // Debug log
-
-    // Send verification email
-    try {
-      const verificationEmail = templates.emailVerification(verificationUrl, {
-        name: `${user.firstName} ${user.lastName}`,
-        email: user.email
-      });
-      
-      console.log('Verification email template:', {
-        subject: verificationEmail.subject,
-        hasHtml: !!verificationEmail.html,
-        hasText: !!verificationEmail.text,
-        urlInHtml: verificationEmail.html.includes(verificationUrl)
-      });
-      
-      await sendEmail({
-        to: user.email,
-        subject: verificationEmail.subject,
-        text: verificationEmail.text,
-        html: verificationEmail.html
-      });
-      console.log(`[INFO] Verification email sent to ${user.email}`);
-    } catch (emailError) {
-      console.error('[ERROR] Failed to send verification email:', emailError);
-      // Don't fail the signup process if email fails
-    }
 
     // Return user data (excluding sensitive information)
     const { password: _, emailVerificationToken: __, ...userData } = user.toObject();
     res.status(201).json({
       user: userData,
-      message: 'Registration successful. Please check your email to verify your account.'
+      message: 'User account created successfully.'
     });
   } catch (error) {
     console.error('Registration error:', error);

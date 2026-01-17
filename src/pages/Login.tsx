@@ -33,16 +33,6 @@ const Login: React.FC = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        if (data.needsVerification) {
-          toast.error('Please verify your email before logging in');
-          navigate('/verify-email', { 
-            state: { 
-              email: formData.email,
-              message: 'Please verify your email before logging in.'
-            }
-          });
-          return;
-        }
         throw new Error(data.error || 'Failed to login');
       }
 

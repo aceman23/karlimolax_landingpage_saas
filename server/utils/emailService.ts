@@ -5,6 +5,8 @@ import { AdminSettings } from '../models/schema.js';
 dotenv.config();
 
 // Create a transporter using SMTP
+// Note: The "from" address in emails must match the authenticated SMTP_USER
+// If SMTP_USER is karlimolax@gmail.com, Gmail will use that as the sender
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT),
@@ -12,6 +14,10 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
+  },
+  // Set default from address (though Gmail may override based on auth user)
+  defaults: {
+    from: 'karlimolax@gmail.com',
   },
 });
 
@@ -109,10 +115,24 @@ export const sendBookingNotificationEmail = async (booking: any) => {
       .replace('{{specialInstructions}}', booking.specialInstructions || booking.notes || 'N/A');
 
     // Send emails to all admin addresses
+    // CRITICAL: SMTP_USER in .env MUST be karlimolax@gmail.com
+    // Gmail will override the "from" field with the authenticated user's email
+    const fromAddress = 'karlimolax@gmail.com';
+    
+    // Validate SMTP_USER matches the desired from address
+    const smtpUser = process.env.SMTP_USER?.trim().toLowerCase();
+    const requiredUser = 'karlimolax@gmail.com';
+    
+    if (!smtpUser || smtpUser !== requiredUser) {
+      console.error(`[ERROR] SMTP_USER (${process.env.SMTP_USER || 'not set'}) does not match required from address (${requiredUser})`);
+      console.error(`[ERROR] Cannot send email - SMTP_USER must be ${requiredUser}`);
+      return;
+    }
+    
     const emailPromises = adminEmails.map(async (email: string) => {
       try {
         await transporter.sendMail({
-          from: process.env.SMTP_FROM || 'Knockoutautorentals@gmail.com',
+          from: fromAddress,
           to: email,
           subject: `New Booking Notification - ${booking._id?.toString() || 'N/A'}`,
           text: content

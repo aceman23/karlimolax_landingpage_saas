@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://dapperlimolax.vercel.app', 'https://dapplimolax.vercel.app']
+    ? ['https://karlimolax.vercel.app', 'https://karlimolax.vercel.app']
     : 'http://localhost:5173',
   credentials: true
 }));

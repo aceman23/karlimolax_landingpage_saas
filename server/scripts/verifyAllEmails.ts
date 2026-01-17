@@ -7,7 +7,7 @@ dotenv.config();
 async function verifyAllEmails() {
   try {
     // Connect to the database
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/dapperlimolax');
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/karlimolax');
     console.log('Connected to MongoDB');
 
     // Update all users

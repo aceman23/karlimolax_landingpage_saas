@@ -12,56 +12,62 @@ import Footer from './components/layout/Footer';
 import ScrollToTop from './components/common/ScrollToTop';
 import CookieConsent from './components/common/CookieConsent';
 
-// Pages
-import HomePage from './pages/HomePage';
-import VehiclesPage from './pages/VehiclesPage';
-import BookingPage from './pages/BookingPage';
-import CustomerInfoPage from './pages/CustomerInfoPage';
-import PaymentPage from './pages/PaymentPage';
-import ConfirmationPage from './pages/ConfirmationPage';
-import BookingSuccess from './pages/BookingSuccess';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import TermsOfService from './pages/TermsOfService';
-import NotFound from './pages/NotFound';
+// Pages - Lazy load for code splitting
+import { lazy, Suspense } from 'react';
+import HomePage from './pages/HomePage'; // Keep HomePage non-lazy for initial load
+const VehiclesPage = lazy(() => import('./pages/VehiclesPage'));
+const BookingPage = lazy(() => import('./pages/BookingPage'));
+const CustomerInfoPage = lazy(() => import('./pages/CustomerInfoPage'));
+const PaymentPage = lazy(() => import('./pages/PaymentPage'));
+const ConfirmationPage = lazy(() => import('./pages/ConfirmationPage'));
+const BookingSuccess = lazy(() => import('./pages/BookingSuccess'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./pages/TermsOfService'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Auth Pages
-import LoginPage from './pages/auth/LoginPage';
-import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
-import ResetPasswordPage from './pages/auth/ResetPasswordPage';
-import TestEmail from './pages/auth/TestEmail';
+const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
+const ForgotPasswordPage = lazy(() => import('./pages/auth/ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('./pages/auth/ResetPasswordPage'));
+const TestEmail = lazy(() => import('./pages/auth/TestEmail'));
+const EmailVerificationPage = lazy(() => import('./pages/auth/EmailVerificationPage'));
 
 // Admin Pages
-import AdminLayout from './components/admin/AdminLayout';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminBookings from './pages/admin/AdminBookings';
-import AdminDrivers from './pages/admin/AdminDrivers';
-import AdminReports from './pages/admin/AdminReports';
-import AdminSettings from './pages/admin/AdminSettings';
-import AdminUsers from './pages/admin/AdminUsers';
-import AddDriverPage from './pages/admin/AddDriver';
-import AdminProfilePage from './pages/admin/AdminProfile';
-import AdminVehicles from './pages/admin/AdminVehicles';
-import DriverDetails from './pages/admin/DriverDetails';
-import AdminServicePackages from './pages/admin/AdminServicePackages';
-import AdminPricing from './pages/admin/AdminPricing';
+const AdminLayout = lazy(() => import('./components/admin/AdminLayout'));
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const AdminBookings = lazy(() => import('./pages/admin/AdminBookings'));
+const AdminDrivers = lazy(() => import('./pages/admin/AdminDrivers'));
+const AdminReports = lazy(() => import('./pages/admin/AdminReports'));
+const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'));
+const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'));
+const AddDriverPage = lazy(() => import('./pages/admin/AddDriver'));
+const AdminProfilePage = lazy(() => import('./pages/admin/AdminProfile'));
+const AdminVehicles = lazy(() => import('./pages/admin/AdminVehicles'));
+const DriverDetails = lazy(() => import('./pages/admin/DriverDetails'));
+const AdminServicePackages = lazy(() => import('./pages/admin/AdminServicePackages'));
+const AdminPricing = lazy(() => import('./pages/admin/AdminPricing'));
 
 // Driver Pages
-import DriverLayout from './components/driver/DriverLayout';
-import DriverDashboard from './pages/driver/DriverDashboard';
-import DriverRides from './pages/driver/DriverRides';
-import DriverProfile from './pages/driver/DriverProfile';
-import DriverBookings from './pages/driver/DriverBookings';
-import EditDriverProfilePage from './pages/driver/EditDriverProfilePage';
+const DriverLayout = lazy(() => import('./components/driver/DriverLayout'));
+const DriverDashboard = lazy(() => import('./pages/driver/DriverDashboard'));
+const DriverRides = lazy(() => import('./pages/driver/DriverRides'));
+const DriverProfile = lazy(() => import('./pages/driver/DriverProfile'));
+const DriverBookings = lazy(() => import('./pages/driver/DriverBookings'));
+const EditDriverProfilePage = lazy(() => import('./pages/driver/EditDriverProfilePage'));
 
 // Customer Pages
-import CustomerProfilePage from './pages/customer/CustomerProfilePage';
-import BookingDetailsPage from './pages/customer/BookingDetailsPage';
-import EditProfilePage from './pages/customer/EditProfilePage';
+const CustomerProfilePage = lazy(() => import('./pages/customer/CustomerProfilePage'));
+const BookingDetailsPage = lazy(() => import('./pages/customer/BookingDetailsPage'));
+const EditProfilePage = lazy(() => import('./pages/customer/EditProfilePage'));
 
-// New import for EmailVerificationPage
-import EmailVerificationPage from './pages/auth/EmailVerificationPage';
+// Loading component
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-500"></div>
+  </div>
+);
 
 function App() {
   return (
@@ -82,21 +88,23 @@ function App() {
                 path="/admin"
                 element={
                   <ProtectedRoute requireAdmin>
-                    <AdminLayout />
+                    <Suspense fallback={<LoadingFallback />}>
+                      <AdminLayout />
+                    </Suspense>
                   </ProtectedRoute>
                 }
               >
-                <Route index element={<AdminDashboard />} />
-                <Route path="bookings" element={<AdminBookings />} />
-                <Route path="drivers" element={<AdminDrivers />} />
-                <Route path="drivers/:id" element={<DriverDetails />} />
-                <Route path="users" element={<AdminUsers />} />
-                <Route path="add-driver" element={<AddDriverPage />} />
-                <Route path="vehicles" element={<AdminVehicles />} />
-                <Route path="services" element={<AdminServicePackages />} />
-                <Route path="profile" element={<AdminProfilePage />} />
-                <Route path="pricing" element={<AdminPricing />} />
-                <Route path="settings" element={<AdminSettings />} />
+                <Route index element={<Suspense fallback={<LoadingFallback />}><AdminDashboard /></Suspense>} />
+                <Route path="bookings" element={<Suspense fallback={<LoadingFallback />}><AdminBookings /></Suspense>} />
+                <Route path="drivers" element={<Suspense fallback={<LoadingFallback />}><AdminDrivers /></Suspense>} />
+                <Route path="drivers/:id" element={<Suspense fallback={<LoadingFallback />}><DriverDetails /></Suspense>} />
+                <Route path="users" element={<Suspense fallback={<LoadingFallback />}><AdminUsers /></Suspense>} />
+                <Route path="add-driver" element={<Suspense fallback={<LoadingFallback />}><AddDriverPage /></Suspense>} />
+                <Route path="vehicles" element={<Suspense fallback={<LoadingFallback />}><AdminVehicles /></Suspense>} />
+                <Route path="services" element={<Suspense fallback={<LoadingFallback />}><AdminServicePackages /></Suspense>} />
+                <Route path="profile" element={<Suspense fallback={<LoadingFallback />}><AdminProfilePage /></Suspense>} />
+                <Route path="pricing" element={<Suspense fallback={<LoadingFallback />}><AdminPricing /></Suspense>} />
+                <Route path="settings" element={<Suspense fallback={<LoadingFallback />}><AdminSettings /></Suspense>} />
               </Route>
 
               {/* Driver Routes */}
@@ -104,24 +112,26 @@ function App() {
                 path="/driver"
                 element={
                   <ProtectedRoute requiredRole="driver">
-                    <DriverLayout />
+                    <Suspense fallback={<LoadingFallback />}>
+                      <DriverLayout />
+                    </Suspense>
                   </ProtectedRoute>
                 }
               >
-                <Route index element={<DriverDashboard />} />
-                <Route path="rides" element={<DriverRides />} />
-                <Route path="bookings" element={<DriverBookings />} />
-                <Route path="profile" element={<DriverProfile />} />
-                <Route path="edit-profile" element={<EditDriverProfilePage />} />
+                <Route index element={<Suspense fallback={<LoadingFallback />}><DriverDashboard /></Suspense>} />
+                <Route path="rides" element={<Suspense fallback={<LoadingFallback />}><DriverRides /></Suspense>} />
+                <Route path="bookings" element={<Suspense fallback={<LoadingFallback />}><DriverBookings /></Suspense>} />
+                <Route path="profile" element={<Suspense fallback={<LoadingFallback />}><DriverProfile /></Suspense>} />
+                <Route path="edit-profile" element={<Suspense fallback={<LoadingFallback />}><EditDriverProfilePage /></Suspense>} />
               </Route>
               
               {/* Auth Routes */}
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-              <Route path="/reset-password" element={<ResetPasswordPage />} />
-              <Route path="/test-email" element={<TestEmail />} />
-              <Route path="/verify-email" element={<EmailVerificationPage />} />
-              <Route path="/verify-email/:token" element={<EmailVerificationPage />} />
+              <Route path="/login" element={<Suspense fallback={<LoadingFallback />}><LoginPage /></Suspense>} />
+              <Route path="/forgot-password" element={<Suspense fallback={<LoadingFallback />}><ForgotPasswordPage /></Suspense>} />
+              <Route path="/reset-password" element={<Suspense fallback={<LoadingFallback />}><ResetPasswordPage /></Suspense>} />
+              <Route path="/test-email" element={<Suspense fallback={<LoadingFallback />}><TestEmail /></Suspense>} />
+              <Route path="/verify-email" element={<Suspense fallback={<LoadingFallback />}><EmailVerificationPage /></Suspense>} />
+              <Route path="/verify-email/:token" element={<Suspense fallback={<LoadingFallback />}><EmailVerificationPage /></Suspense>} />
               
               {/* Public Routes */}
               <Route path="/" element={
@@ -137,7 +147,9 @@ function App() {
                 <div className="flex flex-col min-h-screen">
                   <Header />
                   <main className="flex-grow">
-                    <VehiclesPage />
+                    <Suspense fallback={<LoadingFallback />}>
+                      <VehiclesPage />
+                    </Suspense>
                   </main>
                   <Footer />
                 </div>
@@ -146,7 +158,9 @@ function App() {
                 <div className="flex flex-col min-h-screen">
                   <Header />
                   <main className="flex-grow">
-                    <BookingPage />
+                    <Suspense fallback={<LoadingFallback />}>
+                      <BookingPage />
+                    </Suspense>
                   </main>
                   <Footer />
                 </div>
@@ -155,7 +169,9 @@ function App() {
                 <div className="flex flex-col min-h-screen">
                   <Header />
                   <main className="flex-grow">
-                    <CustomerInfoPage />
+                    <Suspense fallback={<LoadingFallback />}>
+                      <CustomerInfoPage />
+                    </Suspense>
                   </main>
                   <Footer />
                 </div>
@@ -164,7 +180,9 @@ function App() {
                 <div className="flex flex-col min-h-screen">
                   <Header />
                   <main className="flex-grow">
-                    <PaymentPage />
+                    <Suspense fallback={<LoadingFallback />}>
+                      <PaymentPage />
+                    </Suspense>
                   </main>
                   <Footer />
                 </div>
@@ -173,7 +191,9 @@ function App() {
                 <div className="flex flex-col min-h-screen">
                   <Header />
                   <main className="flex-grow">
-                    <BookingSuccess />
+                    <Suspense fallback={<LoadingFallback />}>
+                      <BookingSuccess />
+                    </Suspense>
                   </main>
                   <Footer />
                 </div>
@@ -182,7 +202,9 @@ function App() {
                 <div className="flex flex-col min-h-screen">
                   <Header />
                   <main className="flex-grow">
-                    <ConfirmationPage />
+                    <Suspense fallback={<LoadingFallback />}>
+                      <ConfirmationPage />
+                    </Suspense>
                   </main>
                   <Footer />
                 </div>
@@ -191,7 +213,9 @@ function App() {
                 <div className="flex flex-col min-h-screen">
                   <Header />
                   <main className="flex-grow">
-                    <AboutPage />
+                    <Suspense fallback={<LoadingFallback />}>
+                      <AboutPage />
+                    </Suspense>
                   </main>
                   <Footer />
                 </div>
@@ -200,7 +224,9 @@ function App() {
                 <div className="flex flex-col min-h-screen">
                   <Header />
                   <main className="flex-grow">
-                    <ContactPage />
+                    <Suspense fallback={<LoadingFallback />}>
+                      <ContactPage />
+                    </Suspense>
                   </main>
                   <Footer />
                 </div>
@@ -209,7 +235,9 @@ function App() {
                 <div className="flex flex-col min-h-screen">
                   <Header />
                   <main className="flex-grow">
-                    <PrivacyPolicy />
+                    <Suspense fallback={<LoadingFallback />}>
+                      <PrivacyPolicy />
+                    </Suspense>
                   </main>
                   <Footer />
                 </div>
@@ -218,19 +246,25 @@ function App() {
                 <div className="flex flex-col min-h-screen">
                   <Header />
                   <main className="flex-grow">
-                    <TermsOfService />
+                    <Suspense fallback={<LoadingFallback />}>
+                      <TermsOfService />
+                    </Suspense>
                   </main>
                   <Footer />
                 </div>
               } />
               <Route path="/profile" element={
                 <ProtectedRoute>
-                  <CustomerProfilePage />
+                  <Suspense fallback={<LoadingFallback />}>
+                    <CustomerProfilePage />
+                  </Suspense>
                 </ProtectedRoute>
               } />
               <Route path="/edit-profile" element={
                 <ProtectedRoute>
-                  <EditProfilePage />
+                  <Suspense fallback={<LoadingFallback />}>
+                    <EditProfilePage />
+                  </Suspense>
                 </ProtectedRoute>
               } />
               <Route path="/booking-details/:id" element={
@@ -238,13 +272,15 @@ function App() {
                   <div className="flex flex-col min-h-screen">
                     <Header />
                     <main className="flex-grow">
-                      <BookingDetailsPage />
+                      <Suspense fallback={<LoadingFallback />}>
+                        <BookingDetailsPage />
+                      </Suspense>
                     </main>
                     <Footer />
                   </div>
                 </ProtectedRoute>
               } />
-              <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<Suspense fallback={<LoadingFallback />}><NotFound /></Suspense>} />
             </Routes>
             
             <CookieConsent />

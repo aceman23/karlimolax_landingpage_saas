@@ -200,8 +200,8 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Register route - Public sign-up enabled
-router.post('/register', async (req, res) => {
+// Register route - Only admins can create accounts
+router.post('/register', authMiddleware, adminRoleMiddleware, async (req, res) => {
   try {
     await connectDB();
     const { email, password, firstName, lastName, role } = req.body;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Lock, LogOut, User, UserPlus, Menu, X } from 'lucide-react';
+import { Lock, LogOut, User, Menu, X } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
@@ -137,14 +137,6 @@ export default function Header() {
                   <Lock size={14} className="mr-1 flex-shrink-0" />
                   <span>Login</span>
                 </Link>
-                <Link 
-                  to="/login" 
-                  state={{ showRegistration: true }}
-                  className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-brand hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 whitespace-nowrap"
-                >
-                  <UserPlus className="h-4 w-4 mr-1 flex-shrink-0" />
-                  Sign up
-                </Link>
               </div>
             )}
           </div>
@@ -259,15 +251,6 @@ export default function Header() {
                 >
                   <Lock size={16} className="mr-1 flex-shrink-0" />
                   <span>Login</span>
-                </Link>
-                <Link 
-                  to="/login" 
-                  state={{ showRegistration: true }}
-                  className="inline-flex items-center justify-center px-3 py-2 border border-transparent text-lg font-medium rounded-md text-white bg-brand hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <UserPlus className="h-4 w-4 mr-2 flex-shrink-0" />
-                  Sign up
                 </Link>
               </div>
             )}

@@ -2,7 +2,7 @@ import React, { useState, FormEvent, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { Helmet } from 'react-helmet-async';
-import { LogIn, UserPlus } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface LocationState {
@@ -15,21 +15,16 @@ interface LocationState {
 }
 
 export default function LoginPage() {
-  const { signIn, signUp, isAdmin, isDriver } = useAuth();
+  const { signIn, isAdmin, isDriver } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as LocationState;
-  const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ 
     email?: string; 
-    password?: string;
-    firstName?: string;
-    lastName?: string;
+    password?: string; 
     general?: string 
   }>({});
 
@@ -38,28 +33,13 @@ export default function LoginPage() {
     if (state?.message && state?.type === 'success') {
       toast.success(state.message);
     }
-    // Check if we should show sign-up form
-    if (state?.showRegistration) {
-      setIsSignUp(true);
-    }
   }, [state]);
 
   const validateForm = () => {
     const newErrors: { 
       email?: string; 
-      password?: string;
-      firstName?: string;
-      lastName?: string;
+      password?: string; 
     } = {};
-    
-    if (isSignUp) {
-      if (!firstName.trim()) {
-        newErrors.firstName = 'First name is required';
-      }
-      if (!lastName.trim()) {
-        newErrors.lastName = 'Last name is required';
-      }
-    }
     
     if (!email.trim()) {
       newErrors.email = 'Email is required';
@@ -69,8 +49,6 @@ export default function LoginPage() {
     
     if (!password) {
       newErrors.password = 'Password is required';
-    } else if (isSignUp && password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
     }
     
     setErrors(newErrors);
@@ -88,54 +66,34 @@ export default function LoginPage() {
     setErrors({});
     
     try {
-      if (isSignUp) {
-        // Handle sign-up
-        const result = await signUp(email, password, firstName, lastName, 'customer');
-        
-        if (result.error) {
-          console.error('Sign-up error:', result.error);
-          setErrors({ 
-            general: result.error.message || 'Failed to create account. Please try again.'
-          });
-          toast.error(result.error.message || 'Failed to create account', { duration: 5000 });
-        } else {
-          toast.success('Account created successfully! You can now log in.');
-          setIsSignUp(false);
-          setEmail('');
-          setPassword('');
-          setFirstName('');
-          setLastName('');
-        }
+      // Sign-up is disabled - only admins can create accounts
+      const result = await signIn(email, password);
+      
+      if (result.error) {
+        console.error('Login error:', result.error);
+        setErrors({ 
+          general: 'The email or password you entered is incorrect. Please try again.',
+          password: 'Incorrect password' 
+        });
+        toast.error('Invalid login credentials', { duration: 5000 });
       } else {
-        // Handle sign-in
-        const result = await signIn(email, password);
+        toast.success('Login successful');
         
-        if (result.error) {
-          console.error('Login error:', result.error);
-          setErrors({ 
-            general: 'The email or password you entered is incorrect. Please try again.',
-            password: 'Incorrect password' 
-          });
-          toast.error('Invalid login credentials', { duration: 5000 });
+        // Redirect based on user role
+        if (isAdmin()) {
+          navigate('/admin');
+        } else if (isDriver()) {
+          navigate('/driver');
         } else {
-          toast.success('Login successful');
-          
-          // Redirect based on user role
-          if (isAdmin()) {
-            navigate('/admin');
-          } else if (isDriver()) {
-            navigate('/driver');
-          } else {
-            navigate(state?.from?.pathname || '/');
-          }
+          navigate(state?.from?.pathname || '/');
         }
       }
     } catch (error: any) {
-      console.error('Auth error:', error);
+      console.error('Login error:', error);
       setErrors({ 
         general: `An unexpected error occurred: ${error.message || 'Please try again later'}`
       });
-      toast.error('An error occurred', { duration: 5000 });
+      toast.error('An error occurred during login', { duration: 5000 });
     } finally {
       setIsLoading(false);
     }
@@ -154,13 +112,10 @@ export default function LoginPage() {
           KarLimoLax.com
         </h1>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          {isSignUp ? 'Create your account' : 'Sign in to your account'}
+          Sign in to your account
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          {isSignUp 
-            ? 'Join Kar Limo LAX to book premium transportation services'
-            : 'Access the limo service portal for admins and drivers'
-          }
+          Access the limo service portal for admins and drivers
         </p>
       </div>
 
@@ -173,55 +128,6 @@ export default function LoginPage() {
               </div>
             )}
 
-            {isSignUp && (
-              <>
-                <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                    First Name
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="firstName"
-                      name="firstName"
-                      type="text"
-                      autoComplete="given-name"
-                      required
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      className={`appearance-none block w-full px-3 py-2 border ${
-                        errors.firstName ? 'border-red-300' : 'border-gray-300'
-                      } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
-                    />
-                    {errors.firstName && (
-                      <p className="mt-2 text-sm text-red-600">{errors.firstName}</p>
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                    Last Name
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="lastName"
-                      name="lastName"
-                      type="text"
-                      autoComplete="family-name"
-                      required
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      className={`appearance-none block w-full px-3 py-2 border ${
-                        errors.lastName ? 'border-red-300' : 'border-gray-300'
-                      } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm`}
-                    />
-                    {errors.lastName && (
-                      <p className="mt-2 text-sm text-red-600">{errors.lastName}</p>
-                    )}
-                  </div>
-                </div>
-              </>
-            )}
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -300,39 +206,10 @@ export default function LoginPage() {
                   'Processing...'
                 ) : (
                   <>
-                    {isSignUp ? (
-                      <>
-                        <UserPlus className="h-5 w-5 mr-2" />
-                        Create Account
-                      </>
-                    ) : (
-                      <>
-                        <LogIn className="h-5 w-5 mr-2" />
-                        Sign in
-                      </>
-                    )}
+                    <LogIn className="h-5 w-5 mr-2" />
+                    Sign in
                   </>
                 )}
-              </button>
-            </div>
-
-            <div className="text-center">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsSignUp(!isSignUp);
-                  setErrors({});
-                  setEmail('');
-                  setPassword('');
-                  setFirstName('');
-                  setLastName('');
-                }}
-                className="text-sm font-medium text-brand hover:text-brand-500"
-              >
-                {isSignUp 
-                  ? 'Already have an account? Sign in'
-                  : "Don't have an account? Sign up"
-                }
               </button>
             </div>
           </form>

@@ -41,7 +41,7 @@ export default function AboutPage() {
             </div>
             
             <div className="p-8">
-              <h2 className="text-3xl font-bold mb-6">Welcome to KarLimoLAX.com owned & operated by KAR Transportation Services from Carson, California</h2>
+              <h2 className="text-3xl font-bold mb-6">Welcome to KarLimoLAX.com</h2>
               
               <div className="prose max-w-none">
                 <p className="mb-4">

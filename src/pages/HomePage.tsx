@@ -219,11 +219,8 @@ export default function HomePage() {
               alt="Mercedes Sprinter Limo"
               className="w-full h-full object-cover opacity-50"
               loading="lazy"
-                  decoding="async"
-                  fetchpriority="low"
               decoding="async"
-                  decoding="async"
-                  fetchpriority="low"
+              fetchPriority="low"
             />
           </video>
           {/* Gradient overlay for better text readability */}
@@ -484,11 +481,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -512,9 +505,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -538,9 +529,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -564,9 +553,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -590,11 +577,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -618,11 +601,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -646,9 +625,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -672,9 +649,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -698,9 +673,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -724,9 +697,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -750,9 +721,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -776,9 +745,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -802,9 +769,7 @@ export default function HomePage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
-                  decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>

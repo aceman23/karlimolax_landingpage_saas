@@ -429,7 +429,8 @@ export default function BookingPage() {
   const calculateBasePrice = () => {
     if (selectedPackage) {
       if (selectedPackage.is_hourly) {
-        const hours = Number(bookingDetails.hours) || selectedPackage.minimum_hours || 0;
+        // Only calculate if hours are actually entered - don't use minimum_hours as default
+        const hours = Number(bookingDetails.hours) || 0;
         return selectedPackage.base_price * hours;
       }
       return selectedPackage.base_price;

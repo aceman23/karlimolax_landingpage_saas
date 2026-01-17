@@ -114,10 +114,10 @@ export const templates = {
               <h2 style="color: #1a1a1a; margin-bottom: 20px; font-size: 24px;">Verify Your Email Address</h2>
               <p style="color: #4a4a4a; margin-bottom: 20px; font-size: 16px; line-height: 1.6;">Hello ${user.name},</p>
               <p style="color: #4a4a4a; margin-bottom: 20px; font-size: 16px; line-height: 1.6;">Thank you for signing up with <strong>Kar Limo LAX</strong>! Please verify your email address by clicking the button below:</p>
-              <div style="text-align: center; margin: 30px 0;">
+            <div style="text-align: center; margin: 30px 0;">
                 <a href="${verificationUrl}" style="display: inline-block; background-color: #d97706; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 16px;">
-                  Verify Email Address
-                </a>
+                Verify Email Address
+              </a>
               </div>
               <p style="color: #4a4a4a; margin-bottom: 10px; font-size: 14px;">This link will expire in 24 hours.</p>
               <p style="color: #4a4a4a; margin-bottom: 0; font-size: 14px;">If you did not create an account with Kar Limo LAX, you can safely ignore this email.</p>

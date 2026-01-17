@@ -228,8 +228,9 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     // Calculate base price
     if (selectedPackage) {
       if (selectedPackage.is_hourly) {
-        // For hourly packages, use the selected hours or minimum hours
-        const hours = Number(bookingDetails.hours) || selectedPackage.minimum_hours || 0;
+        // For hourly packages, only calculate if hours are actually entered
+        // Don't use minimum_hours as default - only use it for validation
+        const hours = Number(bookingDetails.hours) || 0;
         total = selectedPackage.base_price * hours;
       } else {
         // For fixed price packages, just use the base price
@@ -408,12 +409,22 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     
     // Base price calculation
     if (selectedPackage) {
-      total = selectedPackage.base_price;
+      if (selectedPackage.is_hourly) {
+        // For hourly packages, only calculate if hours are actually entered
+        // Don't use minimum_hours as default - only use it for validation
+        const hours = Number(bookingDetails.hours) || 0;
+        total = selectedPackage.base_price * hours;
+      } else {
+        // For fixed price packages, just use the base price
+        total = selectedPackage.base_price;
+      }
     } else if (selectedVehicle) {
       if (selectedVehicle.fixedPrice) {
         total = selectedVehicle.fixedPrice;
-      } else if (bookingDetails.hours && selectedVehicle.pricePerHour) {
-        total = bookingDetails.hours * selectedVehicle.pricePerHour;
+      } else {
+        // For hourly vehicles, use the selected hours or 0
+        const hours = Number(bookingDetails.hours) || 0;
+        total = selectedVehicle.pricePerHour * hours;
       }
     }
 

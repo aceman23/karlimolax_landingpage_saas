@@ -15,7 +15,10 @@
     "typecheck": "tsc --noEmit",
     "migrate:service-packages": "ts-node scripts/migrate-service-packages.ts",
     "init:service-packages": "tsx scripts/init-service-packages.ts",
-    "consolidate-settings": "node scripts/consolidate-admin-settings.js"
+    "consolidate-settings": "node scripts/consolidate-admin-settings.js",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -80,6 +83,9 @@
     "vite": "^5.1.4"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.5.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
@@ -90,12 +96,16 @@
     "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
+    "@vitest/coverage-v8": "^1.2.1",
+    "@vitest/ui": "^1.2.1",
     "concurrently": "^8.2.2",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "jsdom": "^23.0.1",
     "nodemon": "^3.0.3",
     "postcss": "^8.4.35",
-    "tsx": "^4.7.1"
+    "tsx": "^4.7.1",
+    "vitest": "^1.2.1"
   }
 }

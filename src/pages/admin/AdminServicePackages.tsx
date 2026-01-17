@@ -275,86 +275,86 @@ export default function AdminServicePackages() {
                 return (
                   <tr key={pkg._id || pkg.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{pkg.name}</div>
+                        <div className="text-sm font-medium text-gray-900">{pkg.name}</div>
                     </td>
                     
                     <td className="px-6 py-4">
-                      <div className="text-sm text-gray-500 max-w-xs truncate">{pkg.description}</div>
+                        <div className="text-sm text-gray-500 max-w-xs truncate">{pkg.description}</div>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
                       {pkg.image_url ? (
-                        <div className="w-16 h-16 rounded overflow-hidden">
-                          <img
-                            src={pkg.image_url}
-                            alt={pkg.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      ) : (
-                        <div className="w-16 h-16 rounded bg-gray-100 flex items-center justify-center">
-                          <ImageIcon className="w-8 h-8 text-gray-400" />
-                        </div>
+                          <div className="w-16 h-16 rounded overflow-hidden">
+                            <img
+                              src={pkg.image_url}
+                              alt={pkg.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-16 h-16 rounded bg-gray-100 flex items-center justify-center">
+                            <ImageIcon className="w-8 h-8 text-gray-400" />
+                          </div>
                       )}
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">
-                        {getVehicleName(pkg.vehicle_id)}
-                      </div>
+                        <div className="text-sm text-gray-500">
+                          {getVehicleName(pkg.vehicle_id)}
+                        </div>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">
-                        {pkg.is_hourly ? 'Hourly Rate' : 'Fixed Rate'}
-                      </div>
+                        <div className="text-sm text-gray-500">
+                          {pkg.is_hourly ? 'Hourly Rate' : 'Fixed Rate'}
+                        </div>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">
-                        <div>{pkg.is_hourly && pkg.minimum_hours ? `${pkg.minimum_hours}h` : 'N/A'}</div>
-                      </div>
+                        <div className="text-sm text-gray-500">
+                          <div>{pkg.is_hourly && pkg.minimum_hours ? `${pkg.minimum_hours}h` : 'N/A'}</div>
+                        </div>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
-                        ${pkg.base_price.toFixed(2)}
-                      </div>
+                        <div className="text-sm font-medium text-gray-900">
+                          ${pkg.base_price.toFixed(2)}
+                        </div>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        pkg.is_active 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {pkg.is_active ? 'Active' : 'Inactive'}
-                      </span>
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                          pkg.is_active 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-red-100 text-red-800'
+                        }`}>
+                          {pkg.is_active ? 'Active' : 'Inactive'}
+                        </span>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="secondary"
-                          onClick={() => startEdit(pkg)}
-                          className="flex items-center gap-1 text-xs"
-                        >
-                          <Edit size={16} />
-                          Edit
-                        </Button>
-                        <button
-                          onClick={() => {
-                            const id = pkg._id || pkg.id;
-                            if (id) {
-                              handleDelete(id);
-                            }
-                          }}
-                          className="text-red-600 hover:text-red-900 flex items-center gap-1"
-                        >
-                          <Trash2 size={16} />
-                          Delete
-                        </button>
-                      </div>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="secondary"
+                            onClick={() => startEdit(pkg)}
+                            className="flex items-center gap-1 text-xs"
+                          >
+                            <Edit size={16} />
+                            Edit
+                          </Button>
+                          <button
+                            onClick={() => {
+                              const id = pkg._id || pkg.id;
+                              if (id) {
+                                handleDelete(id);
+                              }
+                            }}
+                            className="text-red-600 hover:text-red-900 flex items-center gap-1"
+                          >
+                            <Trash2 size={16} />
+                            Delete
+                          </button>
+                        </div>
                     </td>
                   </tr>
                 );

@@ -45,7 +45,6 @@ export default function PaymentPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'stripe'>('stripe');
-  const [testMode, setTestMode] = useState(false);
 
 
   
@@ -59,11 +58,8 @@ export default function PaymentPage() {
 
 
 
-  // Calculate total amount with test mode override
+  // Calculate total amount
   const getTotalAmount = () => {
-    if (testMode) {
-      return 1.00; // Test mode: always $1
-    }
     return calculateTotalWithGratuity();
   };
 
@@ -489,44 +485,15 @@ export default function PaymentPage() {
               <span className="font-medium">Base Amount:</span>
               <span className="text-lg font-semibold text-gray-700">
                 ${calculateTotal().toFixed(2)}
-                {testMode && <span className="ml-2 text-xs text-orange-600">(Actual: ${calculateTotal().toFixed(2)})</span>}
               </span>
             </div>
             <div className="mt-2 flex justify-between items-center">
               <span className="font-medium">
-                {testMode ? 'Test Payment Amount:' : 'Total with Gratuity:'}
+                Total with Gratuity:
               </span>
               <span className="text-xl font-bold text-brand">
                 ${getTotalAmount().toFixed(2)}
-                {testMode && (
-                  <span className="ml-2 text-xs text-orange-600 font-normal">
-                    (Test Mode - Actual: ${calculateTotalWithGratuity().toFixed(2)})
-                  </span>
-                )}
               </span>
-            </div>
-            
-            {/* Test Mode Toggle */}
-            <div className="mt-4 pt-3 border-t">
-              <label className="flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={testMode}
-                  onChange={(e) => setTestMode(e.target.checked)}
-                  className="w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500"
-                />
-                <span className="ml-2 text-sm text-gray-700">
-                  Test Mode: Process $1.00 payment for testing
-                </span>
-              </label>
-              {testMode && (
-                <div className="mt-2 p-3 bg-orange-50 border border-orange-200 rounded-lg">
-                  <p className="text-sm text-orange-800">
-                    <strong>Test Mode Active:</strong> The payment amount will be set to $1.00 for testing purposes. 
-                    Only $1.00 will be charged to your card. The booking will be created with the test amount.
-                  </p>
-                </div>
-              )}
             </div>
           </div>
           

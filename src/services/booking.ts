@@ -23,7 +23,6 @@ export interface BookingRequestPayload {
   price: number;
   notes?: string;
   hours?: number;
-  testMode?: boolean;
   
   // Package details
   packageId?: string;

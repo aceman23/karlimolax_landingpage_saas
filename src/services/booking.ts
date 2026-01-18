@@ -236,7 +236,8 @@ export async function getTomorrowBookings() {
 // Assign a driver to a booking
 export async function assignDriverToBooking(
   bookingId: string, 
-  driverId: string
+  driverId: string,
+  sendEmail: boolean = false
 ): Promise<{ success: boolean; booking?: any; error?: string }> {
   try {
     // Get the auth token from localStorage
@@ -252,7 +253,7 @@ export async function assignDriverToBooking(
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ driverId }),
+      body: JSON.stringify({ driverId, sendEmail }),
     });
 
     if (!response.ok) {

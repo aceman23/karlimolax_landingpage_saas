@@ -29,6 +29,7 @@ interface Booking {
   };
   vehicleName?: string; // Add vehicle name field
   driverId?: {
+    _id?: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -87,6 +88,7 @@ export default function AdminBookings() {
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [selectedDriver, setSelectedDriver] = useState('');
   const [showBookingDetailsModal, setShowBookingDetailsModal] = useState(false);
+  const [showEmailConfirmationModal, setShowEmailConfirmationModal] = useState(false);
   const [remainingTimes, setRemainingTimes] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -167,18 +169,31 @@ export default function AdminBookings() {
     }
   };
 
-  const handleAssignDriver = async () => {
+  const handleAssignDriver = () => {
+    if (!selectedBooking || !selectedDriver) {
+      toast.error('Please select a driver');
+      return;
+    }
+
+    // Show email confirmation modal
+    setShowEmailConfirmationModal(true);
+  };
+
+  const handleConfirmAssignDriver = async (sendEmail: boolean) => {
     if (!selectedBooking || !selectedDriver) {
       toast.error('Please select a driver');
       return;
     }
 
     try {
-      const result = await assignDriverToBooking(selectedBooking._id, selectedDriver);
+      const result = await assignDriverToBooking(selectedBooking._id, selectedDriver, sendEmail);
       
       if (result.success) {
-        toast.success('Driver assigned successfully');
+        toast.success(sendEmail 
+          ? 'Driver assigned and confirmation email sent successfully' 
+          : 'Driver assigned successfully');
         setShowAssignDriverModal(false);
+        setShowEmailConfirmationModal(false);
         fetchBookings(); // Refresh bookings list
       } else {
         toast.error(result.error || 'Failed to assign driver');
@@ -479,11 +494,22 @@ export default function AdminBookings() {
                         <div className="text-sm text-gray-500">
                           {booking.driverId.phone}
                         </div>
+                        <button
+                          onClick={() => {
+                            setSelectedBooking(booking);
+                            setSelectedDriver((booking.driverId as any)?._id || '');
+                            setShowAssignDriverModal(true);
+                          }}
+                          className="mt-1 text-brand hover:text-brand-900 text-xs font-medium"
+                        >
+                          Change Driver
+                        </button>
                       </div>
                     ) : (
                       <button
                         onClick={() => {
                           setSelectedBooking(booking);
+                          setSelectedDriver('');
                           setShowAssignDriverModal(true);
                         }}
                         className="text-brand hover:text-brand-900 text-sm font-medium"
@@ -558,14 +584,22 @@ export default function AdminBookings() {
 
       {/* Assign Driver Modal */}
       {showAssignDriverModal && selectedBooking && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg max-w-md w-full p-6">
             <h3 className="text-lg font-medium text-gray-900 mb-4">
-              Assign Driver to Booking
+              {selectedBooking.driverId ? 'Change Driver' : 'Assign Driver to Booking'}
             </h3>
+            {selectedBooking.driverId && (
+              <div className="mb-4 p-3 bg-gray-50 rounded-md">
+                <p className="text-sm text-gray-600 mb-1">Current Driver:</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {selectedBooking.driverId.firstName} {selectedBooking.driverId.lastName} - {selectedBooking.driverId.phone}
+                </p>
+              </div>
+            )}
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700">
-                Select Driver
+                {selectedBooking.driverId ? 'Select New Driver' : 'Select Driver'}
               </label>
               <select
                 value={selectedDriver}
@@ -582,16 +616,54 @@ export default function AdminBookings() {
             </div>
             <div className="mt-6 flex justify-end space-x-3">
               <button
-                onClick={() => setShowAssignDriverModal(false)}
+                onClick={() => {
+                  setShowAssignDriverModal(false);
+                  setSelectedDriver('');
+                }}
                 className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAssignDriver}
+                disabled={!selectedDriver}
+                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {selectedBooking.driverId ? 'Change Driver' : 'Assign Driver'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Email Confirmation Modal */}
+      {showEmailConfirmationModal && selectedBooking && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-md w-full p-6">
+            <h3 className="text-lg font-medium text-gray-900 mb-4">
+              Send Confirmation Email?
+            </h3>
+            <p className="text-sm text-gray-600 mb-6">
+              Would you like to send a confirmation email to the customer with the driver's contact information?
+            </p>
+            <div className="mt-6 flex justify-end space-x-3">
+              <button
+                onClick={() => {
+                  setShowEmailConfirmationModal(false);
+                  handleConfirmAssignDriver(false);
+                }}
+                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
+              >
+                Skip Email
+              </button>
+              <button
+                onClick={() => {
+                  setShowEmailConfirmationModal(false);
+                  handleConfirmAssignDriver(true);
+                }}
                 className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
               >
-                Assign Driver
+                Send Email
               </button>
             </div>
           </div>

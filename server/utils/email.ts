@@ -356,7 +356,7 @@ The Kar Limo LAX Team`,
     
     const template = {
       subject: `Booking Confirmation - ${booking._id}`,
-      text: `Thank you for your booking with Kar Limo LAX. Your booking has been confirmed.
+      text: `Thank you for your booking with Kar Limo LAX. Your booking has been confirmed. Once a driver has been assigned to your ride, you will receive another confirmation email with your driver's contact information.
       
 Booking Details:
 - Booking ID: ${booking._id}
@@ -402,7 +402,7 @@ Once a driver has been assigned to your ride, you will receive another email wit
                 Dear ${customerName},
               </p>
               <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
-                Thank you for choosing Kar Limo LAX for your transportation needs. Your booking has been confirmed and we're looking forward to providing you with exceptional service.
+                Thank you for choosing Kar Limo LAX for your transportation needs. Your booking has been confirmed and we're looking forward to providing you with exceptional service. Once a driver has been assigned to your ride, you will receive another confirmation email with your driver's contact information.
               </p>
               <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
                 Please review your booking details below. If you need to make any changes or have questions, please contact us at your earliest convenience.

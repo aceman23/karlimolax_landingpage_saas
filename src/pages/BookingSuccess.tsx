@@ -48,7 +48,7 @@ export default function BookingSuccess() {
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Booking Confirmed!</h1>
             <p className="text-gray-600">
-              Thank you for choosing our service. Your booking has been confirmed.
+              Thank you for choosing our service. Your booking has been confirmed. Once a driver has been assigned to your ride, you will receive another confirmation email with your driver's contact information.
             </p>
           </div>
 
@@ -111,6 +111,7 @@ export default function BookingSuccess() {
                 <ul className="space-y-2 text-brand-700">
                   <li>• You will receive a confirmation email with all booking details</li>
                   <li>• A driver will be assigned to your booking</li>
+                  <li>• <strong>You will receive another email with your driver's contact information once a driver has been confirmed</strong></li>
                   <li>• You can track your booking status in your account</li>
                 </ul>
               </div>

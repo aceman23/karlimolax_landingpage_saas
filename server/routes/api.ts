@@ -2515,7 +2515,7 @@ router.put('/bookings/:id/assign-driver', authMiddleware, async (req: Authentica
   try {
     await connectDB();
     const { id } = req.params;
-    const { driverId } = req.body;
+    const { driverId, sendEmail } = req.body;
 
     if (!driverId) {
       return res.status(400).json({ error: 'Driver ID is required' });
@@ -2547,45 +2547,120 @@ router.put('/bookings/:id/assign-driver', authMiddleware, async (req: Authentica
     });
 
     // Populate the booking data for response and email
+    // Don't use .lean() initially to ensure populate works, then convert if needed
     const populatedBooking = await Booking.findById(id)
-      .populate('customerId', 'firstName lastName email phone')
+      .populate({
+        path: 'customerId',
+        select: 'firstName lastName email phone',
+        model: 'Profile'
+      })
       .populate('vehicleId')
-      .populate('driverId', 'firstName lastName email phone');
+      .populate({
+        path: 'driverId',
+        select: 'firstName lastName email phone',
+        model: 'Profile'
+      });
 
-    // Send driver assignment email to customer
-    try {
-      const customerEmail = populatedBooking?.customerEmail || 
-        (populatedBooking?.customerId as any)?.email;
-      
-      if (customerEmail) {
-        // Validate email format
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (emailRegex.test(customerEmail)) {
-          console.log('Sending driver assignment email to customer:', customerEmail);
-          
-          const emailTemplate = templates.driverAssignment(populatedBooking);
-          
-          // Send email - this will throw an error if SMTP_USER is not karlimolax@gmail.com
-          await sendEmail({
-            to: customerEmail,
-            subject: emailTemplate.subject,
-            text: emailTemplate.text,
-            html: emailTemplate.html
-          });
-          
-          console.log('[SUCCESS] Driver assignment email sent successfully from karlimolax@gmail.com to customer');
-        } else {
-          console.error('Invalid email format for driver assignment email:', customerEmail);
-        }
-      } else {
-        console.warn('No customer email found for driver assignment notification');
-      }
-    } catch (emailError) {
-      console.error('Failed to send driver assignment email:', emailError);
-      // Don't fail the driver assignment if email fails
+    if (!populatedBooking) {
+      return res.status(404).json({ error: 'Failed to retrieve updated booking' });
     }
+    
+    // Convert to plain object for email template
+    const bookingForEmail = populatedBooking.toObject ? populatedBooking.toObject() : { ...populatedBooking };
+    
+    console.log('[DRIVER ASSIGNMENT] Populated booking retrieved:', {
+      bookingId: bookingForEmail._id,
+      hasDriverId: !!bookingForEmail.driverId,
+      driverIdType: typeof bookingForEmail.driverId,
+      driverIdIsObject: bookingForEmail.driverId && typeof bookingForEmail.driverId === 'object',
+      driverName: bookingForEmail.driverId ? `${(bookingForEmail.driverId as any).firstName} ${(bookingForEmail.driverId as any).lastName}` : 'N/A'
+    });
 
-    res.json(populatedBooking);
+    // Send driver assignment email to customer (only if sendEmail is true)
+    if (sendEmail === true) {
+      try {
+        // Try multiple ways to get customer email
+        const customerEmail = bookingForEmail.customerEmail || 
+          (bookingForEmail.customerId as any)?.email ||
+          (bookingForEmail as any).customer?.email;
+        
+        console.log('[DRIVER ASSIGNMENT] Attempting to send email. Customer email:', customerEmail);
+        console.log('[DRIVER ASSIGNMENT] Booking data:', {
+          bookingId: bookingForEmail._id,
+          customerEmail: bookingForEmail.customerEmail,
+          hasCustomerId: !!bookingForEmail.customerId,
+          hasDriverId: !!bookingForEmail.driverId
+        });
+        
+        if (customerEmail) {
+          // Validate email format
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (emailRegex.test(customerEmail)) {
+            // Ensure driver information is available
+            if (!bookingForEmail.driverId) {
+              console.error('[DRIVER ASSIGNMENT] ERROR: Driver ID not found in populated booking');
+              console.error('[DRIVER ASSIGNMENT] Booking driverId field:', bookingForEmail.driverId);
+              console.error('[DRIVER ASSIGNMENT] Original driverId from request:', driverId);
+              // Try to manually populate driver if it's just an ObjectId
+              if (driverId && driver) {
+                console.log('[DRIVER ASSIGNMENT] Manually adding driver info to booking object');
+                bookingForEmail.driverId = {
+                  firstName: driver.firstName,
+                  lastName: driver.lastName,
+                  email: driver.email || '',
+                  phone: driver.phone || ''
+                } as any;
+              }
+            }
+            
+            // Check if we have driver info now
+            if (bookingForEmail.driverId && typeof bookingForEmail.driverId === 'object') {
+              console.log('[DRIVER ASSIGNMENT] Sending driver assignment email to customer:', customerEmail);
+              console.log('[DRIVER ASSIGNMENT] Driver info:', {
+                firstName: (bookingForEmail.driverId as any).firstName,
+                lastName: (bookingForEmail.driverId as any).lastName,
+                phone: (bookingForEmail.driverId as any).phone
+              });
+              
+              const emailTemplate = templates.driverAssignment(bookingForEmail);
+              console.log('[DRIVER ASSIGNMENT] Email template created successfully');
+              
+              // Send email - this will throw an error if SMTP_USER is not karlimolax@gmail.com
+              await sendEmail({
+                to: customerEmail,
+                subject: emailTemplate.subject,
+                text: emailTemplate.text,
+                html: emailTemplate.html
+              });
+              
+              console.log('[SUCCESS] Driver assignment email sent successfully from karlimolax@gmail.com to customer:', customerEmail);
+            } else {
+              console.error('[DRIVER ASSIGNMENT] ERROR: Driver information not available after populate. Cannot send email.');
+              console.error('[DRIVER ASSIGNMENT] DriverId value:', bookingForEmail.driverId);
+            }
+          } else {
+            console.error('[DRIVER ASSIGNMENT] Invalid email format for driver assignment email:', customerEmail);
+          }
+        } else {
+          console.warn('[DRIVER ASSIGNMENT] No customer email found for driver assignment notification. Booking:', bookingForEmail._id);
+          console.warn('[DRIVER ASSIGNMENT] Available booking fields:', Object.keys(bookingForEmail));
+        }
+      } catch (emailError: any) {
+        console.error('[DRIVER ASSIGNMENT] Failed to send driver assignment email:', emailError);
+        console.error('[DRIVER ASSIGNMENT] Error details:', {
+          message: emailError?.message,
+          stack: emailError?.stack,
+          name: emailError?.name
+        });
+        // Don't fail the driver assignment if email fails, but log it clearly
+      }
+    } else {
+      console.log('[DRIVER ASSIGNMENT] Email sending skipped (sendEmail=false or not provided)');
+    }
+    
+    // Return populated booking (convert to object if needed)
+    const responseBooking = populatedBooking.toObject ? populatedBooking.toObject() : bookingForEmail;
+    res.json(responseBooking);
   } catch (error) {
     console.error('Error assigning driver:', error);
     res.status(500).json({ error: 'Failed to assign driver' });

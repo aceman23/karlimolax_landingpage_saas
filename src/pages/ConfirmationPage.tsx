@@ -125,7 +125,7 @@ export default function ConfirmationPage() {
             </div>
             <h1 className="text-3xl font-bold mb-2">Booking Confirmed!</h1>
             <p className="text-gray-600 mb-4">
-              Thank you for choosing our service. Your booking has been successfully confirmed.
+              Thank you for choosing our service. Your booking has been successfully confirmed. Once a driver has been assigned to your ride, you will receive another confirmation email with your driver's contact information.
             </p>
             <div className="bg-brand-50 border border-brand-200 rounded-lg p-4 inline-block">
               <p className="text-sm text-gray-600 mb-1">Booking Reference</p>
@@ -311,10 +311,16 @@ export default function ConfirmationPage() {
           </div>
           
           <div className="text-center">
-            <p className="text-gray-600 mb-6">
-              A confirmation has been sent to {customer?.email || 'your email'}.<br />
+            <p className="text-gray-600 mb-4">
+              A confirmation email has been sent to {customer?.email || 'your email'} with all your booking details.<br />
               You will also receive a text reminder at {customer?.phone || 'your phone'} before your scheduled pickup.
             </p>
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6 max-w-2xl mx-auto">
+              <p className="text-yellow-800 text-sm">
+                <strong>📧 Driver Assignment Update:</strong><br />
+                Once a driver has been assigned to your ride, you will receive another email with your driver's contact information. This will allow you to communicate directly with your chauffeur if needed.
+              </p>
+            </div>
             
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link to="/">

@@ -2,7 +2,9 @@
   "name": "dapperlax",
   "private": true,
   "version": "0.0.0",
-  "engines": { "node": "22.x" },
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc --project tsconfig.json && vite build",
@@ -79,6 +81,7 @@
     "stripe": "^18.1.1",
     "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
+    "twilio": "^5.11.2",
     "typescript": "^5",
     "vite": "^5.1.4"
   },

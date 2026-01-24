@@ -47,6 +47,10 @@ router.get('/settings', authenticateToken, async (req: AuthenticatedRequest, res
             driver: ''
           }
         },
+        smsNotifications: {
+          adminPhoneNumbers: [],
+          sendBookingConfirmations: true
+        },
         distanceFeeEnabled: true,
         distanceThreshold: 40,
         distanceFee: 49,
@@ -98,6 +102,7 @@ router.put('/settings', authenticateToken, async (req: AuthenticatedRequest, res
     const {
       bookingsEnabled,
       emailNotifications,
+      smsNotifications,
       distanceFeeEnabled,
       distanceThreshold,
       distanceFee,
@@ -143,6 +148,7 @@ router.put('/settings', authenticateToken, async (req: AuthenticatedRequest, res
       console.log('[ADMIN] bookingsEnabled not in request body, preserving existing value');
     }
     if (emailNotifications !== undefined) $set.emailNotifications = emailNotifications;
+    if (smsNotifications !== undefined) $set.smsNotifications = smsNotifications;
     if (distanceFeeEnabled !== undefined) $set.distanceFeeEnabled = distanceFeeEnabled;
     if (distanceThreshold !== undefined) $set.distanceThreshold = distanceThreshold;
     if (distanceFee !== undefined) $set.distanceFee = distanceFee;

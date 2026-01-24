@@ -12,6 +12,7 @@ import { sendBookingNotificationEmail } from '../utils/emailService.js';
 import { AdminSettings } from '../models/schema.js';
 import { Settings } from '../models/schema.js';
 import { IgApiClient } from 'instagram-private-api';
+import { sendSMS } from '../utils/sms.js'; // Import SMS utility
 
 // Initialize Stripe
 const stripe = process.env.STRIPE_SECRET_KEY 
@@ -913,6 +914,127 @@ router.post('/bookings', async (req: Request, res: Response) => {
       console.error('Failed to send booking confirmation email:', emailError);
       // Don't fail the booking creation if email fails
       console.log('Continuing with booking creation despite email failure');
+    }
+
+    // Send SMS notifications to admin phone numbers from settings
+    try {
+      console.log('[SMS] Preparing to send SMS notifications to admins for booking:', populatedBooking._id);
+      
+      // Get admin settings to retrieve phone numbers
+      const adminSettings = await (AdminSettings as any).getOrCreateAdminSettings();
+      console.log('[SMS] Admin settings retrieved:', {
+        hasSmsNotifications: !!adminSettings?.smsNotifications,
+        adminPhoneNumbers: adminSettings?.smsNotifications?.adminPhoneNumbers,
+        sendBookingConfirmations: adminSettings?.smsNotifications?.sendBookingConfirmations
+      });
+      
+      const adminPhoneNumbers = adminSettings?.smsNotifications?.adminPhoneNumbers || [];
+      const sendBookingConfirmations = adminSettings?.smsNotifications?.sendBookingConfirmations !== false; // Default to true
+      
+      console.log('[SMS] SMS configuration:', {
+        phoneNumbersCount: adminPhoneNumbers.length,
+        phoneNumbers: adminPhoneNumbers,
+        sendBookingConfirmations
+      });
+      
+      // Also get admin profiles with phone numbers as fallback
+      const adminProfiles = await Profile.find({ 
+        role: 'admin',
+        phone: { $exists: true, $ne: null, $ne: '' }
+      }).select('phone');
+      
+      // Combine phone numbers from settings and profiles, removing duplicates
+      const allPhoneNumbers = new Set<string>();
+      adminPhoneNumbers.forEach((phone: string) => {
+        if (phone && phone.trim()) {
+          allPhoneNumbers.add(phone.trim());
+        }
+      });
+      adminProfiles.forEach((admin: any) => {
+        if (admin.phone && admin.phone.trim()) {
+          allPhoneNumbers.add(admin.phone.trim());
+        }
+      });
+      
+      const phoneNumbersArray = Array.from(allPhoneNumbers);
+      
+      console.log('[SMS] Combined phone numbers:', {
+        fromSettings: adminPhoneNumbers.length,
+        fromProfiles: adminProfiles.length,
+        total: phoneNumbersArray.length,
+        phoneNumbers: phoneNumbersArray
+      });
+      
+      if (sendBookingConfirmations && phoneNumbersArray.length > 0) {
+        console.log('[SMS] Sending SMS notifications to', phoneNumbersArray.length, 'phone number(s)');
+        const pickupTime = new Date(populatedBooking.pickupTime);
+        const serviceInfo = populatedBooking.vehicleName 
+          ? `Vehicle: ${populatedBooking.vehicleName}`
+          : populatedBooking.packageName 
+            ? `Package: ${populatedBooking.packageName}`
+            : 'Service';
+        
+        const customerName = populatedBooking.customerName || 
+          (populatedBooking.customerId as any)?.firstName && (populatedBooking.customerId as any)?.lastName
+            ? `${(populatedBooking.customerId as any).firstName} ${(populatedBooking.customerId as any).lastName}`
+            : 'Customer';
+        
+        const smsMessage = `
+New Booking Alert #${populatedBooking._id}
+Customer: ${customerName}
+Date: ${pickupTime.toLocaleDateString()}
+Time: ${pickupTime.toLocaleTimeString()}
+${serviceInfo}
+Pickup: ${populatedBooking.pickupLocation}
+Dropoff: ${populatedBooking.dropoffLocation}
+Total: $${(populatedBooking.totalAmount || populatedBooking.price || 0).toFixed(2)}
+Requires assignment.
+        `.trim();
+        
+        // Send SMS to each phone number using Twilio directly
+        console.log('[SMS] Starting to send SMS to', phoneNumbersArray.length, 'phone number(s)');
+        const smsPromises = phoneNumbersArray.map(async (phoneNumber: string) => {
+          try {
+            console.log(`[SMS] Attempting to send SMS to: ${phoneNumber}`);
+            const result = await sendSMS({
+              to: phoneNumber,
+              message: smsMessage,
+              type: 'admin_notification'
+            });
+            
+            if (result.success) {
+              console.log(`[SUCCESS] SMS sent to admin phone number: ${phoneNumber}`);
+            } else {
+              console.error(`[ERROR] Failed to send SMS to ${phoneNumber}:`, result.error);
+            }
+            return result;
+          } catch (smsError: any) {
+            console.error(`[ERROR] Exception sending SMS to ${phoneNumber}:`, smsError?.message || smsError);
+            console.error(`[ERROR] Error stack:`, smsError?.stack);
+            // Don't fail booking creation if SMS fails
+            return { success: false, error: smsError?.message || 'Unknown error' };
+          }
+        });
+        
+        const results = await Promise.all(smsPromises);
+        const successCount = results.filter(r => r.success).length;
+        const failCount = results.filter(r => !r.success).length;
+        console.log(`[SMS] SMS sending complete: ${successCount} succeeded, ${failCount} failed out of ${phoneNumbersArray.length} total`);
+      } else {
+        if (!sendBookingConfirmations) {
+          console.log('[INFO] SMS booking confirmations are disabled in settings');
+        } else {
+          console.log('[INFO] No admin phone numbers configured, skipping SMS notifications');
+        }
+      }
+    } catch (smsError: any) {
+      console.error('[ERROR] Exception in SMS notification block:', smsError);
+      console.error('[ERROR] SMS error details:', {
+        message: smsError?.message,
+        stack: smsError?.stack,
+        name: smsError?.name
+      });
+      // Don't fail booking creation if SMS fails
     }
 
     res.status(201).json(populatedBooking);
@@ -3473,6 +3595,61 @@ router.get('/payments/authorize/auth-test', async (req: Request, res: Response) 
     return res.status(ok ? 200 : 401).json({ ok, result });
   } catch (e) {
     return res.status(500).json({ ok: false, error: 'Auth test failed' });
+  }
+});
+
+// SMS sending endpoint - uses Twilio directly
+router.post('/sms/send', async (req: Request, res: Response) => {
+  try {
+    const { to, message, type } = req.body;
+
+    console.log('[SMS API] Received SMS request:', { to, type, messageLength: message?.length });
+
+    // Validate request data
+    if (!message || !to) {
+      console.warn('[SMS API] Missing required parameters:', { hasTo: !!to, hasMessage: !!message });
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Missing required parameters: to and message are required' 
+      });
+    }
+
+    // Send SMS using Twilio
+    console.log('[SMS API] Calling sendSMS function...');
+    const result = await sendSMS({
+      to,
+      message,
+      type: type || 'notification'
+    });
+
+    console.log('[SMS API] sendSMS result:', { success: result.success, hasError: !!result.error });
+
+    if (result.success) {
+      return res.json({ 
+        success: true, 
+        messageSid: result.messageSid 
+      });
+    } else {
+      // Check if it's a configuration error (should be 503) or a client error (400)
+      const statusCode = result.error?.includes('not configured') || result.error?.includes('Twilio configuration') 
+        ? 503 
+        : result.error?.includes('Invalid phone number') || result.error?.includes('Unsubscribed')
+        ? 400
+        : 500;
+      
+      console.error('[SMS API] Failed to send SMS:', result.error);
+      return res.status(statusCode).json({ 
+        success: false, 
+        error: result.error || 'Failed to send SMS' 
+      });
+    }
+  } catch (error: any) {
+    console.error('[SMS API] Unexpected error in SMS send endpoint:', error);
+    console.error('[SMS API] Error stack:', error.stack);
+    return res.status(500).json({ 
+      success: false, 
+      error: error.message || 'Internal server error' 
+    });
   }
 });
 

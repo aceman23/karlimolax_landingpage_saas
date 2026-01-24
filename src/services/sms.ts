@@ -1,4 +1,5 @@
-import { Booking } from '../types';
+import { Booking } from '../types/index';
+import { API_BASE_URL } from '../config';
 
 interface SMSMessage {
   to: string;
@@ -14,7 +15,7 @@ interface SMSResponse {
 // SMS service for sending notifications
 export async function sendSMS(data: SMSMessage): Promise<SMSResponse> {
   try {
-    const response = await fetch('/api/sms/send', {
+    const response = await fetch(`${API_BASE_URL}/sms/send`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -22,14 +23,30 @@ export async function sendSMS(data: SMSMessage): Promise<SMSResponse> {
       body: JSON.stringify(data),
     });
 
+    const result = await response.json().catch(() => ({ 
+      success: false, 
+      error: 'Failed to parse server response' 
+    }));
+
     if (!response.ok) {
-      throw new Error('Failed to send SMS');
+      console.error('SMS API error:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: result.error
+      });
+      return { 
+        success: false, 
+        error: result.error || `Server error: ${response.status} ${response.statusText}` 
+      };
     }
 
-    return { success: true, error: null };
-  } catch (error) {
+    return { success: result.success !== false, error: result.error || null };
+  } catch (error: any) {
     console.error('Error sending SMS:', error);
-    return { success: false, error };
+    return { 
+      success: false, 
+      error: error.message || 'Network error while sending SMS' 
+    };
   }
 }
 
@@ -59,19 +76,33 @@ export async function sendSMS(data: SMSMessage): Promise<SMSResponse> {
 
 // Send booking confirmation to customer
 export async function sendBookingConfirmation(booking: Booking): Promise<boolean> {
-  if (!booking.customerId?.phone) {
+  // Try multiple sources for customer phone number
+  const customerPhone = booking.customerPhone || 
+                        booking.customerId?.phone || 
+                        (booking as any).customer?.phone;
+  
+  if (!customerPhone) {
     console.error('Customer phone number not available for booking:', booking._id);
+    console.error('Booking object structure:', {
+      hasCustomerPhone: !!(booking as any).customerPhone,
+      hasCustomerId: !!booking.customerId,
+      hasCustomerIdPhone: !!booking.customerId?.phone,
+      hasCustomer: !!(booking as any).customer,
+      bookingKeys: Object.keys(booking)
+    });
     return false;
   }
 
   const pickupTime = new Date(booking.pickupTime);
   
   // Get vehicle or package information
-  const serviceInfo = booking.vehicleId?.name 
-    ? `Vehicle: ${booking.vehicleId.name}`
-    : booking.packageName 
-      ? `Package: ${booking.packageName}`
-      : 'Service';
+  const serviceInfo = booking.vehicleName
+    ? `Vehicle: ${booking.vehicleName}`
+    : (booking.vehicleId && typeof booking.vehicleId === 'object' && (booking.vehicleId as any).name)
+      ? `Vehicle: ${(booking.vehicleId as any).name}`
+      : booking.packageName 
+        ? `Package: ${booking.packageName}`
+        : 'Service';
 
   // Format stops if they exist
   const stopsInfo = booking.stops && booking.stops.length > 0
@@ -92,12 +123,24 @@ To: ${booking.dropoffLocation}${stopsInfo}
 Thank you for choosing KarLimoLax!
   `.trim();
   
-  const result = await sendSMS({
-    to: booking.customerId.phone,
-    message,
-    type: 'booking_confirmation'
-  });
-  return result.success;
+  try {
+    const result = await sendSMS({
+      to: customerPhone,
+      message,
+      type: 'booking_confirmation'
+    });
+    
+    if (!result.success) {
+      console.warn('[SMS] Failed to send booking confirmation SMS:', result.error);
+      // Don't throw - SMS failure shouldn't break the booking flow
+    }
+    
+    return result.success;
+  } catch (error: any) {
+    console.error('[SMS] Error in sendBookingConfirmation:', error);
+    // Return false but don't throw - SMS is optional
+    return false;
+  }
 }
 
 // Send driver assignment notification to customer
@@ -106,7 +149,12 @@ export async function sendDriverAssignmentNotification(
   driverName: string,
   driverPhone: string
 ): Promise<boolean> {
-  if (!booking.customerId?.phone) {
+  // Try multiple sources for customer phone number
+  const customerPhone = booking.customerPhone || 
+                        booking.customerId?.phone || 
+                        (booking as any).customer?.phone;
+  
+  if (!customerPhone) {
     console.error('Customer phone number not available for booking:', booking._id);
     return false;
   }
@@ -119,7 +167,7 @@ You'll receive a text when your driver is on the way.
   `.trim();
   
   const result = await sendSMS({
-    to: booking.customerId.phone,
+    to: customerPhone,
     message,
     type: 'driver_assignment'
   });
@@ -128,7 +176,12 @@ You'll receive a text when your driver is on the way.
 
 // Send booking reminder to customer
 export async function sendReminderSms(booking: Booking): Promise<boolean> {
-  if (!booking.customerId?.phone) {
+  // Try multiple sources for customer phone number
+  const customerPhone = booking.customerPhone || 
+                        booking.customerId?.phone || 
+                        (booking as any).customer?.phone;
+  
+  if (!customerPhone) {
     console.error('Customer phone number not available for booking:', booking._id);
     return false;
   }
@@ -143,7 +196,7 @@ Any questions? Call us at (424) 526-0457.
   `.trim();
   
   const result = await sendSMS({
-    to: booking.customerId.phone,
+    to: customerPhone,
     message,
     type: 'reminder'
   });
@@ -158,11 +211,13 @@ export async function notifyAdminAboutBooking(
   const pickupTime = new Date(booking.pickupTime);
   
   // Get vehicle or package information
-  const serviceInfo = booking.vehicleId?.name 
-    ? `Vehicle: ${booking.vehicleId.name}`
-    : booking.packageName 
-      ? `Package: ${booking.packageName}`
-      : 'Service';
+  const serviceInfo = booking.vehicleName
+    ? `Vehicle: ${booking.vehicleName}`
+    : (booking.vehicleId && typeof booking.vehicleId === 'object' && (booking.vehicleId as any).name)
+      ? `Vehicle: ${(booking.vehicleId as any).name}`
+      : booking.packageName 
+        ? `Package: ${booking.packageName}`
+        : 'Service';
   
   const message = `
 New Booking Alert #${booking._id}

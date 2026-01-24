@@ -272,6 +272,11 @@ const adminSettingsSchema = new mongoose.Schema({
       driver: { type: String, default: '' }
     }
   },
+  // SMS notification settings
+  smsNotifications: {
+    adminPhoneNumbers: [{ type: String }],
+    sendBookingConfirmations: { type: Boolean, default: true }
+  },
   // Pricing settings
   distanceFeeEnabled: { type: Boolean, default: false },
   distanceThreshold: { type: Number, default: 0 },
@@ -327,6 +332,10 @@ adminSettingsSchema.statics.getOrCreateAdminSettings = async function() {
   
   if (!settings) {
     settings = await this.create({
+      smsNotifications: {
+        adminPhoneNumbers: [],
+        sendBookingConfirmations: true
+      },
       type: 'settings',
       key: 'admin_settings',
       // Booking settings - explicitly set to true by default
@@ -362,6 +371,16 @@ adminSettingsSchema.statics.getOrCreateAdminSettings = async function() {
     // If settings exist but bookingsEnabled is missing, initialize it
     if (settings.bookingsEnabled === null || settings.bookingsEnabled === undefined) {
       settings.bookingsEnabled = true;
+    }
+    // If settings exist but smsNotifications is missing, initialize it
+    if (!settings.smsNotifications) {
+      settings.smsNotifications = {
+        adminPhoneNumbers: [],
+        sendBookingConfirmations: true
+      };
+    }
+    // Save if any changes were made
+    if (settings.isModified()) {
       await settings.save();
     }
   }

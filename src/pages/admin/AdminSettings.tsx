@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import Button from '../../components/common/Button';
 import NotificationSettings from '../../components/admin/NotificationSettings';
 import EmailNotificationSettings from '../../components/admin/EmailNotificationSettings';
+import SMSNotificationSettings from '../../components/admin/SMSNotificationSettings';
 import BookingSettings from '../../components/admin/BookingSettings';
 import { API_BASE_URL } from '../../config';
 import { Tab } from '@headlessui/react';
@@ -50,7 +51,7 @@ export default function AdminSettings() {
 
     setLoading(prev => ({ ...prev, security: true }));
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/settings/security`, {
+      const response = await fetch(`${API_BASE_URL}/admin/settings/security`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -76,7 +77,7 @@ export default function AdminSettings() {
 
     setSaving(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/settings/security`, {
+      const response = await fetch(`${API_BASE_URL}/admin/settings/security`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -140,6 +141,19 @@ export default function AdminSettings() {
               >
                 Email Settings
               </Tab>
+              <Tab
+                className={({ selected }) =>
+                  classNames(
+                    'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-brand-400 focus:outline-none focus:ring-2',
+                    selected
+                      ? 'bg-white text-brand-600 shadow'
+                      : 'text-gray-600 hover:bg-white/[0.12] hover:text-brand-500'
+                  )
+                }
+              >
+                SMS Settings
+              </Tab>
             </Tab.List>
             <Tab.Panels className="mt-2">
               <Tab.Panel
@@ -157,6 +171,14 @@ export default function AdminSettings() {
                 )}
               >
                 <EmailNotificationSettings />
+              </Tab.Panel>
+              <Tab.Panel
+                className={classNames(
+                  'rounded-xl bg-white p-3',
+                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-brand-400 focus:outline-none focus:ring-2'
+                )}
+              >
+                <SMSNotificationSettings />
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>

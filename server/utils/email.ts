@@ -645,6 +645,215 @@ Thank you for choosing Kar Limo LAX!`,
     
     console.log('Driver assignment template created successfully');
     return template;
+  },
+  
+  driverConfirmation: (booking: any) => {
+    console.log('Creating driver confirmation template for booking:', booking._id);
+    
+    // Format pickup date and time
+    const pickupDateTime = new Date(booking.pickupTime);
+    const formattedDate = pickupDateTime.toLocaleDateString('en-US', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+    const formattedTime = pickupDateTime.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit'
+    });
+    
+    // Driver information
+    const driver = booking.driverId;
+    const driverName = driver?.firstName && driver?.lastName
+      ? `${driver.firstName} ${driver.lastName}`
+      : 'Driver';
+    
+    // Get customer information
+    const customerName = booking.customerId?.firstName && booking.customerId?.lastName
+      ? `${booking.customerId.firstName} ${booking.customerId.lastName}`
+      : booking.customerName || 'Customer';
+    
+    const customerEmail = booking.customerId?.email || booking.customerEmail || 'Not provided';
+    const customerPhone = booking.customerId?.phone || booking.customerPhone || 'Not provided';
+    
+    // Vehicle information
+    const vehicleInfo = (booking.vehicleId && (booking.vehicleId as any).name)
+      ? `${(booking.vehicleId as any).make || ''} ${(booking.vehicleId as any).model || ''} (${(booking.vehicleId as any).name})`.trim()
+      : (booking.vehicleName || 'Assigned vehicle');
+    
+    // Package information
+    const packageInfo = booking.packageName || booking.packageId || 'Standard Service';
+    
+    // Price information
+    const priceInfo = booking.totalAmount || booking.price 
+      ? `$${(booking.totalAmount || booking.price).toFixed(2)}`
+      : 'Not specified';
+    
+    // Stops information
+    const stopsInfo = booking.stops && booking.stops.length > 0
+      ? booking.stops.map((stop: any, index: number) => `${index + 1}. ${stop.location || stop}`).join('\n')
+      : 'None';
+    
+    // Special instructions
+    const specialInstructions = booking.specialInstructions || booking.specialRequests || 'None';
+    
+    const template = {
+      subject: `New Booking Assignment - ${booking._id}`,
+      text: `Dear ${driverName},
+
+You have been assigned a new booking. Please review the details below and ensure you are available for this ride.
+
+Booking Details:
+- Booking ID: ${booking._id}
+- Date: ${formattedDate}
+- Time: ${formattedTime}
+- Package: ${packageInfo}
+- Vehicle: ${vehicleInfo}
+- Price: ${priceInfo}
+
+Customer Information:
+- Name: ${customerName}
+- Email: ${customerEmail}
+- Phone: ${customerPhone}
+
+Location Details:
+- Pickup: ${booking.pickupLocation}
+- Dropoff: ${booking.dropoffLocation}
+${stopsInfo !== 'None' ? `- Stops:\n${stopsInfo}` : ''}
+
+Special Instructions:
+${specialInstructions}
+
+Please arrive at the pickup location on time and provide excellent service. If you have any questions or concerns about this booking, please contact us at karlimolax@gmail.com or (424) 526-0457.
+
+Thank you for your service!
+
+Kar Limo LAX`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>New Booking Assignment</title>
+        </head>
+        <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px;">
+            <!-- Header -->
+            <div style="text-align: center; padding: 20px 0; background-color: #d97706; margin: -20px -20px 20px -20px;">
+              <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: bold;">New Booking Assignment</h1>
+              <p style="color: #ffffff; margin: 10px 0 0 0; font-weight: 600;">Kar Limo LAX</p>
+            </div>
+
+            <!-- Main Content -->
+            <div style="padding: 20px 0;">
+              <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                Dear ${driverName},
+              </p>
+              <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                You have been assigned a new booking. Please review the details below and ensure you are available for this ride.
+              </p>
+
+              <!-- Booking Details Section -->
+              <div style="background-color: #f8f8f8; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                <h2 style="color: #1a1a1a; margin: 0 0 15px 0; font-size: 18px; border-bottom: 2px solid #d97706; padding-bottom: 10px;">
+                  Booking Details
+                </h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                  <div>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Booking ID:</strong><br>${booking._id}</p>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Date:</strong><br>${formattedDate}</p>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Time:</strong><br>${formattedTime}</p>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Package:</strong><br>${packageInfo}</p>
+                  </div>
+                  <div>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Vehicle:</strong><br>${vehicleInfo}</p>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Price:</strong><br>${priceInfo}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Customer Information Section -->
+              <div style="background-color: #f0f9ff; border-left: 4px solid #d97706; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                <h2 style="color: #1a1a1a; margin: 0 0 15px 0; font-size: 18px; border-bottom: 2px solid #d97706; padding-bottom: 10px;">
+                  Customer Information
+                </h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                  <div>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Name:</strong><br>${customerName}</p>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Email:</strong><br><a href="mailto:${customerEmail}" style="color: #d97706; text-decoration: none;">${customerEmail}</a></p>
+                  </div>
+                  <div>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Phone:</strong><br><a href="tel:${customerPhone}" style="color: #d97706; text-decoration: none;">${customerPhone}</a></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Location Details Section -->
+              <div style="background-color: #f8f8f8; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                <h2 style="color: #1a1a1a; margin: 0 0 15px 0; font-size: 18px; border-bottom: 2px solid #d97706; padding-bottom: 10px;">
+                  Location Details
+                </h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                  <div>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Pickup Location:</strong><br>${booking.pickupLocation}</p>
+                  </div>
+                  <div>
+                    <p style="color: #4a4a4a; margin: 8px 0;"><strong>Dropoff Location:</strong><br>${booking.dropoffLocation}</p>
+                  </div>
+                </div>
+                ${stopsInfo !== 'None' ? `
+                <div style="margin-top: 15px;">
+                  <p style="color: #4a4a4a; margin: 8px 0;"><strong>Additional Stops:</strong></p>
+                  <p style="color: #4a4a4a; margin: 8px 0; white-space: pre-line;">${stopsInfo}</p>
+                </div>
+                ` : ''}
+              </div>
+
+              <!-- Special Instructions Section -->
+              ${specialInstructions !== 'None' ? `
+              <div style="background-color: #fff3cd; border-left: 4px solid #d97706; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                <h2 style="color: #1a1a1a; margin: 0 0 15px 0; font-size: 18px; border-bottom: 2px solid #d97706; padding-bottom: 10px;">
+                  Special Instructions
+                </h2>
+                <p style="color: #4a4a4a; margin: 0; white-space: pre-line;">${specialInstructions}</p>
+              </div>
+              ` : ''}
+
+              <!-- Important Notice -->
+              <div style="background-color: #e7f3ff; border-left: 4px solid #d97706; padding: 15px; margin: 20px 0; border-radius: 4px;">
+                <p style="color: #004085; margin: 0; font-size: 15px; line-height: 1.5;">
+                  <strong>⚠️ Important:</strong><br>
+                  Please arrive at the pickup location on time and provide excellent service. If you have any questions or concerns about this booking, please contact us immediately.
+                </p>
+              </div>
+
+              <!-- Contact Information -->
+              <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e5e5;">
+                <p style="color: #4a4a4a; margin: 0 0 10px 0;">If you have any questions, please contact us:</p>
+                <p style="color: #4a4a4a; margin: 0;">
+                  <strong>Phone:</strong> <a href="tel:+14245260457" style="color: #d97706; text-decoration: none;">(424) 526-0457</a><br>
+                  <strong>Email:</strong> <a href="mailto:karlimolax@gmail.com" style="color: #d97706; text-decoration: none;">karlimolax@gmail.com</a>
+                </p>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div style="text-align: center; padding: 20px 0; border-top: 1px solid #e5e5e5; margin-top: 20px;">
+              <p style="color: #888; font-size: 12px; margin: 0;">
+                This is an automated message, please do not reply to this email.<br>
+                © ${new Date().getFullYear()} Kar Limo LAX. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `
+    };
+    
+    console.log('Driver confirmation template created successfully');
+    return template;
   }
 };
 

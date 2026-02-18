@@ -58,9 +58,23 @@ export default function PaymentPage() {
 
 
 
-  // Calculate total amount
-  const getTotalAmount = () => {
+  // Calculate Stripe processing fee (2.9% + $0.30)
+  const calculateStripeFee = (amount: number): number => {
+    // Stripe fee: 2.9% of transaction + $0.30 per transaction
+    const fee = (amount * 0.029) + 0.30;
+    return Math.round(fee * 100) / 100; // Round to 2 decimal places
+  };
+
+  // Calculate total amount without Stripe fee
+  const getBaseTotalAmount = () => {
     return calculateTotalWithGratuity();
+  };
+
+  // Calculate total amount with Stripe processing fee
+  const getTotalAmount = () => {
+    const baseAmount = getBaseTotalAmount();
+    const stripeFee = calculateStripeFee(baseAmount);
+    return baseAmount + stripeFee;
   };
 
   // Handle Stripe success
@@ -71,17 +85,20 @@ export default function PaymentPage() {
       }
 
       setIsProcessing(true);
-      const totalAmount = getTotalAmount();
+      const baseAmount = getBaseTotalAmount();
+      const stripeFee = calculateStripeFee(baseAmount);
+      const totalAmount = getTotalAmount(); // Includes Stripe fee
       const processedPayment = {
         id: result.paymentIntent.id,
         cardholderName: customerInfo.firstName + ' ' + customerInfo.lastName,
-        totalAmount,
+        totalAmount: baseAmount, // Store base amount (without fee) for booking record
+        stripeFee: stripeFee, // Store fee separately
         isPaid: true,
         paymentDate: new Date(),
         paymentMethod: 'stripe'
       };
       setPaymentInfo(processedPayment);
-      const booking = await createBookingAfterPayment(processedPayment, totalAmount);
+      const booking = await createBookingAfterPayment(processedPayment, baseAmount); // Use base amount for booking
       if (booking) {
         setCurrentBooking(booking);
         try { await sendBookingConfirmation(booking); } catch {}
@@ -490,6 +507,18 @@ export default function PaymentPage() {
             <div className="mt-2 flex justify-between items-center">
               <span className="font-medium">
                 Total with Gratuity:
+              </span>
+              <span className="text-lg font-semibold text-gray-700">
+                ${getBaseTotalAmount().toFixed(2)}
+              </span>
+            </div>
+            <div className="mt-2 flex justify-between items-center text-sm text-gray-600">
+              <span>Payment Processing Fee (2.9% + $0.30):</span>
+              <span>${calculateStripeFee(getBaseTotalAmount()).toFixed(2)}</span>
+            </div>
+            <div className="mt-2 pt-2 border-t flex justify-between items-center">
+              <span className="font-medium">
+                Total Amount:
               </span>
               <span className="text-xl font-bold text-brand">
                 ${getTotalAmount().toFixed(2)}

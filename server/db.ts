@@ -34,6 +34,7 @@ async function connectDB() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      family: 4, // Force IPv4 to avoid DNS SRV resolution issues on Windows
     };
 
     console.log('Connecting to MongoDB...');

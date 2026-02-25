@@ -1,3 +1,6 @@
+import dns from 'dns';
+dns.setServers(['8.8.8.8', '1.1.1.1']); // Fix: c-ares uses TCP for SRV; local DNS at 192.168.x.x refuses TCP
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';

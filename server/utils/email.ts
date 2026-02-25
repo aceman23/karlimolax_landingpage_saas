@@ -1,7 +1,6 @@
-import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
+import { Resend } from 'resend';
 
-dotenv.config();
+const resend = new Resend(process.env.RESEND_KEY);
 
 interface EmailOptions {
   to: string;
@@ -9,19 +8,6 @@ interface EmailOptions {
   text?: string;
   html: string;
 }
-
-// Create reusable transporter
-// Note: The "from" address in emails must match the authenticated SMTP_USER
-// If SMTP_USER is karlimolax@gmail.com, Gmail will use that as the sender
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: process.env.SMTP_SECURE === 'true',
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-} as any);
 
 // Send email function
 export const sendEmail = async (options: EmailOptions): Promise<void> => {
@@ -37,50 +23,28 @@ export const sendEmail = async (options: EmailOptions): Promise<void> => {
       throw new Error('Email HTML content is required');
     }
 
+    if (!process.env.RESEND_KEY) {
+      throw new Error('[EMAIL ERROR] RESEND_KEY is not set in environment variables');
+    }
+
     console.log('Attempting to send email to:', options.to);
     console.log('Email subject:', options.subject);
-    
-    // Always use karlimolax@gmail.com as the sender address
-    // CRITICAL: SMTP_USER in .env MUST be karlimolax@gmail.com
-    // Gmail will override the "from" field with the authenticated user's email
-    const fromAddress = 'karlimolax@gmail.com';
-    const requiredUser = 'karlimolax@gmail.com';
-    
-    // Validate SMTP_USER matches the desired from address
-    const smtpUser = process.env.SMTP_USER?.trim().toLowerCase();
-    
-    if (!smtpUser) {
-      const errorMsg = `[EMAIL ERROR] SMTP_USER is not set in environment variables. Please set SMTP_USER=${requiredUser} in your Vercel environment variables or .env file`;
-      console.error(errorMsg);
-      throw new Error(errorMsg);
-    }
-    
-    if (smtpUser !== requiredUser) {
-      const errorMsg = `[EMAIL ERROR] SMTP_USER (${process.env.SMTP_USER}) does not match required from address (${requiredUser}). Gmail will override the "from" field with the authenticated user's email. To fix: Set SMTP_USER=${requiredUser} in your Vercel environment variables and redeploy.`;
-      console.error(errorMsg);
-      console.error(`[EMAIL ERROR] Current SMTP_USER: ${process.env.SMTP_USER}`);
-      console.error(`[EMAIL ERROR] Required SMTP_USER: ${requiredUser}`);
-      throw new Error(errorMsg);
-    }
-    
-    const mailOptions = {
+
+    const fromAddress = process.env.EMAIL_FROM || 'Kar Limo LAX <noreply@karlimolax.com>';
+
+    const { error } = await resend.emails.send({
       from: fromAddress,
-      ...options,
-    };
-    
-    console.log(`[EMAIL] Sending email from: ${fromAddress}`);
-    console.log(`[EMAIL] SMTP_USER verified: ${smtpUser} (matches required address)`);
-    
-    console.log('Mail options:', {
-      from: mailOptions.from,
-      to: mailOptions.to,
-      subject: mailOptions.subject,
-      text: mailOptions.text?.substring(0, 100) + '...',
-      html: mailOptions.html?.substring(0, 100) + '...'
+      to: options.to,
+      subject: options.subject,
+      html: options.html,
+      text: options.text,
     });
-    
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully:', info.messageId);
+
+    if (error) {
+      throw new Error(`Resend API error: ${error.message}`);
+    }
+
+    console.log('Email sent successfully to:', options.to);
   } catch (error) {
     console.error('Error sending email:', error);
     throw error;
@@ -109,7 +73,7 @@ export const templates = {
               <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">Kar Limo LAX</h1>
               <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 14px;">Premium Transportation Services</p>
             </div>
-            
+
             <!-- Email Content -->
             <div style="padding: 30px 20px;">
               <h2 style="color: #1a1a1a; margin-bottom: 20px; font-size: 24px;">Verify Your Email Address</h2>
@@ -123,7 +87,7 @@ export const templates = {
               <p style="color: #4a4a4a; margin-bottom: 10px; font-size: 14px;">This link will expire in 24 hours.</p>
               <p style="color: #4a4a4a; margin-bottom: 0; font-size: 14px;">If you did not create an account with Kar Limo LAX, you can safely ignore this email.</p>
             </div>
-            
+
             <!-- Footer -->
             <div style="background-color: #f9fafb; padding: 20px; border-top: 1px solid #e2e8f0; text-align: center;">
               <p style="color: #4a4a4a; margin: 0 0 10px 0; font-size: 14px;">Best regards,</p>
@@ -150,7 +114,7 @@ export const templates = {
           <p style="color: #4a4a4a;">You requested a password reset for your Kar Limo LAX account.</p>
           <p style="color: #4a4a4a;">Click the button below to set a new password:</p>
           <div style="text-align: center; margin: 30px 0;">
-            <a href="${resetUrl}" 
+            <a href="${resetUrl}"
                style="background-color: #f59e0b; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">
               Reset Password
             </a>
@@ -165,7 +129,7 @@ export const templates = {
     console.log('Password reset template created successfully');
     return template;
   },
-  
+
   welcomeEmail: (user: { name: string; email: string }) => {
     console.log('Creating welcome email template for user:', user.email);
     const template = {
@@ -247,7 +211,7 @@ The Kar Limo LAX Team`,
                   Ready to book your first ride? Simply log in to your account and click the "Book Now" button to get started.
                 </p>
                 <div style="text-align: center; margin: 20px 0;">
-                  <a href="${process.env.FRONTEND_URL || 'https://karlimolax.com'}/book" 
+                  <a href="${process.env.FRONTEND_URL || 'https://karlimolax.com'}/book"
                      style="background-color: #f59e0b; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">
                     Book Your First Ride
                   </a>
@@ -276,32 +240,32 @@ The Kar Limo LAX Team`,
         </html>
       `
     };
-    
+
     console.log('Welcome email template created successfully');
     return template;
   },
 
   bookingConfirmation: (booking: any) => {
     console.log('Creating booking confirmation template for booking:', booking._id);
-    
+
     // Format pickup date and time
     const pickupDateTime = new Date(booking.pickupTime);
-    const formattedDate = pickupDateTime.toLocaleDateString('en-US', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    const formattedDate = pickupDateTime.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     });
-    const formattedTime = pickupDateTime.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
+    const formattedTime = pickupDateTime.toLocaleTimeString('en-US', {
+      hour: '2-digit',
       minute: '2-digit'
     });
-    
+
     // Vehicle information
     const vehicleInfo = (booking.vehicleId && (booking.vehicleId as any).name)
       ? `${(booking.vehicleId as any).make} ${(booking.vehicleId as any).model} (${(booking.vehicleId as any).name})`
       : (booking.vehicleName || 'Assigned vehicle');
-    
+
     // Package information
     const packageInfo = booking.packageName || (
       booking.packageId === 'lax-special' ? 'Airport Special' :
@@ -309,15 +273,15 @@ The Kar Limo LAX Team`,
       booking.packageId === 'special-events' ? 'Special Events' :
       'Custom Package'
     );
-    
+
     // Get customer information from user model if available
     const customerName = booking.customerId?.firstName && booking.customerId?.lastName
       ? `${booking.customerId.firstName} ${booking.customerId.lastName}`
       : booking.customerName || 'Not provided';
-    
+
     const customerEmail = booking.customerId?.email || booking.customerEmail || 'Not provided';
     const customerPhone = booking.customerId?.phone || booking.customerPhone || 'Not provided';
-    
+
     // Format stops if they exist
     const stopsHtml = booking.stops && booking.stops.length > 0
       ? `
@@ -333,31 +297,31 @@ The Kar Limo LAX Team`,
         </div>
       `
       : '';
-    
+
     // Airport code (if applicable)
-    const airportInfo = booking.airportCode 
-      ? `<p style="color: #4a4a4a; margin: 8px 0;"><strong>Airport:</strong> ${booking.airportCode}</p>` 
+    const airportInfo = booking.airportCode
+      ? `<p style="color: #4a4a4a; margin: 8px 0;"><strong>Airport:</strong> ${booking.airportCode}</p>`
       : '';
-    
+
     // Passenger count information
-    const passengerInfo = booking.passengers 
-      ? `<p style="color: #4a4a4a; margin: 8px 0;"><strong>Passengers:</strong> ${booking.passengers}</p>` 
+    const passengerInfo = booking.passengers
+      ? `<p style="color: #4a4a4a; margin: 8px 0;"><strong>Passengers:</strong> ${booking.passengers}</p>`
       : '';
-    
+
     // Price information
     const priceInfo = booking.price
       ? `<p style="color: #4a4a4a; margin: 8px 0;"><strong>Total Amount:</strong> $${booking.price.toFixed(2)}</p>`
       : '';
-    
+
     // Gratuity information
     const gratuityInfo = booking.gratuity && booking.gratuity.type !== 'none'
       ? `<p style="color: #4a4a4a; margin: 8px 0;"><strong>Gratuity:</strong> $${booking.gratuity.amount.toFixed(2)} (${booking.gratuity.type === 'percentage' ? `${booking.gratuity.percentage}%` : booking.gratuity.type === 'custom' ? 'Custom Amount' : 'Cash'})</p>`
       : '';
-    
+
     const template = {
       subject: `Booking Confirmation - ${booking._id}`,
       text: `Thank you for your booking with Kar Limo LAX. Your booking has been confirmed. Once a driver has been assigned to your ride, you will receive another confirmation email with your driver's contact information.
-      
+
 Booking Details:
 - Booking ID: ${booking._id}
 - Package: ${packageInfo}
@@ -370,12 +334,12 @@ ${booking.stops ? `- Additional Stops: ${booking.stops.map((stop: any) => stop.l
 ${booking.passengers ? `- Passengers: ${booking.passengers}` : ''}
 ${booking.price ? `- Total Amount: $${booking.price.toFixed(2)}` : ''}
 ${booking.gratuity && booking.gratuity.type !== 'none' ? `- Gratuity: $${booking.gratuity.amount.toFixed(2)} (${booking.gratuity.type === 'percentage' ? `${booking.gratuity.percentage}%` : booking.gratuity.type === 'custom' ? 'Custom Amount' : 'Cash'})` : ''}
-      
+
 Customer Information:
 - Name: ${customerName}
 - Email: ${customerEmail}
 - Phone: ${customerPhone}
-      
+
 If you have any questions about your booking, please contact our customer service team.
 
 Driver Assignment Update:
@@ -492,27 +456,27 @@ Once a driver has been assigned to your ride, you will receive another email wit
         </html>
       `
     };
-    
+
     console.log('Booking confirmation template created successfully');
     return template;
   },
-  
+
   driverAssignment: (booking: any) => {
     console.log('Creating driver assignment template for booking:', booking._id);
-    
+
     // Format pickup date and time
     const pickupDateTime = new Date(booking.pickupTime);
-    const formattedDate = pickupDateTime.toLocaleDateString('en-US', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    const formattedDate = pickupDateTime.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     });
-    const formattedTime = pickupDateTime.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
+    const formattedTime = pickupDateTime.toLocaleTimeString('en-US', {
+      hour: '2-digit',
       minute: '2-digit'
     });
-    
+
     // Driver information
     const driver = booking.driverId;
     const driverName = driver?.firstName && driver?.lastName
@@ -520,19 +484,17 @@ Once a driver has been assigned to your ride, you will receive another email wit
       : 'Your assigned driver';
     const driverEmail = driver?.email || 'Not available';
     const driverPhone = driver?.phone || booking.driverId?.phone || 'Not available';
-    
+
     // Get customer information
     const customerName = booking.customerId?.firstName && booking.customerId?.lastName
       ? `${booking.customerId.firstName} ${booking.customerId.lastName}`
       : booking.customerName || 'Valued Customer';
-    
-    const customerEmail = booking.customerId?.email || booking.customerEmail || 'Not provided';
-    
+
     // Vehicle information
     const vehicleInfo = (booking.vehicleId && (booking.vehicleId as any).name)
       ? `${(booking.vehicleId as any).make} ${(booking.vehicleId as any).model} (${(booking.vehicleId as any).name})`
       : (booking.vehicleName || 'Assigned vehicle');
-    
+
     const template = {
       subject: `Driver Assigned - Your Ride is Confirmed - ${booking._id}`,
       text: `Dear ${customerName},
@@ -642,62 +604,62 @@ Thank you for choosing Kar Limo LAX!`,
         </html>
       `
     };
-    
+
     console.log('Driver assignment template created successfully');
     return template;
   },
-  
+
   driverConfirmation: (booking: any) => {
     console.log('Creating driver confirmation template for booking:', booking._id);
-    
+
     // Format pickup date and time
     const pickupDateTime = new Date(booking.pickupTime);
-    const formattedDate = pickupDateTime.toLocaleDateString('en-US', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    const formattedDate = pickupDateTime.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     });
-    const formattedTime = pickupDateTime.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
+    const formattedTime = pickupDateTime.toLocaleTimeString('en-US', {
+      hour: '2-digit',
       minute: '2-digit'
     });
-    
+
     // Driver information
     const driver = booking.driverId;
     const driverName = driver?.firstName && driver?.lastName
       ? `${driver.firstName} ${driver.lastName}`
       : 'Driver';
-    
+
     // Get customer information
     const customerName = booking.customerId?.firstName && booking.customerId?.lastName
       ? `${booking.customerId.firstName} ${booking.customerId.lastName}`
       : booking.customerName || 'Customer';
-    
+
     const customerEmail = booking.customerId?.email || booking.customerEmail || 'Not provided';
     const customerPhone = booking.customerId?.phone || booking.customerPhone || 'Not provided';
-    
+
     // Vehicle information
     const vehicleInfo = (booking.vehicleId && (booking.vehicleId as any).name)
       ? `${(booking.vehicleId as any).make || ''} ${(booking.vehicleId as any).model || ''} (${(booking.vehicleId as any).name})`.trim()
       : (booking.vehicleName || 'Assigned vehicle');
-    
+
     // Package information
     const packageInfo = booking.packageName || booking.packageId || 'Standard Service';
-    
+
     // Price information
-    const priceInfo = booking.totalAmount || booking.price 
+    const priceInfo = booking.totalAmount || booking.price
       ? `$${(booking.totalAmount || booking.price).toFixed(2)}`
       : 'Not specified';
-    
+
     // Stops information
     const stopsInfo = booking.stops && booking.stops.length > 0
       ? booking.stops.map((stop: any, index: number) => `${index + 1}. ${stop.location || stop}`).join('\n')
       : 'None';
-    
+
     // Special instructions
     const specialInstructions = booking.specialInstructions || booking.specialRequests || 'None';
-    
+
     const template = {
       subject: `New Booking Assignment - ${booking._id}`,
       text: `Dear ${driverName},
@@ -851,7 +813,7 @@ Kar Limo LAX`,
         </html>
       `
     };
-    
+
     console.log('Driver confirmation template created successfully');
     return template;
   }

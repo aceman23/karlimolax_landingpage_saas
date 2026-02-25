@@ -70,11 +70,8 @@ router.post('/test-email', async (req, res) => {
 
     console.log('Testing email configuration...');
     console.log('Environment variables:', {
-      SMTP_HOST: process.env.SMTP_HOST,
-      SMTP_PORT: process.env.SMTP_PORT,
-      SMTP_SECURE: process.env.SMTP_SECURE,
-      SMTP_USER: process.env.SMTP_USER,
-      SMTP_FROM: process.env.SMTP_FROM,
+      RESEND_KEY: process.env.RESEND_KEY ? '***set***' : 'NOT SET',
+      EMAIL_FROM: process.env.EMAIL_FROM,
       FRONTEND_URL: process.env.FRONTEND_URL
     });
 

@@ -4,7 +4,6 @@ dns.setServers(['8.8.8.8', '1.1.1.1']); // Fix: c-ares uses TCP for SRV; local D
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import connectDB from './db.js';
 import apiRoutes from './routes/api.js';
 import authRoutes from './routes/auth.js';
 import adminRoutes from './routes/admin.js';
@@ -16,9 +15,6 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
-
-// Database connection
-connectDB();
 
 // Routes
 app.use('/api', apiRoutes);

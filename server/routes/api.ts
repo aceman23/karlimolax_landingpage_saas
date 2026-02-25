@@ -100,9 +100,6 @@ const addPackageInformation = (booking: any) => {
     }
   }
   
-  // Log passengers field from original booking
-  console.log('[DEBUG] addPackageInformation - Original booking passengers:', booking.passengers);
-  
   const processedBooking = {
     ...booking,
     customerName: booking.customerName || customerName,
@@ -127,11 +124,11 @@ const addPackageInformation = (booking: any) => {
   }
   
   // Explicitly ensure passengers field is preserved
-  console.log('[DEBUG] addPackageInformation - Original booking passengers:', booking.passengers);
+  
   if (booking.passengers !== undefined) {
     processedBooking.passengers = Number(booking.passengers);
   }
-  console.log('[DEBUG] addPackageInformation - Processed booking passengers:', processedBooking.passengers);
+
   
   return processedBooking;
 };
@@ -2637,7 +2634,7 @@ router.put('/bookings/:id/assign-driver', authMiddleware, async (req: Authentica
   try {
     await connectDB();
     const { id } = req.params;
-    const { driverId, sendEmail } = req.body;
+    const { driverId, sendEmail: shouldSendEmail } = req.body;
 
     if (!driverId) {
       return res.status(400).json({ error: 'Driver ID is required' });
@@ -2704,7 +2701,7 @@ router.put('/bookings/:id/assign-driver', authMiddleware, async (req: Authentica
       const customerEmail = bookingForEmail.customerEmail || 
         (bookingForEmail.customerId as any)?.email ||
         (bookingForEmail as any).customer?.email;
-      
+
       console.log('[DRIVER ASSIGNMENT] Attempting to send email to customer. Customer email:', customerEmail);
       console.log('[DRIVER ASSIGNMENT] Booking data:', {
         bookingId: bookingForEmail._id,
@@ -2791,34 +2788,26 @@ router.put('/bookings/:id/assign-driver', authMiddleware, async (req: Authentica
       // Don't fail the driver assignment if email fails, but log it clearly
     }
     
-    // Always send confirmation email to driver when assigned (regardless of sendEmail flag)
+    // Send confirmation email to driver when assigned
     try {
       const driverEmail = driver?.email || (bookingForEmail.driverId as any)?.email;
-      
-      if (driverEmail) {
-        // Validate email format
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (emailRegex.test(driverEmail)) {
-          console.log('[DRIVER ASSIGNMENT] Sending confirmation email to driver:', driverEmail);
-          
-          const driverEmailTemplate = templates.driverConfirmation(bookingForEmail);
-          console.log('[DRIVER ASSIGNMENT] Driver confirmation email template created successfully');
-          
-          // Send email to driver
-          await sendEmail({
-            to: driverEmail,
-            subject: driverEmailTemplate.subject,
-            text: driverEmailTemplate.text,
-            html: driverEmailTemplate.html
-          });
-          
-          console.log('[SUCCESS] Driver confirmation email sent successfully from karlimolax@gmail.com to driver:', driverEmail);
-        } else {
-          console.error('[DRIVER ASSIGNMENT] Invalid email format for driver confirmation email:', driverEmail);
-        }
+
+      if (!driverEmail) {
+        console.warn('[DRIVER ASSIGNMENT] No driver email found. Booking:', bookingForEmail._id);
       } else {
-        console.warn('[DRIVER ASSIGNMENT] No driver email found for confirmation notification. Booking:', bookingForEmail._id);
-        console.warn('[DRIVER ASSIGNMENT] Driver object:', driver);
+        console.log('[DRIVER ASSIGNMENT] Sending driver confirmation email to:', driverEmail);
+
+        const driverEmailTemplate = templates.driverConfirmation(bookingForEmail);
+        console.log('[DRIVER ASSIGNMENT] Driver confirmation email template created successfully');
+
+        await sendEmail({
+          to: driverEmail,
+          subject: driverEmailTemplate.subject,
+          text: driverEmailTemplate.text,
+          html: driverEmailTemplate.html
+        });
+
+        console.log('[SUCCESS] Driver confirmation email sent to:', driverEmail);
       }
     } catch (driverEmailError: any) {
       console.error('[DRIVER ASSIGNMENT] Failed to send driver confirmation email:', driverEmailError);

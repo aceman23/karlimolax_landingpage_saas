@@ -1,48 +1,13 @@
-import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
+import { Resend } from 'resend';
 import { AdminSettings } from '../models/schema.js';
 
-dotenv.config();
-
-// Create a transporter using SMTP
-// Note: The "from" address in emails must match the authenticated SMTP_USER
-// If SMTP_USER is karlimolax@gmail.com, Gmail will use that as the sender
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  secure: process.env.SMTP_SECURE === 'true',
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-  // Set default from address (though Gmail may override based on auth user)
-  defaults: {
-    from: 'karlimolax@gmail.com',
-  },
-});
-
-interface BookingDetails {
-  bookingId: string;
-  customerName: string;
-  customerEmail: string;
-  customerPhone: string;
-  pickupLocation: string;
-  dropoffLocation: string;
-  pickupTime: Date;
-  dropoffTime: Date;
-  status: string;
-  price: number;
-  specialInstructions?: string;
-  packageName?: string;
-  hours?: number;
-  passengers?: number;
-}
+const resend = new Resend(process.env.RESEND_KEY);
 
 export const sendBookingNotificationEmail = async (booking: any) => {
   try {
     console.log('Starting admin notification email process...');
     console.log('Booking object:', JSON.stringify(booking, null, 2));
-    
+
     // Get or create admin settings
     const adminSettings = await AdminSettings.getOrCreateAdminSettings();
     console.log('Admin settings retrieved:', {
@@ -64,26 +29,26 @@ export const sendBookingNotificationEmail = async (booking: any) => {
       return;
     }
 
-    // Validate SMTP configuration
-    if (!process.env.SMTP_HOST || !process.env.SMTP_PORT || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.error('SMTP configuration is incomplete');
+    // Validate Resend configuration
+    if (!process.env.RESEND_KEY) {
+      console.error('RESEND_KEY is not configured');
       return;
     }
 
     // Get email template
     const template = adminSettings.emailNotifications?.customTemplates?.admin || `
       New Booking Details:
-      
+
       Booking ID: {{bookingId}}
       Customer: {{customerName}}
       Email: {{customerEmail}}
       Phone: {{customerPhone}}
-      
+
       Pickup: {{pickupLocation}}
       Dropoff: {{dropoffLocation}}
       Pickup Time: {{pickupTime}}
       Dropoff Time: {{dropoffTime}}
-      
+
       Status: {{status}}
       Price: {{price}}
       Package: {{packageName}}
@@ -114,29 +79,22 @@ export const sendBookingNotificationEmail = async (booking: any) => {
       .replace('{{gratuity}}', booking.gratuity && booking.gratuity.type !== 'none' ? `$${booking.gratuity.amount.toFixed(2)} (${booking.gratuity.type === 'percentage' ? `${booking.gratuity.percentage}%` : booking.gratuity.type === 'custom' ? 'Custom Amount' : 'Cash'})` : 'None')
       .replace('{{specialInstructions}}', booking.specialInstructions || booking.notes || 'N/A');
 
+    const fromAddress = process.env.EMAIL_FROM || 'Kar Limo LAX <noreply@karlimolax.com>';
+
     // Send emails to all admin addresses
-    // CRITICAL: SMTP_USER in .env MUST be karlimolax@gmail.com
-    // Gmail will override the "from" field with the authenticated user's email
-    const fromAddress = 'karlimolax@gmail.com';
-    
-    // Validate SMTP_USER matches the desired from address
-    const smtpUser = process.env.SMTP_USER?.trim().toLowerCase();
-    const requiredUser = 'karlimolax@gmail.com';
-    
-    if (!smtpUser || smtpUser !== requiredUser) {
-      console.error(`[ERROR] SMTP_USER (${process.env.SMTP_USER || 'not set'}) does not match required from address (${requiredUser})`);
-      console.error(`[ERROR] Cannot send email - SMTP_USER must be ${requiredUser}`);
-      return;
-    }
-    
     const emailPromises = adminEmails.map(async (email: string) => {
       try {
-        await transporter.sendMail({
+        const { error } = await resend.emails.send({
           from: fromAddress,
           to: email,
           subject: `New Booking Notification - ${booking._id?.toString() || 'N/A'}`,
-          text: content
+          text: content,
         });
+
+        if (error) {
+          throw new Error(error.message);
+        }
+
         console.log(`Admin notification email sent successfully to ${email}`);
         return { email, success: true };
       } catch (error) {
@@ -153,4 +111,4 @@ export const sendBookingNotificationEmail = async (booking: any) => {
   } catch (error) {
     console.error('Error sending admin notification email:', error);
   }
-}; 
+};

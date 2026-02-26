@@ -391,8 +391,9 @@ adminSettingsSchema.statics.getOrCreateAdminSettings = async function() {
 // Vehicle Block Schema - for admin-defined blocked date/time slots per vehicle
 const vehicleBlockSchema = new mongoose.Schema({
   vehicleId: { type: mongoose.Schema.Types.ObjectId, ref: 'Vehicle', required: true },
-  start: { type: Date, required: true },
-  end:   { type: Date, required: true },
+  date: { type: String, required: true },       // 'YYYY-MM-DD'
+  startTime: { type: String, required: true },  // 'HH:mm'
+  endTime: { type: String, required: true },    // 'HH:mm'
   reason: { type: String },
 }, { timestamps: true });
 

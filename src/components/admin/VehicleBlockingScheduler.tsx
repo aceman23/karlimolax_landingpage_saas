@@ -7,7 +7,6 @@ import { useAuth } from '../../context/AuthContext';
 import Button from '../common/Button';
 import { API_BASE_URL } from '../../config';
 import { Users, DollarSign, Plus, Trash2, ChevronLeft, CalendarX } from 'lucide-react';
-import { formatTime } from '../common/TimePicker';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -26,51 +25,29 @@ interface VehicleItem {
 
 interface BlockSlot {
   id: string;
-  startDate: Date | null;
+  date: Date | null;
   startTime: string;
-  endDate: Date | null;
   endTime: string;
 }
 
 interface SavedBlock {
   _id: string;
   vehicleId: string;
-  start: string;   // ISO date string
-  end:   string;   // ISO date string
+  date: string;
+  startTime: string;
+  endTime: string;
   reason?: string;
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 function newSlot(): BlockSlot {
-  return { id: crypto.randomUUID(), startDate: new Date(), startTime: '08:00', endDate: null, endTime: '17:00' };
+  return { id: crypto.randomUUID(), date: new Date(), startTime: '08:00', endTime: '17:00' };
 }
 
-/** Build a Date treating the picked calendar date + HH:mm as UTC, so UTC display methods round-trip correctly. */
-function toUTCDate(date: Date, time: string): Date {
-  const [hours, minutes] = time.split(':').map(Number);
-  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), hours, minutes, 0, 0));
-}
-
-function utcHHmm(d: Date): string {
-  return `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`;
-}
-
-function utcMMDDYYYY(d: Date): string {
-  return `${String(d.getUTCMonth() + 1).padStart(2, '0')}/${String(d.getUTCDate()).padStart(2, '0')}/${d.getUTCFullYear()}`;
-}
-
-function formatSavedBlock(block: SavedBlock): string {
-  const startD = new Date(block.start);
-  const endD   = new Date(block.end);
-  const startDateStr = utcMMDDYYYY(startD);
-  const endDateStr   = utcMMDDYYYY(endD);
-  const startTime    = formatTime(utcHHmm(startD));
-  const endTime      = formatTime(utcHHmm(endD));
-  if (startDateStr === endDateStr) {
-    return `${startDateStr} ${startTime} – ${endTime}`;
-  }
-  return `${startDateStr} ${startTime} – ${endDateStr} ${endTime}`;
+function formatDisplayDate(iso: string) {
+  const [y, m, d] = iso.split('-');
+  return `${m}/${d}/${y}`;
 }
 
 // ── Component ────────────────────────────────────────────────────────────────
@@ -118,17 +95,8 @@ export default function VehicleBlockingScheduler() {
 
   // ── Slot row handlers ───────────────────────────────────────────────────
 
-  function updateSlotStartDate(id: string, date: Date | null) {
-    setSlots(prev => prev.map(s => {
-      if (s.id !== id) return s;
-      // Auto-default end date to same day when start date is first picked
-      const endDate = s.endDate ?? date;
-      return { ...s, startDate: date, endDate };
-    }));
-  }
-
-  function updateSlotEndDate(id: string, date: Date | null) {
-    setSlots(prev => prev.map(s => s.id === id ? { ...s, endDate: date } : s));
+  function updateSlotDate(id: string, date: Date | null) {
+    setSlots(prev => prev.map(s => s.id === id ? { ...s, date } : s));
   }
 
   function updateSlotTime(id: string, field: 'startTime' | 'endTime', value: string) {
@@ -149,26 +117,24 @@ export default function VehicleBlockingScheduler() {
     if (!selectedVehicle || !token) return;
 
     for (const s of slots) {
-      if (!s.startDate || !s.endDate) {
-        toast.error('Please select a start and end date for each slot.');
+      if (!s.date) {
+        toast.error('Please select a date for each slot.');
         return;
       }
       if (!s.startTime || !s.endTime) {
         toast.error('Please fill in all time fields.');
         return;
       }
-      const startDt = toUTCDate(s.startDate, s.startTime);
-      const endDt   = toUTCDate(s.endDate,   s.endTime);
-      if (startDt >= endDt) {
-        toast.error(`Start must be before end (${format(s.startDate, 'MM/dd/yyyy')} ${s.startTime}).`);
+      if (s.startTime >= s.endTime) {
+        toast.error(`Start time must be before end time (${format(s.date, 'MM/dd/yyyy')}).`);
         return;
       }
     }
 
     const payload = slots.map(s => ({
-      start: toUTCDate(s.startDate!, s.startTime).toISOString(),
-      end:   toUTCDate(s.endDate!,   s.endTime).toISOString(),
-      reason: '',
+      date: format(s.date!, 'yyyy-MM-dd'),
+      startTime: s.startTime,
+      endTime: s.endTime,
     }));
 
     setSaving(true);
@@ -186,7 +152,7 @@ export default function VehicleBlockingScheduler() {
 
       const created: SavedBlock[] = await response.json();
       setSavedBlocks(prev =>
-        [...prev, ...created].sort((a, b) => a.start.localeCompare(b.start))
+        [...prev, ...created].sort((a, b) => a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime))
       );
       setSlots([newSlot()]);
       toast.success(`${created.length} block${created.length > 1 ? 's' : ''} saved.`);
@@ -326,7 +292,9 @@ export default function VehicleBlockingScheduler() {
                   <div key={block._id} className="flex items-center justify-between gap-3 px-3 py-2 bg-red-50 border border-red-100 rounded-lg">
                     <div className="flex items-center gap-2 text-sm text-red-800">
                       <CalendarX className="h-4 w-4 text-red-400 flex-shrink-0" />
-                      <span>{formatSavedBlock(block)}</span>
+                      <span className="font-medium">{formatDisplayDate(block.date)}</span>
+                      <span className="text-red-500">·</span>
+                      <span>{block.startTime} – {block.endTime}</span>
                     </div>
                     <button
                       onClick={() => handleDelete(block._id)}
@@ -345,69 +313,46 @@ export default function VehicleBlockingScheduler() {
           {/* New slots form */}
           <div className="mb-4">
             <p className="text-sm font-medium text-gray-700 mb-3">Add new blocked slots</p>
-            <div className="space-y-5">
+            <div className="space-y-4">
               {slots.map((slot, idx) => (
-                <div key={slot.id} className="flex flex-wrap items-end gap-3 pb-4 border-b border-gray-100 last:border-0">
+                <div key={slot.id} className="flex flex-wrap items-end gap-3">
                   <span className="text-xs text-gray-400 pb-2 w-4 text-right flex-shrink-0">{idx + 1}.</span>
 
-                  {/* Start group */}
+                  {/* Calendar date picker */}
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs text-gray-500 font-medium">Start</label>
-                    <div className="flex items-end gap-2">
-                      <div className="flex flex-col gap-1">
-                        <label className="text-xs text-gray-400">Date</label>
-                        <DatePicker
-                          selected={slot.startDate}
-                          onChange={date => updateSlotStartDate(slot.id, date)}
-                          minDate={new Date()}
-                          dateFormat="MM/dd/yyyy"
-                          placeholderText="Pick a date"
-                          popperPlacement="bottom-start"
-                          className="border border-gray-300 rounded px-3 py-1.5 text-sm w-36 focus:outline-none focus:ring-2 focus:ring-brand-400 cursor-pointer"
-                          calendarClassName="shadow-lg border border-gray-200 rounded-lg"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <label className="text-xs text-gray-400">Time</label>
-                        <input
-                          type="time"
-                          value={slot.startTime}
-                          onChange={e => updateSlotTime(slot.id, 'startTime', e.target.value)}
-                          className="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400"
-                        />
-                      </div>
-                    </div>
+                    <label className="text-xs text-gray-500">Date</label>
+                    <DatePicker
+                      selected={slot.date}
+                      onChange={date => updateSlotDate(slot.id, date)}
+                      minDate={new Date()}
+                      dateFormat="MM/dd/yyyy"
+                      placeholderText="Pick a date"
+                      popperPlacement="bottom-start"
+                      className="border border-gray-300 rounded px-3 py-1.5 text-sm w-36 focus:outline-none focus:ring-2 focus:ring-brand-400 cursor-pointer"
+                      calendarClassName="shadow-lg border border-gray-200 rounded-lg"
+                    />
                   </div>
 
-                  <span className="text-gray-400 pb-2 text-lg">→</span>
-
-                  {/* End group */}
+                  {/* Start time */}
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs text-gray-500 font-medium">End</label>
-                    <div className="flex items-end gap-2">
-                      <div className="flex flex-col gap-1">
-                        <label className="text-xs text-gray-400">Date</label>
-                        <DatePicker
-                          selected={slot.endDate}
-                          onChange={date => updateSlotEndDate(slot.id, date)}
-                          minDate={slot.startDate ?? new Date()}
-                          dateFormat="MM/dd/yyyy"
-                          placeholderText="Pick a date"
-                          popperPlacement="bottom-start"
-                          className="border border-gray-300 rounded px-3 py-1.5 text-sm w-36 focus:outline-none focus:ring-2 focus:ring-brand-400 cursor-pointer"
-                          calendarClassName="shadow-lg border border-gray-200 rounded-lg"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <label className="text-xs text-gray-400">Time</label>
-                        <input
-                          type="time"
-                          value={slot.endTime}
-                          onChange={e => updateSlotTime(slot.id, 'endTime', e.target.value)}
-                          className="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400"
-                        />
-                      </div>
-                    </div>
+                    <label className="text-xs text-gray-500">Start time</label>
+                    <input
+                      type="time"
+                      value={slot.startTime}
+                      onChange={e => updateSlotTime(slot.id, 'startTime', e.target.value)}
+                      className="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400"
+                    />
+                  </div>
+
+                  {/* End time */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs text-gray-500">End time</label>
+                    <input
+                      type="time"
+                      value={slot.endTime}
+                      onChange={e => updateSlotTime(slot.id, 'endTime', e.target.value)}
+                      className="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400"
+                    />
                   </div>
 
                   <button

@@ -509,7 +509,7 @@ router.get('/settings/public', async (req: Request, res: Response) => {
 router.get('/vehicle-blocks/:vehicleId', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   try {
     await connectDB();
-    const blocks = await VehicleBlock.find({ vehicleId: req.params.vehicleId }).sort({ date: 1, startTime: 1 });
+    const blocks = await VehicleBlock.find({ vehicleId: req.params.vehicleId }).sort({ start: 1 });
     res.json(blocks);
   } catch (error) {
     console.error('Error fetching vehicle blocks:', error);
@@ -518,7 +518,7 @@ router.get('/vehicle-blocks/:vehicleId', authenticateToken, async (req: Authenti
 });
 
 // POST /admin/vehicle-blocks  – create one or more blocks for a vehicle
-// Body: { vehicleId: string, slots: [{ date, startTime, endTime, reason? }] }
+// Body: { vehicleId: string, slots: [{ start: string (ISO), end: string (ISO), reason? }] }
 router.post('/vehicle-blocks', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { vehicleId, slots } = req.body;
@@ -527,16 +527,26 @@ router.post('/vehicle-blocks', authenticateToken, async (req: AuthenticatedReque
     if (!Array.isArray(slots) || slots.length === 0) return res.status(400).json({ error: 'slots array is required' });
 
     for (const slot of slots) {
-      if (!slot.date || !slot.startTime || !slot.endTime) {
-        return res.status(400).json({ error: 'Each slot must have date, startTime, and endTime' });
+      if (!slot.start || !slot.end) {
+        return res.status(400).json({ error: 'Each slot must have start and end' });
       }
-      if (slot.startTime >= slot.endTime) {
-        return res.status(400).json({ error: `startTime must be before endTime (got ${slot.startTime} – ${slot.endTime})` });
+      const startDate = new Date(slot.start);
+      const endDate   = new Date(slot.end);
+      if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        return res.status(400).json({ error: 'Invalid start or end datetime format' });
+      }
+      if (startDate >= endDate) {
+        return res.status(400).json({ error: `start must be before end (got ${slot.start} – ${slot.end})` });
       }
     }
 
     await connectDB();
-    const docs = slots.map((s: any) => ({ vehicleId, date: s.date, startTime: s.startTime, endTime: s.endTime, reason: s.reason || '' }));
+    const docs = slots.map((s: any) => ({
+      vehicleId,
+      start:  new Date(s.start),
+      end:    new Date(s.end),
+      reason: s.reason || '',
+    }));
     const created = await VehicleBlock.insertMany(docs);
     res.status(201).json(created);
   } catch (error) {

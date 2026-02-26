@@ -449,8 +449,13 @@ router.get('/public/vehicle-blocks/:vehicleId', async (req: Request, res: Respon
   try {
     await connectDB();
     const query: any = { vehicleId: req.params.vehicleId };
-    if (req.query.date) query.date = req.query.date;
-    const blocks = await VehicleBlock.find(query).sort({ date: 1, startTime: 1 });
+    if (req.query.date) {
+      const date = req.query.date as string;
+      // Return any block whose window overlaps the requested calendar date
+      query.start = { $lte: new Date(`${date}T23:59:00Z`) };
+      query.end   = { $gte: new Date(`${date}T00:00:00Z`) };
+    }
+    const blocks = await VehicleBlock.find(query).sort({ start: 1 });
     res.json(blocks);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch vehicle blocks' });

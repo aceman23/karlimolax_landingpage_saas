@@ -46,7 +46,7 @@ export default function BookingPage() {
   const [distance, setDistance] = useState<{ text: string; value: number } | null>(null);
   const [calculatingDistance, setCalculatingDistance] = useState(false);
   const [tempSelectedVehicle, setTempSelectedVehicle] = useState<any>(null);
-  const [blockedSlotsForDate, setBlockedSlotsForDate] = useState<Array<{ _id: string; date: string; startTime: string; endTime: string }>>([]);
+  const [blockedSlotsForDate, setBlockedSlotsForDate] = useState<Array<{ _id: string; start: string; end: string }>>([]);
   const hasResetRef = useRef(false);
   // Use gratuity info from context
   const gratuityType = gratuityInfo.type;
@@ -318,17 +318,24 @@ export default function BookingPage() {
       const bookingEnd   = bookingStart + (Number(bookingDetails.hours) || 0) * 60;
 
       for (const block of blockedSlotsForDate) {
-        const [bsh, bsm] = block.startTime.split(':').map(Number);
-        const [beh, bem] = block.endTime.split(':').map(Number);
-        const blockStart = bsh * 60 + bsm;
-        const blockEnd   = beh * 60 + bem;
+        // Parse ISO Date string; use UTC hours/minutes (stored as wall-clock UTC)
+        const startD = new Date(block.start);
+        const endD   = new Date(block.end);
+        const blockStartTime = `${String(startD.getUTCHours()).padStart(2, '0')}:${String(startD.getUTCMinutes()).padStart(2, '0')}`;
+        const blockEndTime   = `${String(endD.getUTCHours()).padStart(2, '0')}:${String(endD.getUTCMinutes()).padStart(2, '0')}`;
+
+        const blockStart = startD.getUTCHours() * 60 + startD.getUTCMinutes();
+        let   blockEnd   = endD.getUTCHours()   * 60 + endD.getUTCMinutes();
+
+        // Cross-midnight block: treat end as end-of-day for this date
+        if (blockEnd < blockStart) blockEnd = 1439;
 
         // Overlap when booking starts before block ends AND booking ends after block starts
         const overlaps = bookingStart < blockEnd && (bookingEnd > blockStart || bookingEnd === bookingStart);
         if (overlaps) {
           alert(
             `Your booking overlaps a blocked period on this date:\n` +
-            `  Blocked: ${formatTime(block.startTime)} – ${formatTime(block.endTime)}\n\n` +
+            `  Blocked: ${formatTime(blockStartTime)} – ${formatTime(blockEndTime)}\n\n` +
             `Please choose a different time or date.`
           );
           return;
@@ -929,12 +936,15 @@ export default function BookingPage() {
                         Unavailable times on {format(pickupDate, 'MM/dd/yyyy')}:
                       </p>
                       <ul className="space-y-0.5">
-                        {blockedSlotsForDate.map(block => (
-                          <li key={block._id} className="text-sm text-red-600 flex items-center gap-1.5">
-                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />
-                            {formatTime(block.startTime)} – {formatTime(block.endTime)}
-                          </li>
-                        ))}
+                        {blockedSlotsForDate.map(block => {
+                          const fmtUTC = (iso: string) => { const d = new Date(iso); return formatTime(`${String(d.getUTCHours()).padStart(2,'0')}:${String(d.getUTCMinutes()).padStart(2,'0')}`); };
+                          return (
+                            <li key={block._id} className="text-sm text-red-600 flex items-center gap-1.5">
+                              <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />
+                              {fmtUTC(block.start)} – {fmtUTC(block.end)}
+                            </li>
+                          );
+                        })}
                       </ul>
                       <p className="text-xs text-red-500 mt-1.5">
                         Please select a pickup time and duration that does not overlap these windows.

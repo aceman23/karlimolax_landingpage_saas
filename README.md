@@ -1,4 +1,4 @@
-# DapperLax - Luxury Transportation Service
+# LimoLogic - Luxury Transportation Service Platform
 
 A modern web application for managing luxury transportation services, built with React, Node.js, and MongoDB.
 

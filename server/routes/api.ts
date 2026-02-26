@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import Stripe from 'stripe';
-import { Profile, Vehicle, Booking, Customer, ServicePackage, DriverDocument, DriverRating, BookingStatusHistory, Stop } from '../models/schema.js';
+import { Profile, Vehicle, Booking, Customer, ServicePackage, DriverDocument, DriverRating, BookingStatusHistory, Stop, VehicleBlock } from '../models/schema.js';
 import User from '../models/User.js'; // Add User model import
 import connectDB from '../db.js'; // Import connectDB
 import { sendEmail, templates, sendBookingConfirmation } from '../utils/email.js'; // Import email utilities
@@ -440,6 +440,20 @@ router.get('/public/vehicles', async (req, res) => {
     res.json(vehicles);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch vehicles' });
+  }
+});
+
+// Public endpoint: get blocked slots for a vehicle (optionally filtered by date)
+// GET /api/public/vehicle-blocks/:vehicleId?date=YYYY-MM-DD
+router.get('/public/vehicle-blocks/:vehicleId', async (req: Request, res: Response) => {
+  try {
+    await connectDB();
+    const query: any = { vehicleId: req.params.vehicleId };
+    if (req.query.date) query.date = req.query.date;
+    const blocks = await VehicleBlock.find(query).sort({ date: 1, startTime: 1 });
+    res.json(blocks);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch vehicle blocks' });
   }
 });
 

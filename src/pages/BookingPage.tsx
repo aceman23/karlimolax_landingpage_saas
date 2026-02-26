@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { format } from 'date-fns';
+import TimePicker, { formatTime } from '../components/common/TimePicker';
 import { useBooking } from '../context/BookingContext';
 import Button from '../components/common/Button';
 import PackageSelection from '../components/booking/PackageSelection';
@@ -43,9 +45,8 @@ export default function BookingPage() {
   const [vehicleError, setVehicleError] = useState<string | null>(null);
   const [distance, setDistance] = useState<{ text: string; value: number } | null>(null);
   const [calculatingDistance, setCalculatingDistance] = useState(false);
-  const [stops, setStops] = useState<{ location: string; order: number; price: number }[]>([]);
-  const [stopPrice, setStopPrice] = useState<number>(0);
   const [tempSelectedVehicle, setTempSelectedVehicle] = useState<any>(null);
+  const [blockedSlotsForDate, setBlockedSlotsForDate] = useState<Array<{ _id: string; date: string; startTime: string; endTime: string }>>([]);
   const hasResetRef = useRef(false);
   // Use gratuity info from context
   const gratuityType = gratuityInfo.type;
@@ -109,8 +110,6 @@ export default function BookingPage() {
       setPickupDate(null);
       setDistance(null);
       setCalculatingDistance(false);
-      setStops([]);
-      setStopPrice(0);
       setTempSelectedVehicle(null);
       hasResetRef.current = true;
     }
@@ -166,6 +165,20 @@ export default function BookingPage() {
     }
   }, [location.state]);
   
+  // Fetch blocked time slots whenever the selected date or vehicle changes
+  useEffect(() => {
+    const vehicleId = selectedVehicle?._id || selectedPackage?.vehicle_id;
+    if (!vehicleId || !pickupDate) {
+      setBlockedSlotsForDate([]);
+      return;
+    }
+    const dateStr = format(pickupDate, 'yyyy-MM-dd');
+    fetch(`/api/public/vehicle-blocks/${vehicleId}?date=${dateStr}`)
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(data => setBlockedSlotsForDate(data))
+      .catch(() => setBlockedSlotsForDate([]));
+  }, [pickupDate, selectedVehicle, selectedPackage]);
+
   // Function to calculate distance between multiple points
   const calculateDistance = async (locations: string[]) => {
     if (locations.length < 2) {
@@ -298,6 +311,31 @@ export default function BookingPage() {
       return;
     }
     
+    // Validate against admin-blocked time slots
+    if (blockedSlotsForDate.length > 0 && bookingDetails.pickupTime) {
+      const [ph, pm] = bookingDetails.pickupTime.split(':').map(Number);
+      const bookingStart = ph * 60 + pm;
+      const bookingEnd   = bookingStart + (Number(bookingDetails.hours) || 0) * 60;
+
+      for (const block of blockedSlotsForDate) {
+        const [bsh, bsm] = block.startTime.split(':').map(Number);
+        const [beh, bem] = block.endTime.split(':').map(Number);
+        const blockStart = bsh * 60 + bsm;
+        const blockEnd   = beh * 60 + bem;
+
+        // Overlap when booking starts before block ends AND booking ends after block starts
+        const overlaps = bookingStart < blockEnd && (bookingEnd > blockStart || bookingEnd === bookingStart);
+        if (overlaps) {
+          alert(
+            `Your booking overlaps a blocked period on this date:\n` +
+            `  Blocked: ${formatTime(block.startTime)} – ${formatTime(block.endTime)}\n\n` +
+            `Please choose a different time or date.`
+          );
+          return;
+        }
+      }
+    }
+
     // For Airport Special package, ensure an airport is selected
     if (selectedPackage?.id === 'lax-special' && !bookingDetails.airportCode) {
       alert('Please select an airport for the Airport Special package');
@@ -872,7 +910,7 @@ export default function BookingPage() {
                 )}
                 
                 {/* Date Picker */}
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-gray-700 font-medium mb-2" htmlFor="pickupDate">
                     Pickup Date *
                   </label>
@@ -884,21 +922,36 @@ export default function BookingPage() {
                     placeholderText="Select date"
                     required
                   />
+                  {/* Blocked time slots for selected date */}
+                  {pickupDate && blockedSlotsForDate.length > 0 && (
+                    <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+                      <p className="text-sm font-medium text-red-700 mb-1">
+                        Unavailable times on {format(pickupDate, 'MM/dd/yyyy')}:
+                      </p>
+                      <ul className="space-y-0.5">
+                        {blockedSlotsForDate.map(block => (
+                          <li key={block._id} className="text-sm text-red-600 flex items-center gap-1.5">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />
+                            {formatTime(block.startTime)} – {formatTime(block.endTime)}
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="text-xs text-red-500 mt-1.5">
+                        Please select a pickup time and duration that does not overlap these windows.
+                      </p>
+                    </div>
+                  )}
                 </div>
-                
+
                 {/* Time Picker */}
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2" htmlFor="pickupTime">
+                  <label className="block text-gray-700 font-medium mb-2">
                     Pickup Time *
                   </label>
-                  <input
-                    type="time"
-                    id="pickupTime"
-                    name="pickupTime"
-                    value={bookingDetails.pickupTime || ''}
-                    onChange={handleInputChange}
+                  <TimePicker
+                    value={bookingDetails.pickupTime || '08:00'}
+                    onChange={val => setBookingDetails({ ...bookingDetails, pickupTime: val })}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                 </div>
                 
@@ -1156,9 +1209,7 @@ export default function BookingPage() {
                     return breakdownItems.length > 0 ? <>{breakdownItems}</> : null;
                   })()}
                   {bookingDetails.pickupTime && settings.timeSurcharges.length > 0 && (() => {
-                    const pickupTime = new Date(bookingDetails.pickupTime);
-                    const pickupHour = pickupTime.getHours();
-                    const pickupMinute = pickupTime.getMinutes();
+                    const [pickupHour, pickupMinute] = bookingDetails.pickupTime.split(':').map(Number);
 
                     const applicableSurcharge = settings.timeSurcharges.find(surcharge => {
                       const [startHour, startMinute] = surcharge.startTime.split(':').map(Number);
@@ -1215,9 +1266,7 @@ export default function BookingPage() {
                     
                     // Add time surcharges
                     if (bookingDetails.pickupTime && settings.timeSurcharges.length > 0) {
-                      const pickupTime = new Date(bookingDetails.pickupTime);
-                      const pickupHour = pickupTime.getHours();
-                      const pickupMinute = pickupTime.getMinutes();
+                      const [pickupHour, pickupMinute] = bookingDetails.pickupTime.split(':').map(Number);
                       const applicableSurcharge = settings.timeSurcharges.find(surcharge => {
                         const [startHour, startMinute] = surcharge.startTime.split(':').map(Number);
                         const [endHour, endMinute] = surcharge.endTime.split(':').map(Number);
@@ -1413,14 +1462,14 @@ export default function BookingPage() {
               </div>
               
               {/* Validation Message for Policy Acknowledgments */}
-              {bookingDetails.acknowledgeVomitFee === false || bookingDetails.acknowledgeGracePeriod === false ? (
+              {(bookingDetails.acknowledgeVomitFee !== true || bookingDetails.acknowledgeGracePeriod !== true || bookingDetails.acknowledgeCancellationPolicy !== true) ? (
                 <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
                   <div className="flex items-center">
                     <svg className="h-5 w-5 text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                     </svg>
                     <p className="text-red-700 text-sm">
-                      Please acknowledge both policy agreements before proceeding.
+                      Please acknowledge all policy agreements before proceeding.
                     </p>
                   </div>
                 </div>

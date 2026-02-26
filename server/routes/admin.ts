@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import connectDB from '../db.js';
-import { AdminSettings } from '../models/schema.js';
+import { AdminSettings, VehicleBlock } from '../models/schema.js';
 import { log } from 'console';
 
 interface AuthenticatedRequest extends Request {
@@ -503,4 +503,59 @@ router.get('/settings/public', async (req: Request, res: Response) => {
   }
 });
 
-export default router; 
+// ── Vehicle Block Endpoints ──────────────────────────────────────────────────
+
+// GET /admin/vehicle-blocks/:vehicleId  – list all blocks for a vehicle
+router.get('/vehicle-blocks/:vehicleId', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    await connectDB();
+    const blocks = await VehicleBlock.find({ vehicleId: req.params.vehicleId }).sort({ date: 1, startTime: 1 });
+    res.json(blocks);
+  } catch (error) {
+    console.error('Error fetching vehicle blocks:', error);
+    res.status(500).json({ error: 'Failed to fetch vehicle blocks' });
+  }
+});
+
+// POST /admin/vehicle-blocks  – create one or more blocks for a vehicle
+// Body: { vehicleId: string, slots: [{ date, startTime, endTime, reason? }] }
+router.post('/vehicle-blocks', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { vehicleId, slots } = req.body;
+
+    if (!vehicleId) return res.status(400).json({ error: 'vehicleId is required' });
+    if (!Array.isArray(slots) || slots.length === 0) return res.status(400).json({ error: 'slots array is required' });
+
+    for (const slot of slots) {
+      if (!slot.date || !slot.startTime || !slot.endTime) {
+        return res.status(400).json({ error: 'Each slot must have date, startTime, and endTime' });
+      }
+      if (slot.startTime >= slot.endTime) {
+        return res.status(400).json({ error: `startTime must be before endTime (got ${slot.startTime} – ${slot.endTime})` });
+      }
+    }
+
+    await connectDB();
+    const docs = slots.map((s: any) => ({ vehicleId, date: s.date, startTime: s.startTime, endTime: s.endTime, reason: s.reason || '' }));
+    const created = await VehicleBlock.insertMany(docs);
+    res.status(201).json(created);
+  } catch (error) {
+    console.error('Error creating vehicle blocks:', error);
+    res.status(500).json({ error: 'Failed to create vehicle blocks' });
+  }
+});
+
+// DELETE /admin/vehicle-blocks/:blockId  – remove a single block
+router.delete('/vehicle-blocks/:blockId', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    await connectDB();
+    const deleted = await VehicleBlock.findByIdAndDelete(req.params.blockId);
+    if (!deleted) return res.status(404).json({ error: 'Block not found' });
+    res.json({ message: 'Block removed' });
+  } catch (error) {
+    console.error('Error deleting vehicle block:', error);
+    res.status(500).json({ error: 'Failed to delete vehicle block' });
+  }
+});
+
+export default router;

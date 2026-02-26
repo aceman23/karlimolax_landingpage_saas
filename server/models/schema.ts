@@ -388,6 +388,15 @@ adminSettingsSchema.statics.getOrCreateAdminSettings = async function() {
   return settings;
 };
 
+// Vehicle Block Schema - for admin-defined blocked date/time slots per vehicle
+const vehicleBlockSchema = new mongoose.Schema({
+  vehicleId: { type: mongoose.Schema.Types.ObjectId, ref: 'Vehicle', required: true },
+  date: { type: String, required: true },       // 'YYYY-MM-DD'
+  startTime: { type: String, required: true },  // 'HH:mm'
+  endTime: { type: String, required: true },    // 'HH:mm'
+  reason: { type: String },
+}, { timestamps: true });
+
 // Create and export models
 export const Profile = mongoose.model('Profile', profileSchema, 'users');
 export const Vehicle = mongoose.model('Vehicle', vehicleSchema);
@@ -397,5 +406,6 @@ export const Booking = mongoose.model<IBooking>('Booking', bookingSchema);
 export const ServicePackage = mongoose.model('ServicePackage', servicePackageSchema, 'servicepackages');
 export const DriverDocument = mongoose.model('DriverDocument', driverDocumentSchema);
 export const DriverRating = mongoose.model('DriverRating', driverRatingSchema);
-export const BookingStatusHistory = mongoose.model('BookingStatusHistory', bookingStatusHistorySchema); 
-export const AdminSettings = mongoose.model('AdminSettings', adminSettingsSchema); 
+export const BookingStatusHistory = mongoose.model('BookingStatusHistory', bookingStatusHistorySchema);
+export const AdminSettings = mongoose.model('AdminSettings', adminSettingsSchema);
+export const VehicleBlock = mongoose.model('VehicleBlock', vehicleBlockSchema);

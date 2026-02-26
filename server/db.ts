@@ -27,7 +27,7 @@ if (!global.mongoose) {
 
 async function connectDB() {
   if (cached.conn) {
-    console.log('Using cached database connection');
+    
     return cached.conn;
   }
 

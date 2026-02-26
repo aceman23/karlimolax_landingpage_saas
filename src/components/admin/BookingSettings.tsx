@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import Button from '../common/Button';
 import { API_BASE_URL } from '../../config';
 import { AlertCircle } from 'lucide-react';
+import VehicleBlockingScheduler from './VehicleBlockingScheduler';
 
 export default function BookingSettings() {
   const { token } = useAuth();
@@ -158,6 +159,8 @@ export default function BookingSettings() {
           </Button>
         </div>
       </div>
+
+      <VehicleBlockingScheduler />
     </div>
   );
 }

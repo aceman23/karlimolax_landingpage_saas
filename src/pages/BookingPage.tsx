@@ -1384,9 +1384,29 @@ export default function BookingPage() {
                 <h3 className="text-lg font-semibold mb-4">Gratuity</h3>
                 
                 <div className="space-y-4">
+                  {/* Quick 10% Tip Button */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setGratuityInfo({
+                        ...gratuityInfo,
+                        type: 'percentage',
+                        percentage: 10,
+                        amount: (calculateTotal() * 10) / 100
+                      });
+                    }}
+                    className={`w-full p-3 text-sm font-medium rounded-lg border transition-colors ${
+                      gratuityType === 'percentage' && gratuityPercentage === 10
+                        ? 'border-brand-500 bg-brand-50 text-brand-600'
+                        : 'border-brand-300 bg-brand-50 text-brand-700 hover:bg-brand-100'
+                    }`}
+                  >
+                    10% Tip (+${((calculateTotal() * 10) / 100).toFixed(2)})
+                  </button>
+
                   {/* Gratuity Type Selection */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Gratuity Option</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Other Gratuity Options</label>
                     <div className="grid grid-cols-2 gap-3">
                       <button
                         type="button"
@@ -1417,8 +1437,8 @@ export default function BookingPage() {
                   {gratuityType === 'percentage' && (
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Percentage</label>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        {[15, 18, 20, 25].map((percent) => (
+                      <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
+                        {[10, 15, 18, 20, 25].map((percent) => (
                           <button
                             key={percent}
                             type="button"
